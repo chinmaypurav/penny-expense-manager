@@ -69,6 +69,7 @@ class ExpenseResource extends Resource
                     ->sortable(),
 
                 TextColumn::make('description')
+                    ->limit(50)
                     ->searchable(),
 
                 TextColumn::make('transacted_at')

@@ -70,7 +70,8 @@ class IncomeResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('description'),
+                TextColumn::make('description')
+                    ->limit(30),
 
                 TextColumn::make('transacted_at')
                     ->label('Transacted Date')
