@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Person::class)->nullable();
             $table->foreignIdFor(Account::class);
             $table->string('description');
-            $table->dateTime('transacted_at');
+            $table->timestamp('transacted_at');
             $table->decimal('amount');
             $table->timestamps();
         });
