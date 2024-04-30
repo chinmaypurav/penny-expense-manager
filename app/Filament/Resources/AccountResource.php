@@ -23,7 +23,7 @@ class AccountResource extends Resource
 
     protected static ?string $slug = 'accounts';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
     public static function form(Form $form): Form
     {

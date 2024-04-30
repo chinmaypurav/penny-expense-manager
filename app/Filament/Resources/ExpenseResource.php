@@ -25,7 +25,7 @@ class ExpenseResource extends Resource
 
     protected static ?string $slug = 'expenses';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-trending-down';
 
     public static function form(Form $form): Form
     {
