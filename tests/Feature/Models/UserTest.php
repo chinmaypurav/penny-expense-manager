@@ -4,6 +4,7 @@ use App\Models\Account;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Person;
+use App\Models\Transfer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -47,4 +48,14 @@ it('has expenses', function () {
     expect($user->expenses)
         ->toHaveCount(2)
         ->each->toBeInstanceOf(Expense::class);
+});
+
+it('has transfers', function () {
+    $user = User::factory()
+        ->has(Transfer::factory()->count(2))
+        ->create();
+
+    expect($user->transfers)
+        ->toHaveCount(2)
+        ->each->toBeInstanceOf(Transfer::class);
 });
