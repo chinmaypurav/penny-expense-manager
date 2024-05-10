@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('incomes', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Person::class);
+            $table->foreignIdFor(Person::class)->nullable();
             $table->foreignIdFor(Account::class);
             $table->string('description');
             $table->timestamp('transacted_at');
