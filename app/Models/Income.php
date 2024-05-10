@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Observers\IncomeObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[ObservedBy(IncomeObserver::class)]
 class Income extends Model
 {
     use HasFactory;
