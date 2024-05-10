@@ -2,6 +2,7 @@
 
 use App\Models\Account;
 use App\Models\Income;
+use App\Models\Person;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -17,4 +18,10 @@ it('belongs to a account', function () {
     $income = Income::factory()->has(Account::factory())->create();
 
     expect($income->account)->toBeInstanceOf(Account::class);
+});
+
+it('belongs to a person', function () {
+    $income = Income::factory()->has(Person::factory())->create();
+
+    expect($income->person)->toBeInstanceOf(Person::class);
 });
