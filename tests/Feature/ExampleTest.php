@@ -1,7 +1,7 @@
 <?php
 
-it('returns a successful response', function () {
+it('redirects root url to admin login', function () {
     $response = $this->get('/');
 
-    $response->assertStatus(200);
+    $response->assertRedirectToRoute('filament.admin.auth.login');
 });
