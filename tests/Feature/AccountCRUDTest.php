@@ -10,17 +10,16 @@ use function Pest\Livewire\livewire;
 
 uses(RefreshDatabase::class);
 
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    $this->actingAs($this->user);
+});
+
 it('can render accounts list page', function () {
-    $user = User::factory()->create();
-    $this
-        ->actingAs($user)
-        ->get(AccountResource::getUrl('index'))->assertSuccessful();
+    $this->get(AccountResource::getUrl('index'))->assertSuccessful();
 });
 
 it('can create account', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
     $newData = Account::factory()->make();
 
     livewire(AccountResource\Pages\CreateAccount::class)
@@ -40,18 +39,12 @@ it('can create account', function () {
 });
 
 it('can render account edit page', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
     $this->get(AccountResource::getUrl('edit', [
         'record' => Account::factory()->create(),
     ]))->assertSuccessful();
 });
 
 it('can retrieve account data', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
     $account = Account::factory()->create();
 
     livewire(AccountResource\Pages\EditAccount::class, [
@@ -65,9 +58,6 @@ it('can retrieve account data', function () {
 });
 
 it('can update account', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
     $account = Account::factory()->create();
     $newData = Account::factory()->make();
 
@@ -90,10 +80,7 @@ it('can update account', function () {
 });
 
 it('can delete account', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
-    $account = Account::factory()->for($user)->create();
+    $account = Account::factory()->for($this->user)->create();
 
     livewire(AccountResource\Pages\EditAccount::class, [
         'record' => $account->getRouteKey(),
