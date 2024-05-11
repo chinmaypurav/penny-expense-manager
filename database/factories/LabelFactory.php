@@ -22,4 +22,11 @@ class LabelFactory extends Factory
             'user_id' => User::factory(),
         ];
     }
+
+    public function deleted(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'deleted_at' => Carbon::now(),
+        ]);
+    }
 }
