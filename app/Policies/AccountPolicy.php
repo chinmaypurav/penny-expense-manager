@@ -15,11 +15,6 @@ class AccountPolicy
         return true;
     }
 
-    public function view(User $user, Account $account): bool
-    {
-        return true;
-    }
-
     public function create(User $user): bool
     {
         return true;
@@ -31,16 +26,6 @@ class AccountPolicy
     }
 
     public function delete(User $user, Account $account): bool
-    {
-        return true;
-    }
-
-    public function restore(User $user, Account $account): bool
-    {
-        return true;
-    }
-
-    public function forceDelete(User $user, Account $account): bool
     {
         return true;
     }

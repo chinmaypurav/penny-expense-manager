@@ -15,11 +15,6 @@ class LabelPolicy
         return true;
     }
 
-    public function view(User $user, Label $label): bool
-    {
-        return true;
-    }
-
     public function create(User $user): bool
     {
         return true;

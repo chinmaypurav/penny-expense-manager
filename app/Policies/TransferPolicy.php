@@ -15,11 +15,6 @@ class TransferPolicy
         return true;
     }
 
-    public function view(User $user, Transfer $transfer): bool
-    {
-        return true;
-    }
-
     public function create(User $user): bool
     {
         return true;
@@ -31,16 +26,6 @@ class TransferPolicy
     }
 
     public function delete(User $user, Transfer $transfer): bool
-    {
-        return true;
-    }
-
-    public function restore(User $user, Transfer $transfer): bool
-    {
-        return true;
-    }
-
-    public function forceDelete(User $user, Transfer $transfer): bool
     {
         return true;
     }

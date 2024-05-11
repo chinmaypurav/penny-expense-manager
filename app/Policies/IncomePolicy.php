@@ -15,11 +15,6 @@ class IncomePolicy
         return true;
     }
 
-    public function view(User $user, Income $income): bool
-    {
-        return true;
-    }
-
     public function create(User $user): bool
     {
         return true;

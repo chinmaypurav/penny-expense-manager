@@ -15,11 +15,6 @@ class PersonPolicy
         return true;
     }
 
-    public function view(User $user, Person $person): bool
-    {
-        return true;
-    }
-
     public function create(User $user): bool
     {
         return true;
