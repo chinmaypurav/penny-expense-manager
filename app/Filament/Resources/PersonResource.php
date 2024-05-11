@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PersonResource\Pages;
 use App\Models\Person;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -37,11 +36,6 @@ class PersonResource extends Resource
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
                     ->content(fn (?Person $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
-
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->searchable()
-                    ->required(),
 
                 TextInput::make('name')
                     ->required(),
