@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('debtor_id');
             $table->string('description');
             $table->timestamp('transacted_at');
-            $table->decimal('amount');
+            $table->decimal('amount', 65);
             $table->timestamps();
         });
     }

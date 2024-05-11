@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Account::class);
             $table->string('description');
             $table->timestamp('transacted_at');
-            $table->decimal('amount');
+            $table->decimal('amount', 65);
             $table->timestamps();
         });
     }
