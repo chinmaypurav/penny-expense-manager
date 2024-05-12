@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TransferResource\Pages;
 use App\Models\Account;
 use App\Models\Transfer;
-use App\Models\User;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
@@ -18,7 +18,7 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -69,31 +69,42 @@ class TransferResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')
-                    ->searchable()
-                    ->sortable(),
+                TextColumn::make('creditor.name'),
 
-                TextColumn::make('creditor.name')
-                    ->searchable()
-                    ->sortable(),
+                TextColumn::make('debtor.name'),
 
-                TextColumn::make('debtor.name')
-                    ->searchable()
-                    ->sortable(),
-
-                TextColumn::make('description'),
+                TextColumn::make('description')
+                    ->limit(30)
+                    ->searchable(),
 
                 TextColumn::make('transacted_at')
                     ->label('Transacted Date')
-                    ->date(),
+                    ->date()
+                    ->sortable(),
 
-                TextColumn::make('amount'),
+                TextColumn::make('amount')
+                    ->sortable(),
             ])
             ->filters([
-                SelectFilter::make('user_id')
-                    ->label('User')
-                    ->options(User::pluck('name', 'id')),
-            ], FiltersLayout::AboveContent)
+                Filter::make('transacted_at')
+                    ->form([
+                        DatePicker::make('transacted_from')->default(now()->startOfMonth()),
+                        DatePicker::make('transacted_until')->default(now()->endOfMonth()),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['transacted_from'],
+                                fn (Builder $query, $date): Builder => $query
+                                    ->whereDate('transacted_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['transacted_until'],
+                                fn (Builder $query, $date): Builder => $query
+                                    ->whereDate('transacted_at', '<=', $date),
+                            );
+                    }),
+            ], FiltersLayout::AboveContentCollapsible)
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\IncomeResource\Pages;
 use App\Models\Income;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
@@ -15,6 +16,8 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -66,22 +69,40 @@ class IncomeResource extends Resource
 
                 TextColumn::make('person.name'),
 
-                TextColumn::make('account.name')
-                    ->searchable()
-                    ->sortable(),
+                TextColumn::make('account.name'),
 
                 TextColumn::make('description')
-                    ->limit(30),
+                    ->limit(30)
+                    ->searchable(),
 
                 TextColumn::make('transacted_at')
                     ->label('Transacted Date')
-                    ->date(),
+                    ->date()
+                    ->sortable(),
 
-                TextColumn::make('amount'),
+                TextColumn::make('amount')
+                    ->sortable(),
             ])
             ->filters([
-                //
-            ])
+                Filter::make('transacted_at')
+                    ->form([
+                        DatePicker::make('transacted_from')->default(now()->startOfMonth()),
+                        DatePicker::make('transacted_until')->default(now()->endOfMonth()),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['transacted_from'],
+                                fn (Builder $query, $date): Builder => $query
+                                    ->whereDate('transacted_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['transacted_until'],
+                                fn (Builder $query, $date): Builder => $query
+                                    ->whereDate('transacted_at', '<=', $date),
+                            );
+                    }),
+            ], FiltersLayout::AboveContentCollapsible)
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
