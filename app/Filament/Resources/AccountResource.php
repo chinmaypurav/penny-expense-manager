@@ -38,6 +38,7 @@ class AccountResource extends Resource
                     ->content(fn (?Account $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
                 TextInput::make('name')
+                    ->unique()
                     ->required(),
 
                 Select::make('account_type')
