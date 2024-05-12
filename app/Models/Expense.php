@@ -23,6 +23,13 @@ class Expense extends Model
         'amount',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'transacted_at' => 'datetime',
+        ];
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -41,12 +48,5 @@ class Expense extends Model
     public function labels(): MorphToMany
     {
         return $this->morphToMany(Label::class, 'labelable');
-    }
-
-    protected function casts()
-    {
-        return [
-            'transacted_at' => 'datetime',
-        ];
     }
 }
