@@ -19,7 +19,6 @@ class IncomeChart extends ChartWidget
 
     protected function getData(): array
     {
-        // dd($this->processMissingDates($this->getIncomeData()), $this->getIncomeData());
         return [
             'datasets' => [
                 [
