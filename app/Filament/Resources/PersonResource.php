@@ -46,10 +46,6 @@ class PersonResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')
-                    ->searchable()
-                    ->sortable(),
-
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
