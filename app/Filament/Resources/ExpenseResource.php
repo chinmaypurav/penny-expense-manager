@@ -18,6 +18,7 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -59,6 +60,11 @@ class ExpenseResource extends Resource
                 TextInput::make('amount')
                     ->required()
                     ->numeric(),
+
+                Select::make('labels')
+                    ->relationship('labels', 'name')
+                    ->multiple()
+                    ->preload(),
             ]);
     }
 
@@ -101,6 +107,10 @@ class ExpenseResource extends Resource
                                     ->whereDate('transacted_at', '<=', $date),
                             );
                     }),
+                SelectFilter::make('labels')
+                    ->relationship('labels', 'name')
+                    ->multiple()
+                    ->preload(),
             ], FiltersLayout::AboveContentCollapsible)
             ->actions([
                 EditAction::make(),
