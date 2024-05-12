@@ -2,6 +2,7 @@
 
 use App\Models\Account;
 use App\Models\Income;
+use App\Models\Label;
 use App\Models\Person;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,4 +25,14 @@ it('belongs to a person', function () {
     $income = Income::factory()->has(Person::factory())->create();
 
     expect($income->person)->toBeInstanceOf(Person::class);
+});
+
+it('has many labels', function () {
+    $income = Income::factory()->hasAttached(
+        Label::factory(2)
+    )->create();
+
+    expect($income->labels)
+        ->toHaveCount(2)
+        ->each->toBeInstanceOf(Label::class);
 });

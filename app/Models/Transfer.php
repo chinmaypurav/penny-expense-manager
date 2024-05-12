@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 #[ObservedBy(TransferObserver::class)]
 class Transfer extends Model
@@ -42,5 +43,10 @@ class Transfer extends Model
     public function debtor(): BelongsTo
     {
         return $this->belongsTo(Account::class, 'debtor_id');
+    }
+
+    public function labels(): MorphToMany
+    {
+        return $this->morphToMany(Label::class, 'labelable');
     }
 }
