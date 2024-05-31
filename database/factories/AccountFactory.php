@@ -20,7 +20,6 @@ class AccountFactory extends Factory
             'name' => fake()->randomElement(['ICICI', 'AXIS', 'HDFC', 'IDFC']),
             'account_type' => fake()->randomElement(AccountType::all()),
             'current_balance' => fake()->randomFloat(2),
-            'initial_balance' => fake()->randomFloat(2),
 
             'user_id' => User::factory(),
         ];

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Account extends Model
 {
@@ -17,7 +18,6 @@ class Account extends Model
         'name',
         'account_type',
         'current_balance',
-        'initial_balance',
     ];
 
     protected function casts(): array
@@ -50,5 +50,16 @@ class Account extends Model
     public function debitTransfers(): HasMany
     {
         return $this->hasMany(Transfer::class, 'debtor_id');
+    }
+
+    public function balances(): HasMany
+    {
+        return $this->hasMany(Balance::class, 'account_id');
+    }
+
+    public function initialBalance(): HasOne
+    {
+        return $this->hasOne(Balance::class, 'account_id')
+            ->where('is_initial_record', true);
     }
 }
