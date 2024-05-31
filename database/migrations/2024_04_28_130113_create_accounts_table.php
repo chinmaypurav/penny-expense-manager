@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->string('name');
             $table->string('account_type');
-            $table->decimal('balance', 65);
+            $table->decimal('current_balance', 65);
             $table->decimal('initial_balance', 65);
             $table->timestamps();
         });

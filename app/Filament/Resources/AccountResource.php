@@ -61,7 +61,7 @@ class AccountResource extends Resource
 
                 TextColumn::make('account_type'),
 
-                TextColumn::make('balance'),
+                TextColumn::make('current_balance'),
 
                 TextColumn::make('initial_balance'),
             ])

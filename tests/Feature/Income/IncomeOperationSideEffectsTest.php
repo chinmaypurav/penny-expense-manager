@@ -20,14 +20,14 @@ beforeEach(function () {
     $this->actingAs($this->user);
 });
 
-it('adds account balance when created', function () {
+it('adds account current_balance when created', function () {
 
     $newData = Income::factory()->make([
         'amount' => 3000,
     ]);
 
     $account = Account::factory()->create([
-        'balance' => 1000,
+        'current_balance' => 1000,
     ]);
     $person = Person::factory()->create();
 
@@ -44,14 +44,14 @@ it('adds account balance when created', function () {
 
     $this->assertDatabaseHas(Account::class, [
         'id' => $account->id,
-        'balance' => 4000,
+        'current_balance' => 4000,
     ]);
 });
 
-it('adjusts account balance when updated', function (int $incomeAmount, int $accountBalance) {
+it('adjusts account current_balance when updated', function (int $incomeAmount, int $accountBalance) {
 
     $account = Account::factory()->create([
-        'balance' => 10_000,
+        'current_balance' => 10_000,
     ]);
 
     $income = Income::factory()
@@ -77,16 +77,16 @@ it('adjusts account balance when updated', function (int $incomeAmount, int $acc
 
     $this->assertDatabaseHas(Account::class, [
         'id' => $account->id,
-        'balance' => $accountBalance,
+        'current_balance' => $accountBalance,
     ]);
 })->with([
     'decrease' => [2000, 8000],
     'increase' => [6000, 12000],
 ]);
 
-it('subtracts account balance when removed', function () {
+it('subtracts account current_balance when removed', function () {
     $account = Account::factory()->create([
-        'balance' => 1000,
+        'current_balance' => 1000,
     ]);
     $income = Income::factory()
         ->for($this->user)
@@ -102,6 +102,6 @@ it('subtracts account balance when removed', function () {
 
     $this->assertDatabaseHas(Account::class, [
         'id' => $account->id,
-        'balance' => -2000,
+        'current_balance' => -2000,
     ]);
 });

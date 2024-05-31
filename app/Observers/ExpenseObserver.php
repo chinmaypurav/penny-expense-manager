@@ -8,7 +8,7 @@ class ExpenseObserver
 {
     public function creating(Expense $expense): void
     {
-        $expense->account()->decrement('balance', $expense->amount);
+        $expense->account()->decrement('current_balance', $expense->amount);
     }
 
     public function updating(Expense $expense): void
@@ -18,11 +18,11 @@ class ExpenseObserver
 
         $diff = $originalAmount - $modifiedAmount;
 
-        $expense->account()->increment('balance', $diff);
+        $expense->account()->increment('current_balance', $diff);
     }
 
     public function deleting(Expense $expense): void
     {
-        $expense->account()->increment('balance', $expense->amount);
+        $expense->account()->increment('current_balance', $expense->amount);
     }
 }

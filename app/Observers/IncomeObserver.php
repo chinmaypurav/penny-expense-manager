@@ -8,7 +8,7 @@ class IncomeObserver
 {
     public function creating(Income $expense): void
     {
-        $expense->account()->increment('balance', $expense->amount);
+        $expense->account()->increment('current_balance', $expense->amount);
     }
 
     public function updating(Income $income): void
@@ -18,11 +18,11 @@ class IncomeObserver
 
         $diff = $originalAmount - $modifiedAmount;
 
-        $income->account()->decrement('balance', $diff);
+        $income->account()->decrement('current_balance', $diff);
     }
 
     public function deleting(Income $income): void
     {
-        $income->account()->decrement('balance', $income->amount);
+        $income->account()->decrement('current_balance', $income->amount);
     }
 }

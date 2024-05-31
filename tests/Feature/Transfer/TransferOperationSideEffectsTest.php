@@ -19,8 +19,8 @@ beforeEach(function () {
 });
 
 it('changes account balances on transfer created', function () {
-    $ca = Account::factory()->for($this->user)->create(['balance' => 1000]);
-    $da = Account::factory()->for($this->user)->create(['balance' => 2000]);
+    $ca = Account::factory()->for($this->user)->create(['current_balance' => 1000]);
+    $da = Account::factory()->for($this->user)->create(['current_balance' => 2000]);
 
     $newData = Transfer::factory()
         ->for($this->user)
@@ -43,10 +43,10 @@ it('changes account balances on transfer created', function () {
 
     $this->assertDatabaseHas(Account::class, [
         'id' => $ca->id,
-        'balance' => 4000,
+        'current_balance' => 4000,
     ]);
     $this->assertDatabaseHas(Account::class, [
         'id' => $da->id,
-        'balance' => -1000,
+        'current_balance' => -1000,
     ]);
 });
