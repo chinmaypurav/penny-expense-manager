@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RecordType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,6 +29,7 @@ class Balance extends Model
         return [
             'recorded_until' => 'date:Y-m-d',
             'is_initial_record' => 'boolean',
+            'record_type' => RecordType::class,
         ];
     }
 }

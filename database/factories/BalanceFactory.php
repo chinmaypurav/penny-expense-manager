@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\RecordType;
 use App\Models\Account;
 use App\Models\Balance;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -17,7 +18,7 @@ class BalanceFactory extends Factory
             'balance' => fake()->randomFloat(2),
             'recorded_until' => fake()->date(),
             'is_initial_record' => false,
-            'record_type' => fake()->word(),
+            'record_type' => fake()->randomElement(RecordType::all()),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 
@@ -28,6 +29,7 @@ class BalanceFactory extends Factory
     public function initialRecord(): static
     {
         return $this->state(fn (array $attributes) => [
+            'record_type' => RecordType::INITIAL,
             'is_initial_record' => true,
         ]);
     }
