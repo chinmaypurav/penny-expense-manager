@@ -14,4 +14,15 @@ class AccountObserver
             'recorded_until' => today()->subDay(),
         ]);
     }
+
+    public function updating(Account $account): void
+    {
+        if ($account->isDirty('current_balance')) {
+            $oldBalance = $account->getOriginal('current_balance');
+            $newBalance = $account->getAttribute('current_balance');
+            $diff = $newBalance - $oldBalance;
+
+            $account->initialBalance()->decrement('balance', $diff);
+        }
+    }
 }
