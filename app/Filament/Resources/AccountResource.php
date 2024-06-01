@@ -62,9 +62,8 @@ class AccountResource extends Resource
 
                 TextColumn::make('account_type'),
 
-                TextColumn::make('current_balance'),
-
-                TextColumn::make('initial_balance'),
+                TextColumn::make('current_balance')
+                    ->money('INR'),
             ])
             ->filters([
                 //
