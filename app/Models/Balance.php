@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Balance extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'account_id',
         'balance',
