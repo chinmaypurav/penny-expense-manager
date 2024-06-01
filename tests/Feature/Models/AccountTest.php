@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Account;
+use App\Models\Balance;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Transfer;
@@ -53,4 +54,14 @@ it('has debit transfers', function () {
     expect($account->debitTransfers)
         ->toHaveCount(2)
         ->each->toBeInstanceOf(Transfer::class);
+});
+
+it('has balances', function () {
+    $account = Account::factory()
+        ->has(Balance::factory()->count(2))
+        ->createQuietly();
+
+    expect($account->balances)
+        ->toHaveCount(2)
+        ->each->toBeInstanceOf(Balance::class);
 });
