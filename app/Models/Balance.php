@@ -23,7 +23,7 @@ class Balance extends Model
     protected function casts(): array
     {
         return [
-            'recorded_until' => 'date',
+            'recorded_until' => 'date:Y-m-d',
             'is_initial_record' => 'boolean',
         ];
     }
