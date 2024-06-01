@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\RecordType;
 use App\Filament\Resources\BalanceResource\Pages;
 use App\Models\Balance;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -27,18 +30,26 @@ class BalanceResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('amount'),
+                TextColumn::make('balance')
+                    ->money('INR'),
 
                 TextColumn::make('recorded_until')
                     ->date(),
 
-                ToggleColumn::make('is_initial_record'),
+                IconColumn::make('is_initial_record')
+                    ->label('Initial Record')
+                    ->boolean(),
 
                 TextColumn::make('record_type'),
             ])
             ->filters([
-                //
-            ]);
+                SelectFilter::make('account_id')
+                    ->label('Account')
+                    ->relationship('account', 'name'),
+
+                SelectFilter::make('record_type')
+                    ->options(RecordType::all()),
+            ], layout: FiltersLayout::AboveContent);
     }
 
     public static function getPages(): array

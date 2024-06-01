@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\RecordType;
 use App\Models\Account;
 
 class AccountObserver
@@ -12,6 +13,7 @@ class AccountObserver
             'is_initial_record' => true,
             'balance' => $account->current_balance,
             'recorded_until' => today()->subDay(),
+            'record_type' => RecordType::INITIAL,
         ]);
     }
 
