@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
+use App\Enums\RecordType;
+use App\Jobs\CreatePeriodicalBalanceEntryJob;
+use Illuminate\Support\Facades\Schedule;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote')->hourly();
+Schedule::job(new CreatePeriodicalBalanceEntryJob(RecordType::MONTHLY, today()))
+    ->monthly();
+
+Schedule::job(new CreatePeriodicalBalanceEntryJob(RecordType::YEARLY, today()))
+    ->yearly();
