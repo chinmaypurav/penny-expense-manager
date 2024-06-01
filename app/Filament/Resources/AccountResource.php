@@ -45,7 +45,8 @@ class AccountResource extends Resource
                     ->required()
                     ->options(AccountType::all()),
 
-                TextInput::make('initial_balance')
+                TextInput::make('current_balance')
+                    ->label('Initial Balance')
                     ->required()
                     ->numeric(),
             ]);

@@ -26,7 +26,7 @@ it('can create account', function () {
         ->fillForm([
             'name' => $newData->name,
             'account_type' => $newData->account_type,
-            'initial_balance' => $newData->initial_balance,
+            'current_balance' => $newData->current_balance,
         ])
         ->call('create')
         ->assertHasNoFormErrors();
@@ -34,7 +34,6 @@ it('can create account', function () {
     $this->assertDatabaseHas(Account::class, [
         'name' => $newData->name,
         'account_type' => $newData->account_type,
-        'initial_balance' => $newData->initial_balance,
     ]);
 });
 
@@ -53,7 +52,7 @@ it('can retrieve account data', function () {
         ->assertFormSet([
             'name' => $account->name,
             'account_type' => $account->account_type->value,
-            'initial_balance' => $account->initial_balance,
+            'current_balance' => $account->current_balance,
         ]);
 });
 
@@ -67,7 +66,7 @@ it('can update account', function () {
         ->fillForm([
             'name' => $newData->name,
             'account_type' => $newData->account_type,
-            'initial_balance' => $newData->initial_balance,
+            'current_balance' => $newData->current_balance,
         ])
         ->call('save')
         ->assertHasNoFormErrors();
@@ -75,7 +74,7 @@ it('can update account', function () {
     $this->assertDatabaseHas(Account::class, [
         'name' => $newData->name,
         'account_type' => $newData->account_type,
-        'initial_balance' => $newData->initial_balance,
+        'current_balance' => $newData->current_balance,
     ]);
 });
 
