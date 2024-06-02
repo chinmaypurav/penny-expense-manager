@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\BalanceResource\Pages;
 
 use App\Filament\Resources\BalanceResource;
-use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListBalances extends ListRecords
