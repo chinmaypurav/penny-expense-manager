@@ -54,7 +54,7 @@ it('can retrieve account data', function () {
             'name' => $account->name,
             'account_type' => $account->account_type->value,
             'current_balance' => $account->current_balance,
-            'initial_date' => $account->initial_date,
+            'initial_date' => $account->initial_date->toDateString(),
         ]);
 });
 
