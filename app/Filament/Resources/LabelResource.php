@@ -22,7 +22,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LabelResource extends Resource
@@ -98,24 +97,8 @@ class LabelResource extends Resource
             ]);
     }
 
-    public static function getGlobalSearchEloquentQuery(): Builder
-    {
-        return parent::getGlobalSearchEloquentQuery()->with(['user']);
-    }
-
     public static function getGloballySearchableAttributes(): array
     {
-        return ['name', 'user.name'];
-    }
-
-    public static function getGlobalSearchResultDetails(Model $record): array
-    {
-        $details = [];
-
-        if ($record->user) {
-            $details['User'] = $record->user->name;
-        }
-
-        return $details;
+        return ['name'];
     }
 }
