@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\LabelResource\Pages;
 
+use App\Filament\Imports\LabelImporter;
 use App\Filament\Resources\LabelResource;
 use Filament\Actions\CreateAction;
+use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListLabels extends ListRecords
@@ -14,6 +16,8 @@ class ListLabels extends ListRecords
     {
         return [
             CreateAction::make(),
+            ImportAction::make()
+                ->importer(LabelImporter::class),
         ];
     }
 }
