@@ -20,14 +20,19 @@ class AccountImporter extends Importer
                 ->rules(['required']),
             ImportColumn::make('name')
                 ->requiredMapping()
-                ->rules(['required', 'unique', 'max:255']),
+                ->rules(['required', 'max:255']),
             ImportColumn::make('account_type')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('current_balance')
+                ->label('Initial balance')
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
+            ImportColumn::make('initial_date')
+                ->label('Initial date')
+                ->requiredMapping()
+                ->rules(['required', 'date']),
         ];
     }
 

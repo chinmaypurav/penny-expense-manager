@@ -27,6 +27,7 @@ it('can create account', function () {
             'name' => $newData->name,
             'account_type' => $newData->account_type,
             'current_balance' => $newData->current_balance,
+            'initial_date' => $newData->initial_date,
         ])
         ->call('create')
         ->assertHasNoFormErrors();
@@ -53,6 +54,7 @@ it('can retrieve account data', function () {
             'name' => $account->name,
             'account_type' => $account->account_type->value,
             'current_balance' => $account->current_balance,
+            'initial_date' => $account->initial_date,
         ]);
 });
 
@@ -67,6 +69,7 @@ it('can update account', function () {
             'name' => $newData->name,
             'account_type' => $newData->account_type,
             'current_balance' => $newData->current_balance,
+            'initial_date' => $newData->initial_date,
         ])
         ->call('save')
         ->assertHasNoFormErrors();

@@ -12,7 +12,7 @@ class AccountObserver
         $account->balances()->create([
             'is_initial_record' => true,
             'balance' => $account->current_balance,
-            'recorded_until' => today()->subDay(),
+            'recorded_until' => $account->initial_date,
             'record_type' => RecordType::INITIAL,
         ]);
     }

@@ -21,12 +21,14 @@ class Account extends Model
         'name',
         'account_type',
         'current_balance',
+        'initial_date',
     ];
 
     protected function casts(): array
     {
         return [
             'account_type' => AccountType::class,
+            'initial_date' => 'date:Y-m-d',
         ];
     }
 

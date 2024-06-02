@@ -26,9 +26,10 @@ it('creates balance initial entry when created', function () {
             'name' => $newData->name,
             'account_type' => $newData->account_type,
             'current_balance' => $newData->current_balance,
+            'initial_date' => $newData->initial_date,
         ])
         ->call('create')
-        ->assertOk();
+        ->assertHasNoFormErrors();
 
     $account = Account::latest()->first();
 
@@ -36,7 +37,7 @@ it('creates balance initial entry when created', function () {
         'account_id' => $account->id,
         'balance' => $newData->current_balance,
         'is_initial_record' => true,
-        'recorded_until' => today()->subDay(),
+        'recorded_until' => $account->initial_date,
     ]);
 });
 

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\AccountType;
 use App\Filament\Resources\AccountResource\Pages;
 use App\Models\Account;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -49,6 +50,10 @@ class AccountResource extends Resource
                     ->label('Initial Balance')
                     ->required()
                     ->numeric(),
+
+                DateTimePicker::make('initial_date')
+                    ->label('Initial Balance Date')
+                    ->required(),
             ]);
     }
 
