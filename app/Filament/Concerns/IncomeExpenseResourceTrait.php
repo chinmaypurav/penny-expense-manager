@@ -82,6 +82,7 @@ trait IncomeExpenseResourceTrait
 
                 TextColumn::make('amount')
                     ->money('INR')
+                    ->alignRight()
                     ->sortable(),
             ])
             ->filters([
