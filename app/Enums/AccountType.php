@@ -4,10 +4,11 @@ namespace App\Enums;
 
 enum AccountType: string
 {
-    case SAVINGS = 'Savings';
-    case CURRENT = 'Current';
-    case CREDIT = 'Credit';
-    case TRADING = 'Trading';
+    case SAVINGS = 'savings';
+    case CURRENT = 'current';
+    case CREDIT = 'credit';
+    case TRADING = 'trading';
+    case CASH = 'cash';
 
     public static function all(): array
     {
