@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Label;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
@@ -16,10 +15,8 @@ class LabelFactory extends Factory
         return [
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'name' => fake()->word(),
+            'name' => fake()->unique()->word(),
             'color' => fake()->hexColor(),
-
-            'user_id' => User::factory(),
         ];
     }
 

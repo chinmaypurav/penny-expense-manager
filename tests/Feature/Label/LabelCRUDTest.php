@@ -77,7 +77,7 @@ it('can update label', function () {
 
 it('can soft delete label', function () {
 
-    $label = Label::factory()->for($this->user)->create();
+    $label = Label::factory()->create();
 
     livewire(LabelResource\Pages\EditLabel::class, [
         'record' => $label->getRouteKey(),
@@ -89,7 +89,7 @@ it('can soft delete label', function () {
 
 it('can restore deleted label from edit page', function () {
 
-    $label = Label::factory()->for($this->user)->deleted()->create();
+    $label = Label::factory()->deleted()->create();
 
     livewire(LabelResource\Pages\EditLabel::class, [
         'record' => $label->getRouteKey(),
