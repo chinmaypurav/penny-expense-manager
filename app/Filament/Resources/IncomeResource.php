@@ -2,29 +2,20 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Concerns\IncomeExpenseResourceTrait;
 use App\Filament\Resources\IncomeResource\Pages;
 use App\Models\Income;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class IncomeResource extends Resource
 {
+    use IncomeExpenseResourceTrait;
+
     protected static ?string $model = Income::class;
 
     protected static ?string $slug = 'incomes';
@@ -69,62 +60,6 @@ class IncomeResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-
-                TextColumn::make('person.name'),
-
-                TextColumn::make('account.name'),
-
-                TextColumn::make('description')
-                    ->limit(30)
-                    ->searchable(),
-
-                TextColumn::make('transacted_at')
-                    ->label('Transacted Date')
-                    ->date()
-                    ->sortable(),
-
-                TextColumn::make('amount')
-                    ->sortable(),
-            ])
-            ->filters([
-                Filter::make('transacted_at')
-                    ->form([
-                        DatePicker::make('transacted_from')->default(now()->startOfMonth()),
-                        DatePicker::make('transacted_until')->default(now()->endOfMonth()),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['transacted_from'],
-                                fn (Builder $query, $date): Builder => $query
-                                    ->whereDate('transacted_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['transacted_until'],
-                                fn (Builder $query, $date): Builder => $query
-                                    ->whereDate('transacted_at', '<=', $date),
-                            );
-                    }),
-                SelectFilter::make('labels')
-                    ->relationship('labels', 'name')
-                    ->multiple()
-                    ->preload(),
-            ], FiltersLayout::AboveContentCollapsible)
-            ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
-            ])
-            ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
     public static function getPages(): array
     {
         return [
@@ -132,34 +67,5 @@ class IncomeResource extends Resource
             'create' => Pages\CreateIncome::route('/create'),
             'edit' => Pages\EditIncome::route('/{record}/edit'),
         ];
-    }
-
-    public static function getGlobalSearchEloquentQuery(): Builder
-    {
-        return parent::getGlobalSearchEloquentQuery()->with(['user', 'person', 'account']);
-    }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return ['user.name', 'person.name', 'account.name'];
-    }
-
-    public static function getGlobalSearchResultDetails(Model $record): array
-    {
-        $details = [];
-
-        if ($record->user) {
-            $details['User'] = $record->user->name;
-        }
-
-        if ($record->person) {
-            $details['Person'] = $record->person->name;
-        }
-
-        if ($record->account) {
-            $details['Account'] = $record->account->name;
-        }
-
-        return $details;
     }
 }
