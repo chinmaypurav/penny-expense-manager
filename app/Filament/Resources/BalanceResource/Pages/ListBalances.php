@@ -9,11 +9,4 @@ use Filament\Resources\Pages\ListRecords;
 class ListBalances extends ListRecords
 {
     protected static string $resource = BalanceResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            CreateAction::make(),
-        ];
-    }
 }
