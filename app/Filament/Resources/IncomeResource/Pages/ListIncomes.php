@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\IncomeResource\Pages;
 
+use App\Filament\Imports\IncomeImporter;
 use App\Filament\Resources\IncomeResource;
 use Filament\Actions\CreateAction;
+use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListIncomes extends ListRecords
@@ -14,6 +16,8 @@ class ListIncomes extends ListRecords
     {
         return [
             CreateAction::make(),
+            ImportAction::make()
+                ->importer(IncomeImporter::class),
         ];
     }
 }
