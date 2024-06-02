@@ -17,8 +17,7 @@ class ListAccounts extends ListRecords
         return [
             CreateAction::make(),
             ImportAction::make()
-                ->importer(AccountImporter::class)
-                ->color('primary'),
+                ->importer(AccountImporter::class),
         ];
     }
 }
