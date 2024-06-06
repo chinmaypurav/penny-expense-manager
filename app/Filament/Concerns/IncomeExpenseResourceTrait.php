@@ -30,11 +30,11 @@ trait IncomeExpenseResourceTrait
             ->schema([
                 Placeholder::make('created_at')
                     ->label('Created Date')
-                    ->content(fn (?Expense $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                    ->content(fn (Expense|Income|null $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
-                    ->content(fn (?Expense $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                    ->content(fn (Expense|Income|null $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
                 Select::make('person_id')
                     ->relationship('person', 'name')
