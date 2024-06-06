@@ -44,6 +44,7 @@ class AccountResource extends Resource
 
                 Select::make('account_type')
                     ->required()
+                    ->visibleOn('create')
                     ->options(AccountType::all()),
 
                 TextInput::make('current_balance')
