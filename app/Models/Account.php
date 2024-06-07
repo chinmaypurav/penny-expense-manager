@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Enums\AccountType;
 use App\Observers\AccountObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -69,13 +68,5 @@ class Account extends Model
     {
         return $this->hasOne(Balance::class, 'account_id')
             ->where('is_initial_record', true);
-    }
-
-    protected function interestRate(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value, array $attributes) => $value,
-            set: fn ($value) => $this->attributes['data']['interest_rate'],
-        );
     }
 }
