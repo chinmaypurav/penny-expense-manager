@@ -55,10 +55,6 @@ class AccountResource extends Resource
                 DatePicker::make('initial_date')
                     ->label('Initial Balance Date')
                     ->required(),
-
-                TextInput::make('data.interest_rate')
-                    ->label('Rate')
-                    ->required(),
             ]);
     }
 
