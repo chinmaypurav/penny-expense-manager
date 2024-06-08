@@ -52,7 +52,6 @@ it('adjusts balance initial entry when account updated', function () {
     ])
         ->fillForm([
             'name' => $account->name,
-            'account_type' => $account->account_type,
             'current_balance' => $newCurrentBalance,
         ])
         ->call('save')
