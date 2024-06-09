@@ -43,7 +43,7 @@ class AccountResource extends Resource
                     ->required(),
 
                 Select::make('account_type')
-                    ->visibleOn('create')
+                    ->disabledOn('edit')
                     ->required()
                     ->options(AccountType::all()),
 
