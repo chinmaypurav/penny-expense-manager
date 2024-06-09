@@ -59,7 +59,7 @@ it('adjusts balance initial entry when account updated', function () {
 
     $diff = $newCurrentBalance - $account->current_balance;
 
-    $newInitialBalance = $balance->balance - $diff;
+    $newInitialBalance = $balance->balance + $diff;
 
     $this->assertDatabaseHas(Balance::class, [
         'account_id' => $account->id,
