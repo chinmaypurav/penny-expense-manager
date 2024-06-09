@@ -24,7 +24,7 @@ class AccountObserver
             $newBalance = $account->getAttribute('current_balance');
             $diff = $newBalance - $oldBalance;
 
-            $account->initialBalance()->decrement('balance', $diff);
+            $account->initialBalance()->increment('balance', $diff);
         }
     }
 }
