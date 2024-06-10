@@ -4,6 +4,7 @@ namespace App\Enums;
 
 enum Frequency: string
 {
+    case ONCE = 'once';
     case DAILY = 'daily';
     case WEEKLY = 'weekly';
     case MONTHLY = 'monthly';
