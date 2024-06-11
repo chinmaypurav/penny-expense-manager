@@ -48,7 +48,7 @@ RUN echo "user = www-data" >> /usr/local/etc/php-fpm.d/docker-php-serversideup-p
 FROM base as deploy
 ENV S6_CMD_WAIT_FOR_SERVICES=1
 
-COPY --chmod=755 ./entrypoint.d/ /etc/entrypoint.d/
+COPY --chmod=755 .docker/entrypoint.d/ /etc/entrypoint.d/
 COPY --chown=www-data:www-data . /var/www/html
 # Change to root, so we can do root things
 USER root
