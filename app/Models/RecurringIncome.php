@@ -46,7 +46,7 @@ class RecurringIncome extends Model
     protected function casts(): array
     {
         return [
-            'next_transaction_at' => 'date',
+            'next_transaction_at' => 'date:Y-m-d',
             'frequency' => Frequency::class,
         ];
     }
