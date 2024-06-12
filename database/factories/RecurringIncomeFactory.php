@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Frequency;
 use App\Models\Account;
 use App\Models\Person;
 use App\Models\RecurringIncome;
@@ -20,13 +21,20 @@ class RecurringIncomeFactory extends Factory
             'updated_at' => Carbon::now(),
             'description' => fake()->text(),
             'amount' => fake()->randomFloat(2),
-            'next_transaction_at' => fake()->dateTimeBetween('now', '+1 years'),
-            'frequency' => fake()->word(),
+            'next_transaction_at' => fake()->dateTimeBetween('now', '+1 years')->format('Y-m-d'),
+            'frequency' => fake()->randomElement(Frequency::cases()),
             'remaining_recurrences' => fake()->randomNumber(),
 
             'user_id' => User::factory(),
             'account_id' => Account::factory(),
             'person_id' => Person::factory(),
         ];
+    }
+
+    public function lifetime(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'remaining_recurrences' => null,
+        ]);
     }
 }
