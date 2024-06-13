@@ -7,6 +7,7 @@ use App\Models\RecurringIncome;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 
 use function Pest\Livewire\livewire;
 
@@ -15,6 +16,7 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
+    Carbon::setTestNow(now());
 });
 
 it('can render recurring recurring incomes list page', function () {
@@ -47,7 +49,7 @@ it('can create recurring income', function () {
         'person_id' => $person->id,
         'account_id' => $account->id,
         'amount' => $newData->amount,
-        // 'next_transaction_at' => $newData->next_transaction_at,
+        'next_transaction_at' => $newData->next_transaction_at->toDateString(),
         'remaining_recurrences' => $newData->remaining_recurrences,
         'frequency' => $newData->frequency,
     ]);

@@ -21,7 +21,7 @@ class RecurringIncomeFactory extends Factory
             'updated_at' => Carbon::now(),
             'description' => fake()->text(),
             'amount' => fake()->randomFloat(2),
-            'next_transaction_at' => fake()->dateTimeBetween('now', '+1 years')->format('Y-m-d'),
+            'next_transaction_at' => fake()->dateTimeBetween('now', '+1 years'),
             'frequency' => fake()->randomElement(Frequency::cases()),
             'remaining_recurrences' => fake()->randomNumber(),
 
