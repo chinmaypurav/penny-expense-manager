@@ -50,4 +50,11 @@ class UserFactory extends Factory
             'role' => Role::MEMBER,
         ]);
     }
+
+    public function deleted(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'deleted_at' => fake()->dateTime(),
+        ]);
+    }
 }
