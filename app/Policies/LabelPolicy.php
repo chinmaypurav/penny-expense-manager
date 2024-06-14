@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\Role;
 use App\Models\Label;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -12,31 +13,31 @@ class LabelPolicy
 
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->role === Role::ADMIN;
     }
 
     public function create(User $user): bool
     {
-        return true;
+        return $user->role === Role::ADMIN;
     }
 
     public function update(User $user, Label $label): bool
     {
-        return true;
+        return $user->role === Role::ADMIN;
     }
 
     public function delete(User $user, Label $label): bool
     {
-        return true;
+        return $user->role === Role::ADMIN;
     }
 
     public function restore(User $user, Label $label): bool
     {
-        return true;
+        return $user->role === Role::ADMIN;
     }
 
     public function forceDelete(User $user, Label $label): bool
     {
-        return true;
+        return $user->role === Role::ADMIN;
     }
 }
