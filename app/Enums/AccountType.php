@@ -2,16 +2,15 @@
 
 namespace App\Enums;
 
+use App\Concerns\Enumerable;
+
 enum AccountType: string
 {
+    use Enumerable;
+
     case SAVINGS = 'savings';
     case CURRENT = 'current';
     case CREDIT = 'credit';
     case TRADING = 'trading';
     case CASH = 'cash';
-
-    public static function all(): array
-    {
-        return array_column(self::cases(), 'value', 'value');
-    }
 }
