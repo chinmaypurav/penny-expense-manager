@@ -117,6 +117,10 @@ trait IncomeExpenseResourceTrait
                     ->relationship('category', 'name')
                     ->preload(),
 
+                SelectFilter::make('accounts')
+                    ->relationship('account', 'name')
+                    ->preload(),
+
                 SelectFilter::make('labels')
                     ->relationship('labels', 'name')
                     ->multiple()
