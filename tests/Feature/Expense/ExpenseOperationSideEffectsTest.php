@@ -2,6 +2,7 @@
 
 use App\Filament\Resources\ExpenseResource;
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Person;
 use App\Models\User;
@@ -30,12 +31,14 @@ it('subtracts account current_balance when created', function () {
         'current_balance' => 1000,
     ]);
     $person = Person::factory()->create();
+    $category = Category::factory()->create();
 
     livewire(ExpenseResource\Pages\CreateExpense::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
             'account_id' => $account->id,
+            'category_id' => $category->id,
             'amount' => $newData->amount,
             'transacted_at' => $newData->transacted_at,
         ])
@@ -68,6 +71,7 @@ it('adjusts account current_balance when updated', function (int $expenseAmount,
             'description' => $expense->description,
             'person_id' => $expense->person_id,
             'account_id' => $expense->account_id,
+            'category_id' => $expense->category_id,
             'transacted_at' => $expense->transacted_at,
 
             'amount' => $expenseAmount,
