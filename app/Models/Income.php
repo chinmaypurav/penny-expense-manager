@@ -56,4 +56,9 @@ class Income extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
