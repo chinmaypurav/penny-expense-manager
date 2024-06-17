@@ -2,6 +2,7 @@
 
 use App\Filament\Resources\ExpenseResource;
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Person;
 use App\Models\User;
@@ -28,12 +29,14 @@ it('can create expense', function () {
     $newData = Expense::factory()->make();
     $account = Account::factory()->create();
     $person = Person::factory()->create();
+    $category = Category::factory()->create();
 
     livewire(ExpenseResource\Pages\CreateExpense::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
             'account_id' => $account->id,
+            'category_id' => $category->id,
             'amount' => $newData->amount,
             'transacted_at' => $newData->transacted_at,
         ])
@@ -44,6 +47,7 @@ it('can create expense', function () {
         'description' => $newData->description,
         'person_id' => $person->id,
         'account_id' => $account->id,
+        'category_id' => $category->id,
         'amount' => $newData->amount,
         'transacted_at' => $newData->transacted_at,
     ]);
@@ -65,6 +69,7 @@ it('can retrieve expense data', function () {
             'description' => $expense->description,
             'person_id' => $expense->person_id,
             'account_id' => $expense->account_id,
+            'category_id' => $expense->category_id,
             'amount' => $expense->amount,
             'transacted_at' => $expense->transacted_at,
         ]);
@@ -77,6 +82,7 @@ it('can update expense', function () {
     $person = Person::factory()->create();
     $account = Account::factory()->create();
     $newData = Expense::factory()->make();
+    $category = Category::factory()->create();
 
     livewire(ExpenseResource\Pages\EditExpense::class, [
         'record' => $expense->getRouteKey(),
@@ -85,6 +91,7 @@ it('can update expense', function () {
             'description' => $newData->description,
             'person_id' => $person->id,
             'account_id' => $account->id,
+            'category_id' => $category->id,
             'amount' => $newData->amount,
             'transacted_at' => $newData->transacted_at,
         ])
@@ -95,6 +102,7 @@ it('can update expense', function () {
         'description' => $newData->description,
         'person_id' => $person->id,
         'account_id' => $account->id,
+        'category_id' => $category->id,
         'amount' => $newData->amount,
         'transacted_at' => $newData->transacted_at,
     ]);
