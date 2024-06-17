@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Income;
 use App\Models\Label;
 use App\Models\Person;
@@ -25,6 +26,12 @@ it('belongs to a person', function () {
     $income = Income::factory()->has(Person::factory())->create();
 
     expect($income->person)->toBeInstanceOf(Person::class);
+});
+
+it('belongs to a category', function () {
+    $income = Income::factory()->has(Category::factory())->create();
+
+    expect($income->category)->toBeInstanceOf(Category::class);
 });
 
 it('has many labels', function () {
