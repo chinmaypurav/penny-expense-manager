@@ -20,7 +20,7 @@ class BalanceResource extends Resource
 
     protected static ?string $slug = 'balances';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
 
     public static function table(Table $table): Table
     {
