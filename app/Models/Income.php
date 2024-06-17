@@ -18,6 +18,7 @@ class Income extends Model
         'user_id',
         'person_id',
         'account_id',
+        'category_id',
         'description',
         'transacted_at',
         'amount',
@@ -48,5 +49,10 @@ class Income extends Model
     public function labels(): MorphToMany
     {
         return $this->morphToMany(Label::class, 'labelable');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }
