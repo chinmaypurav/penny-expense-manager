@@ -19,6 +19,10 @@ trait IncomeExpenseImporterTrait
                 ->requiredMapping()
                 ->relationship(resolveUsing: 'name')
                 ->rules(['required']),
+            ImportColumn::make('category')
+                ->requiredMapping()
+                ->relationship(resolveUsing: 'name')
+                ->rules(['required']),
             ImportColumn::make('description')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
