@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Person;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -16,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Person::class)->nullable();
             $table->foreignIdFor(Account::class);
+            $table->foreignIdFor(Category::class)->nullable()->constrained()->nullOnDelete();
             $table->string('description');
             $table->timestamp('transacted_at');
             $table->decimal('amount', 65);

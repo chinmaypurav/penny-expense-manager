@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Expense;
 use App\Models\Label;
 use App\Models\Person;
@@ -25,6 +26,12 @@ it('belongs to a person', function () {
     $expense = Expense::factory()->has(Person::factory())->create();
 
     expect($expense->person)->toBeInstanceOf(Person::class);
+});
+
+it('belongs to a category', function () {
+    $expense = Expense::factory()->has(Category::factory())->create();
+
+    expect($expense->category)->toBeInstanceOf(Category::class);
 });
 
 it('has many labels', function () {

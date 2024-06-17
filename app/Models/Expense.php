@@ -18,6 +18,7 @@ class Expense extends Model
         'user_id',
         'person_id',
         'account_id',
+        'category_id',
         'description',
         'transacted_at',
         'amount',
@@ -43,6 +44,11 @@ class Expense extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function labels(): MorphToMany
