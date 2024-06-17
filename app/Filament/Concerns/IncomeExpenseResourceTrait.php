@@ -22,6 +22,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin Income|Expense
+ */
 trait IncomeExpenseResourceTrait
 {
     public static function form(Form $form): Form
@@ -42,6 +45,10 @@ trait IncomeExpenseResourceTrait
 
                 Select::make('account_id')
                     ->relationship('account', 'name')
+                    ->required(),
+
+                Select::make('category_id')
+                    ->relationship('category', 'name')
                     ->required(),
 
                 TextInput::make('description')
@@ -70,6 +77,8 @@ trait IncomeExpenseResourceTrait
                 TextColumn::make('person.name'),
 
                 TextColumn::make('account.name'),
+
+                TextColumn::make('category.name'),
 
                 TextColumn::make('description')
                     ->limit(30)
@@ -104,6 +113,10 @@ trait IncomeExpenseResourceTrait
                                     ->whereDate('transacted_at', '<=', $date),
                             );
                     }),
+                SelectFilter::make('categories')
+                    ->relationship('category', 'name')
+                    ->preload(),
+
                 SelectFilter::make('labels')
                     ->relationship('labels', 'name')
                     ->multiple()

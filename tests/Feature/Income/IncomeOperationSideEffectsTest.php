@@ -36,6 +36,7 @@ it('adds account current_balance when created', function () {
             'description' => $newData->description,
             'person_id' => $person->id,
             'account_id' => $account->id,
+            'category_id' => $newData->category_id,
             'amount' => $newData->amount,
             'transacted_at' => $newData->transacted_at,
         ])
@@ -68,6 +69,7 @@ it('adjusts account current_balance when updated', function (int $incomeAmount, 
             'description' => $income->description,
             'person_id' => $income->person_id,
             'account_id' => $income->account_id,
+            'category_id' => $income->category_id,
             'transacted_at' => $income->transacted_at,
 
             'amount' => $incomeAmount,

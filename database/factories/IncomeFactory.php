@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Income;
 use App\Models\Person;
 use App\Models\User;
@@ -25,6 +26,7 @@ class IncomeFactory extends Factory
             'user_id' => User::factory(),
             'person_id' => Person::factory(),
             'account_id' => Account::factory(),
+            'category_id' => Category::factory(),
         ];
     }
 }

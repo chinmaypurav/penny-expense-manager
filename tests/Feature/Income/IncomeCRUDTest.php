@@ -2,6 +2,7 @@
 
 use App\Filament\Resources\IncomeResource;
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Income;
 use App\Models\Person;
 use App\Models\User;
@@ -28,12 +29,14 @@ it('can create income', function () {
     $newData = Income::factory()->make();
     $account = Account::factory()->create();
     $person = Person::factory()->create();
+    $category = Category::factory()->create();
 
     livewire(IncomeResource\Pages\CreateIncome::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
             'account_id' => $account->id,
+            'category_id' => $category->id,
             'amount' => $newData->amount,
             'transacted_at' => $newData->transacted_at,
         ])
@@ -44,6 +47,7 @@ it('can create income', function () {
         'description' => $newData->description,
         'person_id' => $person->id,
         'account_id' => $account->id,
+        'category_id' => $category->id,
         'amount' => $newData->amount,
         'transacted_at' => $newData->transacted_at,
     ]);
@@ -65,6 +69,7 @@ it('can retrieve income data', function () {
             'description' => $income->description,
             'person_id' => $income->person_id,
             'account_id' => $income->account_id,
+            'category_id' => $income->category_id,
             'amount' => $income->amount,
             'transacted_at' => $income->transacted_at,
         ]);
@@ -77,6 +82,7 @@ it('can update income', function () {
     $person = Person::factory()->create();
     $account = Account::factory()->create();
     $newData = Income::factory()->make();
+    $category = Category::factory()->create();
 
     livewire(IncomeResource\Pages\EditIncome::class, [
         'record' => $income->getRouteKey(),
@@ -85,6 +91,7 @@ it('can update income', function () {
             'description' => $newData->description,
             'person_id' => $person->id,
             'account_id' => $account->id,
+            'category_id' => $category->id,
             'amount' => $newData->amount,
             'transacted_at' => $newData->transacted_at,
         ])
@@ -95,6 +102,7 @@ it('can update income', function () {
         'description' => $newData->description,
         'person_id' => $person->id,
         'account_id' => $account->id,
+        'category_id' => $category->id,
         'amount' => $newData->amount,
         'transacted_at' => $newData->transacted_at,
     ]);
