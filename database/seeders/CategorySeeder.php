@@ -20,6 +20,8 @@ class CategorySeeder extends Seeder
             'Internet/Mobile Bills',
             'Apparels',
             'Leisure Activities',
+            'Insurance',
+            'Technology',
 
             'Other',
         ])->each(function (string $category) {
