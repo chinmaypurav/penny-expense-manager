@@ -15,6 +15,11 @@ class AccountPolicy
         return true;
     }
 
+    public function view(User $user, Account $account): bool
+    {
+        return $user->id === $account->user_id;
+    }
+
     public function create(User $user): bool
     {
         return true;
@@ -22,11 +27,11 @@ class AccountPolicy
 
     public function update(User $user, Account $account): bool
     {
-        return true;
+        return $user->id === $account->user_id;
     }
 
     public function delete(User $user, Account $account): bool
     {
-        return true;
+        return $user->id === $account->user_id;
     }
 }
