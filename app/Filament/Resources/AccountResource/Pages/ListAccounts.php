@@ -7,6 +7,7 @@ use App\Filament\Resources\AccountResource;
 use Filament\Actions\CreateAction;
 use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListAccounts extends ListRecords
 {
@@ -19,5 +20,10 @@ class ListAccounts extends ListRecords
             ImportAction::make()
                 ->importer(AccountImporter::class),
         ];
+    }
+
+    public function filterTableQuery(Builder $query): Builder
+    {
+        return $query->where('user_id', auth()->id());
     }
 }
