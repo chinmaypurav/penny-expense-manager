@@ -42,7 +42,7 @@ it('creates balance initial entry when created', function () {
 });
 
 it('adjusts balance initial entry when account updated', function () {
-    $account = Account::factory()->createQuietly(['current_balance' => 500]);
+    $account = Account::factory()->for($this->user)->createQuietly(['current_balance' => 500]);
     $balance = Balance::factory()->for($account)->initialRecord()->createQuietly(['balance' => 100]);
 
     $newCurrentBalance = 700;

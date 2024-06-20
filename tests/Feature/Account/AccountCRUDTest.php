@@ -40,12 +40,12 @@ it('can create account', function () {
 
 it('can render account edit page', function () {
     $this->get(AccountResource::getUrl('edit', [
-        'record' => Account::factory()->create(),
+        'record' => Account::factory()->for($this->user)->create(),
     ]))->assertSuccessful();
 });
 
 it('can retrieve account data', function () {
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
 
     livewire(AccountResource\Pages\EditAccount::class, [
         'record' => $account->getRouteKey(),
@@ -58,7 +58,7 @@ it('can retrieve account data', function () {
 });
 
 it('can update account', function () {
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $newData = Account::factory()->make();
 
     livewire(AccountResource\Pages\EditAccount::class, [
