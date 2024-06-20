@@ -15,9 +15,7 @@ class CreatePeriodicalBalanceEntryJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private readonly RecordType $recordType, private readonly Carbon $today)
-    {
-    }
+    public function __construct(private readonly RecordType $recordType, private readonly Carbon $today) {}
 
     public function handle(): void
     {
