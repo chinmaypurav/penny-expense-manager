@@ -7,6 +7,7 @@ use App\Filament\Resources\TransferResource;
 use Filament\Actions\CreateAction;
 use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListTransfers extends ListRecords
 {
@@ -19,5 +20,10 @@ class ListTransfers extends ListRecords
             ImportAction::make()
                 ->importer(TransferImporter::class),
         ];
+    }
+
+    public function filterTableQuery(Builder $query): Builder
+    {
+        return $query->where('user_id', auth()->id());
     }
 }

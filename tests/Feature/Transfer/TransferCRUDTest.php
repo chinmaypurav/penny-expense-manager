@@ -47,7 +47,7 @@ it('can create transfer', function () {
 
 it('can render transfer edit page', function () {
     $this->get(TransferResource::getUrl('edit', [
-        'record' => Transfer::factory()->create(),
+        'record' => Transfer::factory()->for($this->user)->create(),
     ]))->assertSuccessful();
 });
 
@@ -68,7 +68,7 @@ it('can retrieve transfer data', function () {
 
 it('can update transfer', function () {
 
-    $transfer = Transfer::factory()->create();
+    $transfer = Transfer::factory()->for($this->user)->create();
     $newData = Transfer::factory()->for($this->user)->make();
 
     livewire(TransferResource\Pages\EditTransfer::class, [

@@ -22,11 +22,11 @@ class TransferPolicy
 
     public function update(User $user, Transfer $transfer): bool
     {
-        return true;
+        return $user->id === $transfer->user_id;
     }
 
     public function delete(User $user, Transfer $transfer): bool
     {
-        return true;
+        return $user->id === $transfer->user_id;
     }
 }
