@@ -22,11 +22,11 @@ class IncomePolicy
 
     public function update(User $user, Income $income): bool
     {
-        return true;
+        return $user->id === $income->user_id;
     }
 
     public function delete(User $user, Income $income): bool
     {
-        return true;
+        return $user->id === $income->user_id;
     }
 }
