@@ -55,12 +55,12 @@ it('can create income', function () {
 
 it('can render income edit page', function () {
     $this->get(IncomeResource::getUrl('edit', [
-        'record' => Income::factory()->create(),
+        'record' => Income::factory()->for($this->user)->create(),
     ]))->assertSuccessful();
 });
 
 it('can retrieve income data', function () {
-    $income = Income::factory()->create();
+    $income = Income::factory()->for($this->user)->create();
 
     livewire(IncomeResource\Pages\EditIncome::class, [
         'record' => $income->getRouteKey(),
@@ -77,7 +77,7 @@ it('can retrieve income data', function () {
 
 it('can update income', function () {
 
-    $income = Income::factory()->create();
+    $income = Income::factory()->for($this->user)->create();
 
     $person = Person::factory()->create();
     $account = Account::factory()->create();
