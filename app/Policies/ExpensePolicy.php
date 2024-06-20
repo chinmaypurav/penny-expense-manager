@@ -22,11 +22,11 @@ class ExpensePolicy
 
     public function update(User $user, Expense $expense): bool
     {
-        return true;
+        return $user->id === $expense->user_id;
     }
 
     public function delete(User $user, Expense $expense): bool
     {
-        return true;
+        return $user->id === $expense->user_id;
     }
 }

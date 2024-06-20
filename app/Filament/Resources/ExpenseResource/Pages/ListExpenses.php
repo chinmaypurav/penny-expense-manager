@@ -7,6 +7,7 @@ use App\Filament\Resources\ExpenseResource;
 use Filament\Actions\CreateAction;
 use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListExpenses extends ListRecords
 {
@@ -19,5 +20,10 @@ class ListExpenses extends ListRecords
             ImportAction::make()
                 ->importer(ExpenseImporter::class),
         ];
+    }
+
+    public function filterTableQuery(Builder $query): Builder
+    {
+        return $query->where('user_id', auth()->id());
     }
 }

@@ -55,12 +55,12 @@ it('can create expense', function () {
 
 it('can render expense edit page', function () {
     $this->get(ExpenseResource::getUrl('edit', [
-        'record' => Expense::factory()->create(),
+        'record' => Expense::factory()->for($this->user)->create(),
     ]))->assertSuccessful();
 });
 
 it('can retrieve expense data', function () {
-    $expense = Expense::factory()->create();
+    $expense = Expense::factory()->for($this->user)->create();
 
     livewire(ExpenseResource\Pages\EditExpense::class, [
         'record' => $expense->getRouteKey(),
@@ -77,7 +77,7 @@ it('can retrieve expense data', function () {
 
 it('can update expense', function () {
 
-    $expense = Expense::factory()->create();
+    $expense = Expense::factory()->for($this->user)->create();
 
     $person = Person::factory()->create();
     $account = Account::factory()->create();
