@@ -50,9 +50,6 @@ class PersonResource extends Resource
                     ->searchable()
                     ->sortable(),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
