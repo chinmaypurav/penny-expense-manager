@@ -19,11 +19,6 @@ class Balance extends Model
         'record_type',
     ];
 
-    public function account(): BelongsTo
-    {
-        return $this->belongsTo(Account::class);
-    }
-
     protected function casts(): array
     {
         return [
@@ -31,5 +26,10 @@ class Balance extends Model
             'is_initial_record' => 'boolean',
             'record_type' => RecordType::class,
         ];
+    }
+
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(Account::class);
     }
 }
