@@ -34,7 +34,9 @@ class TransferResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $accounts = Account::pluck('name', 'id');
+        $accounts = Account::query()
+            ->where('user_id', auth()->id())
+            ->pluck('name', 'id');
 
         return $form
             ->schema([

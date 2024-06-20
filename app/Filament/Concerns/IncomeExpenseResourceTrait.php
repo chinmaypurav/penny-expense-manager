@@ -40,11 +40,19 @@ trait IncomeExpenseResourceTrait
                     ->content(fn (Expense|Income|null $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
                 Select::make('person_id')
-                    ->relationship('person', 'name')
+                    ->relationship(
+                        'person',
+                        'name',
+                        fn (Builder $query): Builder => $query->where('user_id', auth()->id())
+                    )
                     ->nullable(),
 
                 Select::make('account_id')
-                    ->relationship('account', 'name')
+                    ->relationship(
+                        'account',
+                        'name',
+                        fn (Builder $query): Builder => $query->where('user_id', auth()->id())
+                    )
                     ->required(),
 
                 Select::make('category_id')
