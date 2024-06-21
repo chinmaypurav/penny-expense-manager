@@ -43,6 +43,7 @@ class IncomeChart extends ChartWidget
 
         return Income::query()
             ->selectRaw('DATE(transacted_at) as day, SUM(amount) as amount')
+            ->where('user_id', auth()->id())
             ->when($startDate && $endDate,
                 fn (Builder $q) => $q->whereDate('transacted_at', '>=', $startDate)
                     ->whereDate('transacted_at', '<=', $endDate),
