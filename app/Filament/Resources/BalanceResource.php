@@ -45,7 +45,11 @@ class BalanceResource extends Resource
             ->filters([
                 SelectFilter::make('account_id')
                     ->label('Account')
-                    ->relationship('account', 'name'),
+                    ->relationship(
+                        'account',
+                        'name',
+                        fn (Builder $query): Builder => $query->whereIn('account_id', auth()->user()->accounts()->pluck('id'))
+                    ),
 
                 SelectFilter::make('record_type')
                     ->options(RecordType::all()),
