@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('current_balance', 65);
             $table->date('initial_date');
             $table->json('data')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

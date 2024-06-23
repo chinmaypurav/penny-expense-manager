@@ -78,7 +78,7 @@ it('can update account', function () {
     ]);
 });
 
-it('can delete account', function () {
+it('can soft delete account', function () {
     $account = Account::factory()->for($this->user)->create();
 
     livewire(AccountResource\Pages\EditAccount::class, [
@@ -86,5 +86,5 @@ it('can delete account', function () {
     ])
         ->callAction(DeleteAction::class);
 
-    $this->assertModelMissing($account);
+    $this->assertSoftDeleted($account);
 });
