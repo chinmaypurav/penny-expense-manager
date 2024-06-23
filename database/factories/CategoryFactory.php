@@ -15,7 +15,7 @@ class CategoryFactory extends Factory
         return [
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'name' => fake()->word(),
+            'name' => fake()->unique()->word(),
         ];
     }
 }
