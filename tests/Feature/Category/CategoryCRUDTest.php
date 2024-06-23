@@ -58,7 +58,7 @@ it('can update category', function () {
 
     $category = Category::factory()->create();
 
-    $newData = Category::factory()->create();
+    $newData = Category::factory()->make();
 
     livewire(CategoryResource\Pages\EditCategory::class, [
         'record' => $category->getRouteKey(),
