@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(Person::class)->nullable();
             $table->foreignIdFor(Account::class);
             $table->foreignIdFor(Category::class)->nullable()->constrained()->nullOnDelete();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->timestamp('transacted_at');
             $table->decimal('amount', 65);
             $table->json('data')->nullable();
