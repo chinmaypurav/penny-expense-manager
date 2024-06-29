@@ -14,6 +14,7 @@ class Person extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'nick_name',
     ];
 
     public function user(): BelongsTo

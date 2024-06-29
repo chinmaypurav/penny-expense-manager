@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->string('name');
+            $table->string('nick_name')->nullable();
             $table->timestamps();
         });
     }
