@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('creditor_id');
             $table->foreignId('debtor_id');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->timestamp('transacted_at');
             $table->decimal('amount', 65);
             $table->json('data')->nullable();
