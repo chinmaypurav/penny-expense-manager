@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('description');
             $table->timestamp('transacted_at');
             $table->decimal('amount', 65);
+            $table->json('data')->nullable();
             $table->timestamps();
         });
     }

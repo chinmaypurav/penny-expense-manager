@@ -28,6 +28,7 @@ class Income extends Model
     {
         return [
             'transacted_at' => 'datetime',
+            'data' => 'array',
         ];
     }
 

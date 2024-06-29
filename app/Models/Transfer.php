@@ -27,6 +27,7 @@ class Transfer extends Model
     {
         return [
             'transacted_at' => 'datetime',
+            'data' => 'array',
         ];
     }
 
