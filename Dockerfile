@@ -13,7 +13,7 @@ RUN install-php-extensions intl gd
 ############################################
 # Development Image
 ############################################
-FROM base as development
+FROM base AS development
 
 # We can pass USER_ID and GROUP_ID as build arguments
 # to ensure the www-data user has the same UID and GID
@@ -32,7 +32,7 @@ USER www-data
 ############################################
 # CI image
 ############################################
-FROM base as ci
+FROM base AS ci
 
 # Sometimes CI images need to run as root
 # so we set the ROOT user and configure
@@ -44,6 +44,6 @@ RUN echo "user = www-data" >> /usr/local/etc/php-fpm.d/docker-php-serversideup-p
 ############################################
 # Production Image
 ############################################
-FROM base as deploy
+FROM base AS deploy
 COPY --chown=www-data:www-data . /var/www/html
 USER www-data
