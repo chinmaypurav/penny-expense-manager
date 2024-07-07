@@ -7,7 +7,7 @@ on:
 
 env:
   INSTANCE: 'Writerside/pem'
-  ARTIFACT: 'webHelpOEM2-all.zip'
+  ARTIFACT: 'webHelpPEM2-all.zip'
   DOCKER_VERSION: '241.16003'
 
 jobs:
