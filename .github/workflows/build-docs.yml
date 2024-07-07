@@ -5,9 +5,9 @@ on:
     branches: ["docs/writerside"]
   workflow_dispatch:
 
-  permissions:
-    id-token: write
-    pages: write
+permissions:
+  id-token: write
+  pages: writesyntax fix
 
 env:
   INSTANCE: 'Writerside/pem'
