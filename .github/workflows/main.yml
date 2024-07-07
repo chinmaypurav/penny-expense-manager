@@ -23,5 +23,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64
+          target: deploy
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/penny:latest
