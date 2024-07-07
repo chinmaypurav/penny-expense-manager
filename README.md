@@ -27,4 +27,6 @@ The docker images are based up on [Server Side Up](https://serversideup.net/open
 
 Use the `Dockerfile` with target `deploy` and run it on production
 
+The docs related to the project can be found over [here](https://chinmaypurav.github.io/penny-expense-manager/application-overview.html)
+
 ...TBC
