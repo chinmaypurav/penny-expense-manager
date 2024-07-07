@@ -36,6 +36,7 @@ jobs:
           name: docs
           path: |
             artifacts/${{ env.ARTIFACT }}
+            artifacts/report.json
           retention-days: 7
   test:
     needs: build
@@ -55,7 +56,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: [ build, test ]
+    needs: [build, test]
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
