@@ -1,5 +1,10 @@
 # Penny Expense Manager
 
+[![Project Status: In Development](https://img.shields.io/badge/Project%20Status-In%20Development-yellow.svg)](https://github.com/chinmaypurav/penny-expense-manager)
+
+⚠️ **This project is currently in active development. 
+Things may be unstable and breaking changes can occur frequently.**
+
 Penny Expense Manager is built around the idea of an expense tracker for a family.
 When living as a family,
 you would want
