@@ -7,7 +7,7 @@ on:
 
 permissions:
   id-token: write
-  pages: writesyntax fix
+  pages: write
 
 env:
   INSTANCE: 'Writerside/pem'
