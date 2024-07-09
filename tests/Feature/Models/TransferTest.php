@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Account;
-use App\Models\Label;
+use App\Models\Tag;
 use App\Models\Transfer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,12 +26,12 @@ it('belongs to a debtor account', function () {
     expect($transfer->debtor)->toBeInstanceOf(Account::class);
 });
 
-it('has many labels', function () {
+it('has many tags', function () {
     $transfer = Transfer::factory()->hasAttached(
-        Label::factory(2)
+        Tag::factory(2)
     )->create();
 
-    expect($transfer->labels)
+    expect($transfer->tags)
         ->toHaveCount(2)
-        ->each->toBeInstanceOf(Label::class);
+        ->each->toBeInstanceOf(Tag::class);
 });

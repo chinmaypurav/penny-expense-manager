@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\LabelResource\Pages;
+namespace App\Filament\Resources\TagResource\Pages;
 
-use App\Filament\Resources\LabelResource;
+use App\Filament\Resources\TagResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditLabel extends EditRecord
+class EditTag extends EditRecord
 {
-    protected static string $resource = LabelResource::class;
+    protected static string $resource = TagResource::class;
 
     protected function getHeaderActions(): array
     {

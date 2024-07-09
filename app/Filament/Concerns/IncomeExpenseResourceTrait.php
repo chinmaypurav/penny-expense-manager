@@ -70,8 +70,8 @@ trait IncomeExpenseResourceTrait
                     ->required()
                     ->numeric(),
 
-                Select::make('labels')
-                    ->relationship('labels', 'name')
+                Select::make('tags')
+                    ->relationship('tags', 'name')
                     ->multiple()
                     ->preload(),
             ]);
@@ -129,8 +129,8 @@ trait IncomeExpenseResourceTrait
                     ->relationship('account', 'name')
                     ->preload(),
 
-                SelectFilter::make('labels')
-                    ->relationship('labels', 'name')
+                SelectFilter::make('tags')
+                    ->relationship('tags', 'name')
                     ->multiple()
                     ->preload(),
             ], FiltersLayout::AboveContentCollapsible)

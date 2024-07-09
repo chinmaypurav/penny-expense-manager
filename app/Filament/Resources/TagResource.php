@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\LabelResource\Pages;
-use App\Models\Label;
+use App\Filament\Resources\TagResource\Pages;
+use App\Models\Tag;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\TextInput;
@@ -24,11 +24,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class LabelResource extends Resource
+class TagResource extends Resource
 {
-    protected static ?string $model = Label::class;
+    protected static ?string $model = Tag::class;
 
-    protected static ?string $slug = 'labels';
+    protected static ?string $slug = 'tags';
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
@@ -38,11 +38,11 @@ class LabelResource extends Resource
             ->schema([
                 Placeholder::make('created_at')
                     ->label('Created Date')
-                    ->content(fn (?Label $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                    ->content(fn (?Tag $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
-                    ->content(fn (?Label $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                    ->content(fn (?Tag $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
                 TextInput::make('name')
                     ->required(),
@@ -83,9 +83,9 @@ class LabelResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLabels::route('/'),
-            'create' => Pages\CreateLabel::route('/create'),
-            'edit' => Pages\EditLabel::route('/{record}/edit'),
+            'index' => Pages\ListTags::route('/'),
+            'create' => Pages\CreateTag::route('/create'),
+            'edit' => Pages\EditTag::route('/{record}/edit'),
         ];
     }
 
