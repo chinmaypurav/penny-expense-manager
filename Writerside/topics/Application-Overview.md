@@ -5,7 +5,7 @@ The application can track all the incomes, expenses, along with internal transfe
 ## Accounts
 
 The accounts section holds the details for all your accounts. It can be your savings, current accounts in banks,
-credit cards, balance in trading account, or cash balance in hand.
+credit cards, balance in a trading account, or cash balance in hand.
 
 All of these accounts can be stored under their different account types as listed below:
 
