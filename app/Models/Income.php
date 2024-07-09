@@ -47,9 +47,9 @@ class Income extends Model
         return $this->belongsTo(Account::class);
     }
 
-    public function labels(): MorphToMany
+    public function tags(): MorphToMany
     {
-        return $this->morphToMany(Label::class, 'labelable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function category(): BelongsTo

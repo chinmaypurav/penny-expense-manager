@@ -3,8 +3,8 @@
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Expense;
-use App\Models\Label;
 use App\Models\Person;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -34,12 +34,12 @@ it('belongs to a category', function () {
     expect($expense->category)->toBeInstanceOf(Category::class);
 });
 
-it('has many labels', function () {
+it('has many tags', function () {
     $expense = Expense::factory()->hasAttached(
-        Label::factory(2)
+        Tag::factory(2)
     )->create();
 
-    expect($expense->labels)
+    expect($expense->tags)
         ->toHaveCount(2)
-        ->each->toBeInstanceOf(Label::class);
+        ->each->toBeInstanceOf(Tag::class);
 });

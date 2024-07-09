@@ -2,14 +2,14 @@
 
 namespace App\Filament\Imports;
 
-use App\Models\Label;
+use App\Models\Tag;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
 
-class LabelImporter extends Importer
+class TagImporter extends Importer
 {
-    protected static ?string $model = Label::class;
+    protected static ?string $model = Tag::class;
 
     public static function getColumns(): array
     {
@@ -34,19 +34,19 @@ class LabelImporter extends Importer
         parent::saveRecord();
     }
 
-    public function resolveRecord(): ?Label
+    public function resolveRecord(): ?Tag
     {
-        // return Label::firstOrNew([
+        // return Tag::firstOrNew([
         //     // Update existing records, matching them by `$this->data['column_name']`
         //     'email' => $this->data['email'],
         // ]);
 
-        return new Label();
+        return new Tag();
     }
 
     public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = 'Your label import has completed and '.number_format($import->successful_rows).' '.str('row')->plural($import->successful_rows).' imported.';
+        $body = 'Your tag import has completed and '.number_format($import->successful_rows).' '.str('row')->plural($import->successful_rows).' imported.';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
             $body .= ' '.number_format($failedRowsCount).' '.str('row')->plural($failedRowsCount).' failed to import.';

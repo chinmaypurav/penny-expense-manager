@@ -52,8 +52,8 @@ class Expense extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function labels(): MorphToMany
+    public function tags(): MorphToMany
     {
-        return $this->morphToMany(Label::class, 'labelable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 }

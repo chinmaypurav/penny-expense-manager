@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Label;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class LabelPolicy
+class TagPolicy
 {
     use HandlesAuthorization;
 
@@ -20,22 +20,22 @@ class LabelPolicy
         return true;
     }
 
-    public function update(User $user, Label $label): bool
+    public function update(User $user, Tag $tag): bool
     {
         return true;
     }
 
-    public function delete(User $user, Label $label): bool
+    public function delete(User $user, Tag $tag): bool
     {
         return true;
     }
 
-    public function restore(User $user, Label $label): bool
+    public function restore(User $user, Tag $tag): bool
     {
         return true;
     }
 
-    public function forceDelete(User $user, Label $label): bool
+    public function forceDelete(User $user, Tag $tag): bool
     {
         return true;
     }

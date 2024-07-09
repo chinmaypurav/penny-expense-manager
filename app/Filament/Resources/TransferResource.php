@@ -67,8 +67,8 @@ class TransferResource extends Resource
                     ->required()
                     ->numeric(),
 
-                Select::make('labels')
-                    ->relationship('labels', 'name')
+                Select::make('tags')
+                    ->relationship('tags', 'name')
                     ->multiple()
                     ->preload(),
             ]);
@@ -114,8 +114,8 @@ class TransferResource extends Resource
                                     ->whereDate('transacted_at', '<=', $date),
                             );
                     }),
-                SelectFilter::make('labels')
-                    ->relationship('labels', 'name')
+                SelectFilter::make('tags')
+                    ->relationship('tags', 'name')
                     ->multiple()
                     ->preload(),
             ], FiltersLayout::AboveContentCollapsible)

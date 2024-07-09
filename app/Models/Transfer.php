@@ -46,8 +46,8 @@ class Transfer extends Model
         return $this->belongsTo(Account::class, 'debtor_id');
     }
 
-    public function labels(): MorphToMany
+    public function tags(): MorphToMany
     {
-        return $this->morphToMany(Label::class, 'labelable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 }
