@@ -27,9 +27,9 @@ Any kind of [income](#incomes) or [expense](#expenses) has one creditor and one 
 [Account](#accounts) is mapped on one side and a person is mapped on another. This is optional though.
 It can be useful to track to whom a payment is made or from whom we received any payment when using filters.
 
-## Labels
+## Tags
 
-Labels can be used like tags on incomes, expenses or transfers. 
+Tags can be used like tags on incomes, expenses or transfers. 
 You can define any color to that tag which will be later on used in views/reports.
 
 ## Incomes
