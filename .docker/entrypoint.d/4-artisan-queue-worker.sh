@@ -6,4 +6,4 @@ fi
 
 echo "Running Queue Worker"
 
-php artisan queue:work
+php /var/www/html/artisan queue:work
