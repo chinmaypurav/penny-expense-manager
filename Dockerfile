@@ -50,6 +50,9 @@ ENV S6_CMD_WAIT_FOR_SERVICES=3
 
 COPY --chmod=755 .docker/entrypoint.d/ /etc/entrypoint.d/
 COPY --chown=www-data:www-data . /var/www/html
+
+RUN composer install --no-dev
+
 # Change to root, so we can do root things
 USER root
 
