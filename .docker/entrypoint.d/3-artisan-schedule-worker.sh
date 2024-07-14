@@ -6,4 +6,4 @@ fi
 
 echo "Running Schedule Worker"
 
-php artisan schedule:work
+php /var/www/html/artisan schedule:work
