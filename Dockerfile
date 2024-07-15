@@ -4,7 +4,7 @@
 
 # Learn more about the Server Side Up PHP Docker Images at:
 # https://serversideup.net/open-source/docker-php/
-FROM serversideup/php:8.3-fpm-nginx as base
+FROM serversideup/php:8.3-fpm AS base
 
 # Switch to root before installing our PHP extensions
 USER root
@@ -14,7 +14,7 @@ USER www-data
 ############################################
 # Development Image
 ############################################
-FROM base as development
+FROM base AS development
 
 # We can pass USER_ID and GROUP_ID as build arguments
 # to ensure the www-data user has the same UID and GID
@@ -46,18 +46,7 @@ RUN echo "user = www-data" >> /usr/local/etc/php-fpm.d/docker-php-serversideup-p
 # Production Image
 ############################################
 FROM base AS deploy
-ENV S6_CMD_WAIT_FOR_SERVICES=3
 
-COPY --chmod=755 .docker/entrypoint.d/ /etc/entrypoint.d/
 COPY --chown=www-data:www-data . /var/www/html
 
 RUN composer install --no-dev
-
-# Change to root, so we can do root things
-USER root
-
-# As root, run the docker-php-serversideup-s6-init script
-RUN docker-php-serversideup-s6-init
-
-# Change back to the www-data user
-USER www-data
