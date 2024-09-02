@@ -42,7 +42,7 @@ class AnnualStatementResource extends Resource
                     ->relationship('user', 'name')
                     ->required(),
 
-                Select::make('financial_year')
+                Select::make('financial_year_id')
                     ->relationship('financialYear')
                     ->getOptionLabelFromRecordUsing(fn (FinancialYear $record) => $record->start_date->year)
                     ->required(),
