@@ -4,17 +4,16 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AnnualStatementResource\Pages;
 use App\Models\AnnualStatement;
+use App\Models\FinancialYear;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -33,19 +32,20 @@ class AnnualStatementResource extends Resource
             ->schema([
                 Placeholder::make('created_at')
                     ->label('Created Date')
-                    ->content(fn(?AnnualStatement $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                    ->content(fn (?AnnualStatement $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
-                    ->content(fn(?AnnualStatement $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                    ->content(fn (?AnnualStatement $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
                 Select::make('user_id')
                     ->relationship('user', 'name')
                     ->required(),
 
-                TextInput::make('financial_year')
+                Select::make('financial_year')
+                    ->relationship('financialYear')
+                    ->getOptionLabelFromRecordUsing(fn (FinancialYear $record) => $record->start_date->year)
                     ->required(),
-
 
                 TextInput::make('salary')
                     ->numeric()
@@ -122,7 +122,14 @@ class AnnualStatementResource extends Resource
                     ->summarize(Sum::make()->money('INR')),
             ])
             ->filters([
-                //
+                SelectFilter::make('financial_year')
+                    ->name('financial_year')
+                    ->options(function () {
+                        $array = ['2018', '2019', '2020', '2021', '2022'];
+
+                        return array_combine($array, $array);
+                    })
+                    ->multiple(),
             ])
             ->actions([
                 EditAction::make(),
