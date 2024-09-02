@@ -28,6 +28,11 @@ class AnnualStatement extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function financialYear(): BelongsTo
+    {
+        return $this->belongsTo(FinancialYear::class);
+    }
+
     protected function casts(): array
     {
         return [
