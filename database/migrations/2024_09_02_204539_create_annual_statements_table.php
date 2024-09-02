@@ -4,13 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::create('annual_statements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('financial_year');
+            $table->foreignId('financial_year_id');
             $table->decimal('salary', 65, 2);
             $table->decimal('dividend', 65, 2);
             $table->decimal('interest', 65, 2);

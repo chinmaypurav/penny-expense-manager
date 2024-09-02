@@ -12,7 +12,7 @@ class AnnualStatement extends Model
 
     protected $fillable = [
         'user_id',
-        'financial_year',
+        'financial_year_id',
         'salary',
         'dividend',
         'interest',
