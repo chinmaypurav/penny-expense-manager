@@ -43,7 +43,9 @@ class AnnualStatementResource extends Resource
                     ->required(),
 
                 Select::make('financial_year_id')
-                    ->relationship('financialYear')
+                    ->relationship(
+                        'financialYear',
+                        modifyQueryUsing: fn (Builder $query) => $query->whereKeyNot(AnnualStatement::pluck('financial_year_id')))
                     ->getOptionLabelFromRecordUsing(fn (FinancialYear $record) => $record->start_date->year)
                     ->required(),
 
