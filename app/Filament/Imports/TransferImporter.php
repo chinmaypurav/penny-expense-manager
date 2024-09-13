@@ -46,7 +46,7 @@ class TransferImporter extends Importer
         //     'email' => $this->data['email'],
         // ]);
 
-        return new Transfer();
+        return new Transfer;
     }
 
     public static function getCompletedNotificationBody(Import $import): string

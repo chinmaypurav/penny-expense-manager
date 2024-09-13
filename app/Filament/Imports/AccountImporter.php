@@ -43,7 +43,7 @@ class AccountImporter extends Importer
         //     'email' => $this->data['email'],
         // ]);
 
-        return new Account();
+        return new Account;
     }
 
     public static function getCompletedNotificationBody(Import $import): string

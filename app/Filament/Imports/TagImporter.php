@@ -41,7 +41,7 @@ class TagImporter extends Importer
         //     'email' => $this->data['email'],
         // ]);
 
-        return new Tag();
+        return new Tag;
     }
 
     public static function getCompletedNotificationBody(Import $import): string

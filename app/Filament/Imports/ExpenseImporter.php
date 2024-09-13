@@ -20,7 +20,7 @@ class ExpenseImporter extends Importer
         //     'email' => $this->data['email'],
         // ]);
 
-        return new Expense();
+        return new Expense;
     }
 
     public static function getCompletedNotificationBody(Import $import): string
