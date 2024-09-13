@@ -20,7 +20,7 @@ class IncomeImporter extends Importer
         //     'email' => $this->data['email'],
         // ]);
 
-        return new Income();
+        return new Income;
     }
 
     public static function getCompletedNotificationBody(Import $import): string
