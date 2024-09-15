@@ -49,7 +49,7 @@ FROM base AS deploy
 
 COPY --chown=www-data:www-data . /var/www/html
 
-WORKDIR /var/www/penny
+WORKDIR /var/www/html
 
 WORKDIR /var/www/html
 
