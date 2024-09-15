@@ -34,6 +34,6 @@ class InitCommand extends Command
         $this->newLine();
         $this->info('Running Seeders...');
 
-        $this->call('db:seed', ['--class' => 'ProjectSeeder']);
+        $this->call('db:seed', ['--class' => 'ProductionSeeder']);
     }
 }
