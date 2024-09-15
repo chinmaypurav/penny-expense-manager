@@ -70,7 +70,7 @@ class AccountResource extends Resource
                 TextColumn::make('account_type'),
 
                 TextColumn::make('current_balance')
-                    ->money('INR'),
+                    ->money(config('penny.currency')),
             ])
             ->filters([
                 //
