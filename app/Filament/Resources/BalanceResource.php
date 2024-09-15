@@ -31,7 +31,7 @@ class BalanceResource extends Resource
                     ->sortable(),
 
                 TextColumn::make('balance')
-                    ->money('INR'),
+                    ->money(config('penny.currency')),
 
                 TextColumn::make('recorded_until')
                     ->date(),
