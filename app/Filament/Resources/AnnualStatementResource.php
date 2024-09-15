@@ -16,7 +16,6 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class AnnualStatementResource extends Resource
 {
@@ -155,16 +154,5 @@ class AnnualStatementResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['user.name'];
-    }
-
-    public static function getGlobalSearchResultDetails(Model $record): array
-    {
-        $details = [];
-
-        if ($record->user) {
-            $details['User'] = $record->user->name;
-        }
-
-        return $details;
     }
 }
