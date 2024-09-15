@@ -4,7 +4,7 @@
 
 # Learn more about the Server Side Up PHP Docker Images at:
 # https://serversideup.net/open-source/docker-php/
-FROM serversideup/php:8.3-fpm AS base
+FROM serversideup/php:8.3-fpm-nginx AS base
 
 # Switch to root before installing our PHP extensions
 USER root
