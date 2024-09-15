@@ -2,14 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\Tag;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class ProductionSeeder extends Seeder
 {
     public function run(): void
     {
-        $tags = [
+        $categories = [
             'electricity',
             'transport',
             'medical',
@@ -17,12 +17,12 @@ class ProductionSeeder extends Seeder
             'phone and internet',
             'rent',
             'investment',
+            'food',
         ];
 
-        foreach ($tags as $tag) {
-            Tag::create([
-                'name' => $tag,
-                'color' => '#ffffff',
+        foreach ($categories as $category) {
+            Category::create([
+                'name' => $category,
             ]);
         }
     }
