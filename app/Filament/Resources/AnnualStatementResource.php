@@ -97,30 +97,30 @@ class AnnualStatementResource extends Resource
 
                 TextColumn::make('salary')
                     ->label('Salary')
-                    ->money('INR')
-                    ->summarize(Sum::make()->money('INR')),
+                    ->money(config('penny.currency'))
+                    ->summarize(Sum::make()->money(config('penny.currency'))),
 
                 TextColumn::make('stcg')
                     ->label('STCG')
-                    ->money('INR')
-                    ->summarize(Sum::make()->money('INR')),
+                    ->money(config('penny.currency'))
+                    ->summarize(Sum::make()->money(config('penny.currency'))),
                 TextColumn::make('ltcg')
                     ->label('LTCG')
-                    ->money('INR')
-                    ->summarize(Sum::make()->money('INR')),
+                    ->money(config('penny.currency'))
+                    ->summarize(Sum::make()->money(config('penny.currency'))),
                 TextColumn::make('dividend')
                     ->label('Dividend')
-                    ->money('INR')
-                    ->summarize(Sum::make()->money('INR')),
+                    ->money(config('penny.currency'))
+                    ->summarize(Sum::make()->money(config('penny.currency'))),
                 TextColumn::make('other_income')
                     ->label('Other Income')
-                    ->money('INR')
-                    ->summarize(Sum::make()->money('INR')),
+                    ->money(config('penny.currency'))
+                    ->summarize(Sum::make()->money(config('penny.currency'))),
                 TextColumn::make('tax_paid')
                     ->label('Tax Paid')
                     ->prefix('-')
-                    ->money('INR')
-                    ->summarize(Sum::make()->money('INR')),
+                    ->money(config('penny.currency'))
+                    ->summarize(Sum::make()->money(config('penny.currency'))),
             ])
             ->filters([
                 SelectFilter::make('financial_year')
