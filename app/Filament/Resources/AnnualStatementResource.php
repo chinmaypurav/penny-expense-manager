@@ -102,7 +102,8 @@ class AnnualStatementResource extends Resource
                 TextColumn::make('user.name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('financial_year')
+                TextColumn::make('financialYear.start_date')
+                    ->state(fn (AnnualStatement $record) => $record->financialYear->start_date->year)
                     ->label('FY'),
 
                 TextColumn::make('salary')
