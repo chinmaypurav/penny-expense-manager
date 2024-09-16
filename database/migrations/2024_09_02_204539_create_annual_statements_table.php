@@ -14,9 +14,11 @@ return new class extends Migration
             $table->foreignId('financial_year_id');
             $table->decimal('salary', 65, 2);
             $table->decimal('dividend', 65, 2);
+            $table->decimal('rent', 65, 2);
             $table->decimal('interest', 65, 2);
             $table->decimal('stcg', 65, 2);
             $table->decimal('ltcg', 65, 2);
+            $table->decimal('speculative_income', 65, 2);
             $table->decimal('other_income', 65, 2);
             $table->decimal('tax_paid', 65, 2);
             $table->json('data')->nullable();

@@ -53,6 +53,11 @@ class AnnualStatementResource extends Resource
                     ->label('Salary')
                     ->default(0),
 
+                TextInput::make('rent')
+                    ->numeric()
+                    ->label('Rent')
+                    ->default(0),
+
                 TextInput::make('interest')
                     ->numeric()
                     ->label('Interest')
@@ -66,6 +71,11 @@ class AnnualStatementResource extends Resource
                 TextInput::make('stcg')
                     ->numeric()
                     ->label('STCG')
+                    ->default(0),
+
+                TextInput::make('speculative_income')
+                    ->numeric()
+                    ->label('Speculative Income')
                     ->default(0),
 
                 TextInput::make('other_income')
@@ -100,6 +110,11 @@ class AnnualStatementResource extends Resource
                     ->money(config('penny.currency'))
                     ->summarize(Sum::make()->money(config('penny.currency'))),
 
+                TextColumn::make('rent')
+                    ->label('Rent')
+                    ->money(config('penny.currency'))
+                    ->summarize(Sum::make()->money(config('penny.currency'))),
+
                 TextColumn::make('stcg')
                     ->label('STCG')
                     ->money(config('penny.currency'))
@@ -110,6 +125,10 @@ class AnnualStatementResource extends Resource
                     ->summarize(Sum::make()->money(config('penny.currency'))),
                 TextColumn::make('dividend')
                     ->label('Dividend')
+                    ->money(config('penny.currency'))
+                    ->summarize(Sum::make()->money(config('penny.currency'))),
+                TextColumn::make('speculative_income')
+                    ->label('Speculative Income')
                     ->money(config('penny.currency'))
                     ->summarize(Sum::make()->money(config('penny.currency'))),
                 TextColumn::make('other_income')
