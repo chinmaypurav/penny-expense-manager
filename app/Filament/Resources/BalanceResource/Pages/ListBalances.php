@@ -12,7 +12,7 @@ class ListBalances extends ListRecords
 
     public function filterTableQuery(Builder $query): Builder
     {
-        return $query
+        return parent::filterTableQuery($query)
             ->whereIn('account_id', auth()->user()->accounts()->pluck('id'));
     }
 }

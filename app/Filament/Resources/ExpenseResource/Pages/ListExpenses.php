@@ -24,6 +24,7 @@ class ListExpenses extends ListRecords
 
     public function filterTableQuery(Builder $query): Builder
     {
-        return $query->where('user_id', auth()->id());
+        return parent::filterTableQuery($query)
+            ->where('user_id', auth()->id());
     }
 }
