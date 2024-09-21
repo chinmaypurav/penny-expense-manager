@@ -18,6 +18,7 @@ class AccountFactory extends Factory
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
             'name' => fake()->randomElement(['ICICI', 'AXIS', 'HDFC', 'IDFC']),
+            'identifier' => fake()->numerify(),
             'account_type' => fake()->randomElement(AccountType::all()),
             'current_balance' => fake()->randomFloat(2),
             'initial_date' => fake()->date(),

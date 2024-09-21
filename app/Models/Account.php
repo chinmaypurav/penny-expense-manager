@@ -20,6 +20,7 @@ class Account extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'identifier',
         'account_type',
         'current_balance',
         'initial_date',

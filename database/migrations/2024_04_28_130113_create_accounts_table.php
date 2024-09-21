@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->string('name');
+            $table->string('identifier')->nullable();
             $table->string('account_type');
             $table->decimal('current_balance', 65);
             $table->date('initial_date');
