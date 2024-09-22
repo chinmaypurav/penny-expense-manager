@@ -27,7 +27,7 @@ class RecurringIncomeResource extends Resource
 
     protected static ?string $slug = 'recurring-incomes';
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-trending-up';
+    protected static ?string $navigationGroup = 'Recurring Transactions';
 
     public static function form(Form $form): Form
     {
