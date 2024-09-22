@@ -13,11 +13,11 @@ beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
 
-    Expense::factory()->for($this->user)->create([
+    Expense::factory()->for($this->user)->today()->create([
         'description' => 'User 1 Expense',
     ]);
 
-    Expense::factory()->for(User::factory())->create([
+    Expense::factory()->for(User::factory())->today()->create([
         'description' => 'User 2 Expense',
     ]);
 });
