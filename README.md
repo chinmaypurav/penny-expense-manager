@@ -1,6 +1,7 @@
 # Penny Expense Manager
 
 [![Project Status: In Development](https://img.shields.io/badge/Project%20Status-In%20Development-yellow.svg)](https://github.com/chinmaypurav/penny-expense-manager)
+![GitHub License](https://img.shields.io/github/license/chinmaypurav/penny-expense-manager)
 
 ⚠️ **This project is currently in active development. 
 Things may be unstable and breaking changes can occur frequently.**
