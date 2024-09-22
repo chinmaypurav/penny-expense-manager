@@ -56,7 +56,9 @@ class RecurringIncomeResource extends Resource
                     ->required(),
 
                 DatePicker::make('next_transaction_at')
-                    ->label('Next Transaction Date'),
+                    ->label('Next Transaction Date')
+                    ->required()
+                    ->after(today()),
 
                 Select::make('frequency')
                     ->options(Frequency::all())
