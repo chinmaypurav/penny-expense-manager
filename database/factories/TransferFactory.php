@@ -26,4 +26,11 @@ class TransferFactory extends Factory
             'debtor_id' => Account::factory(),
         ];
     }
+
+    public function today(): self
+    {
+        return $this->state(fn (array $attributes) => [
+            'transacted_at' => Carbon::now(),
+        ]);
+    }
 }

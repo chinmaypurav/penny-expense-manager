@@ -29,4 +29,11 @@ class IncomeFactory extends Factory
             'category_id' => Category::factory(),
         ];
     }
+
+    public function today(): self
+    {
+        return $this->state(fn (array $attributes) => [
+            'transacted_at' => Carbon::now(),
+        ]);
+    }
 }
