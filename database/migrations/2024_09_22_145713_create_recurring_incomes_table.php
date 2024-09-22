@@ -11,11 +11,12 @@ return new class extends Migration
         Schema::create('recurring_incomes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('person_id');
+            $table->foreignId('person_id')->nullable();
             $table->foreignId('account_id');
             $table->foreignId('category_id');
             $table->string('description');
-            $table->timestamp('next_transaction_at');
+            $table->decimal('amount', 65, 2);
+            $table->date('next_transaction_at');
             $table->string('frequency');
             $table->unsignedBigInteger('remaining_recurrences')->nullable();
             $table->timestamps();
