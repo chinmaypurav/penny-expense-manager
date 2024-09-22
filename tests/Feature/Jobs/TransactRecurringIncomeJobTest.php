@@ -5,10 +5,12 @@ namespace Tests\Jobs;
 use App\Jobs\TransactRecurringIncomeJob;
 use App\Models\Income;
 use App\Models\RecurringIncome;
+use App\Models\Tag;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
+use function PHPUnit\Framework\assertEquals;
 
 uses(DatabaseMigrations::class);
 
@@ -26,6 +28,20 @@ test('it copies recurring income into income', function () {
         'user_id' => $recurringIncome->user_id,
         'transacted_at' => $recurringIncome->next_transaction_at,
     ]);
+});
+
+test('it copies recurring income tags to income', function () {
+    $tags = Tag::factory()->count(3)->create();
+
+    $recurringIncome = RecurringIncome::factory()->create();
+    $recurringIncome->tags()->attach($tags);
+
+    (new TransactRecurringIncomeJob($recurringIncome->frequency))->handle();
+
+    $incomeTags = Income::first()->tags->pluck('id')->toArray();
+
+    assertEquals($tags->pluck('id')->toArray(), $incomeTags);
+
 });
 
 test('it decrements remaining_recurrences by 1', function () {

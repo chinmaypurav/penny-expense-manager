@@ -30,7 +30,9 @@ class TransactRecurringIncomeJob implements ShouldQueue
                 $data = $recurringIncome->only($fillable);
 
                 $data['transacted_at'] = $recurringIncome->next_transaction_at;
-                Income::create($data);
+                $income = Income::create($data);
+
+                $income->tags()->attach($recurringIncome->tags);
 
                 $this->processRecurringIncomeState($recurringIncome);
             }
