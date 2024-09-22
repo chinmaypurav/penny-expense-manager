@@ -17,6 +17,7 @@ class RecurringIncome extends Model
         'account_id',
         'category_id',
         'description',
+        'amount',
         'next_transaction_at',
         'frequency',
         'remaining_recurrences',

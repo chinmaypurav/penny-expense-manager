@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\Frequency;
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Person;
 use App\Models\RecurringIncome;
 use App\Models\User;
@@ -28,6 +29,7 @@ class RecurringIncomeFactory extends Factory
             'user_id' => User::factory(),
             'account_id' => Account::factory(),
             'person_id' => Person::factory(),
+            'category_id' => Category::factory(),
         ];
     }
 

@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\Frequency;
 use App\Filament\Resources\RecurringIncomeResource\Pages;
 use App\Models\RecurringIncome;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -51,7 +51,11 @@ class RecurringIncomeResource extends Resource
                 TextInput::make('description')
                     ->required(),
 
-                DateTimePicker::make('next_transaction_at')
+                TextInput::make('amount')
+                    ->numeric()
+                    ->required(),
+
+                DatePicker::make('next_transaction_at')
                     ->label('Next Transaction Date'),
 
                 Select::make('frequency')
