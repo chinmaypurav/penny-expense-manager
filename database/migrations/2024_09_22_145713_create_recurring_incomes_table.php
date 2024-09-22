@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->decimal('amount', 65, 2);
             $table->date('next_transaction_at');
-            $table->string('frequency');
+            $table->string('frequency')->index();
             $table->unsignedBigInteger('remaining_recurrences')->nullable();
             $table->timestamps();
         });
