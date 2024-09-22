@@ -65,6 +65,11 @@ class RecurringIncomeResource extends Resource
                 TextInput::make('remaining_recurrences')
                     ->integer(),
 
+                Select::make('tags')
+                    ->relationship('tags', 'name')
+                    ->multiple()
+                    ->preload(),
+
                 Placeholder::make('created_at')
                     ->label('Created Date')
                     ->content(fn (?RecurringIncome $record): string => $record?->created_at?->diffForHumans() ?? '-'),
