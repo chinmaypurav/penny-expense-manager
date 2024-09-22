@@ -16,9 +16,7 @@ class TransactRecurringIncomeJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private readonly Frequency $frequency)
-    {
-    }
+    public function __construct(private readonly Frequency $frequency) {}
 
     public function handle(): void
     {
@@ -26,7 +24,7 @@ class TransactRecurringIncomeJob implements ShouldQueue
             $recurringIncomes = RecurringIncome::query()
                 ->where('frequency', $this->frequency)
                 ->get();
-            $fillable = (new Income())->getFillable();
+            $fillable = (new Income)->getFillable();
 
             foreach ($recurringIncomes as $recurringIncome) {
                 $data = $recurringIncome->only($fillable);
