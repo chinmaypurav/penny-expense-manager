@@ -128,21 +128,17 @@ class RecurringIncomeResource extends Resource
 
     public static function getGlobalSearchEloquentQuery(): Builder
     {
-        return parent::getGlobalSearchEloquentQuery()->with(['user', 'person', 'account', 'category']);
+        return parent::getGlobalSearchEloquentQuery()->with(['person', 'account', 'category']);
     }
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['user.name', 'person.name', 'account.name', 'category.name'];
+        return ['person.name', 'account.name', 'category.name'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         $details = [];
-
-        if ($record->user) {
-            $details['User'] = $record->user->name;
-        }
 
         if ($record->person) {
             $details['Person'] = $record->person->name;
