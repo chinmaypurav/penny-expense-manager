@@ -21,21 +21,21 @@ class TransactRecurringIncomeJob implements ShouldQueue
     public function handle(): void
     {
         DB::transaction(function () {
-            $recurringIncomes = RecurringIncome::query()
-                ->where('frequency', $this->frequency)
-                ->get();
             $fillable = (new Income)->getFillable();
 
-            foreach ($recurringIncomes as $recurringIncome) {
-                $data = $recurringIncome->only($fillable);
+            RecurringIncome::query()
+                ->where('frequency', $this->frequency)
+                ->get()
+                ->map(function (RecurringIncome $recurringIncome) use ($fillable) {
+                    $data = $recurringIncome->only($fillable);
 
-                $data['transacted_at'] = $recurringIncome->next_transaction_at;
-                $income = Income::create($data);
+                    $data['transacted_at'] = $recurringIncome->next_transaction_at;
+                    $income = Income::create($data);
 
-                $income->tags()->attach($recurringIncome->tags);
+                    $income->tags()->attach($recurringIncome->tags);
 
-                $this->processRecurringIncomeState($recurringIncome);
-            }
+                    $this->processRecurringIncomeState($recurringIncome);
+                });
         });
     }
 
