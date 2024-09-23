@@ -15,7 +15,7 @@ class RecurringExpenseResource extends Resource
 
     protected static ?string $slug = 'recurring-expenses';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Recurring Transactions';
 
     public static function getPages(): array
     {
