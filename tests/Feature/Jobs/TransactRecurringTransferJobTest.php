@@ -22,9 +22,8 @@ test('it copies recurring transfer into transfer', function () {
     assertDatabaseHas(Transfer::class, [
         'description' => $recurringTransfer->description,
         'amount' => $recurringTransfer->amount,
-        'account_id' => $recurringTransfer->account_id,
-        'person_id' => $recurringTransfer->person_id,
-        'category_id' => $recurringTransfer->category_id,
+        'creditor_id' => $recurringTransfer->creditor_id,
+        'debtor_id' => $recurringTransfer->debtor_id,
         'user_id' => $recurringTransfer->user_id,
         'transacted_at' => $recurringTransfer->next_transaction_at,
     ]);
