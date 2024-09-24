@@ -5,6 +5,7 @@ use App\Enums\RecordType;
 use App\Jobs\CreatePeriodicalBalanceEntryJob;
 use App\Jobs\TransactRecurringExpenseJob;
 use App\Jobs\TransactRecurringIncomeJob;
+use App\Jobs\TransactRecurringTransferJob;
 use Illuminate\Support\Facades\Schedule;
 
 Schedule::job(new CreatePeriodicalBalanceEntryJob(RecordType::MONTHLY, today()))
@@ -33,4 +34,15 @@ Schedule::job(new TransactRecurringExpenseJob(Frequency::MONTHLY))
 Schedule::job(new TransactRecurringExpenseJob(Frequency::QUARTERLY))
     ->quarterly();
 Schedule::job(new TransactRecurringExpenseJob(Frequency::YEARLY))
+    ->yearly();
+
+Schedule::job(new TransactRecurringTransferJob(Frequency::DAILY))
+    ->daily();
+Schedule::job(new TransactRecurringTransferJob(Frequency::WEEKLY))
+    ->weekly();
+Schedule::job(new TransactRecurringTransferJob(Frequency::MONTHLY))
+    ->monthly();
+Schedule::job(new TransactRecurringTransferJob(Frequency::QUARTERLY))
+    ->quarterly();
+Schedule::job(new TransactRecurringTransferJob(Frequency::YEARLY))
     ->yearly();
