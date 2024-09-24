@@ -14,7 +14,6 @@ return new class extends Migration
             $table->foreignId('creditor_id');
             $table->foreignId('debtor_id');
             $table->string('description')->nullable();
-            $table->timestamp('transacted_at');
             $table->decimal('amount', 65);
             $table->date('next_transaction_at');
             $table->string('frequency')->index();
