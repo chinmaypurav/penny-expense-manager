@@ -20,7 +20,6 @@ class RecurringTransferFactory extends Factory
             'updated_at' => Carbon::now(),
             'description' => fake()->text(),
             'amount' => fake()->randomFloat(2),
-            'transacted_at' => fake()->dateTime(),
             'next_transaction_at' => fake()->dateTimeBetween('tomorrow', '+1 years'),
             'frequency' => fake()->randomElement(Frequency::cases()),
             'remaining_recurrences' => fake()->randomNumber(),
