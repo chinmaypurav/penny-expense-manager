@@ -47,9 +47,6 @@ class RecurringTransferResource extends Resource
                 TextInput::make('description')
                     ->required(),
 
-                TextInput::make('description')
-                    ->required(),
-
                 TextInput::make('amount')
                     ->numeric()
                     ->required(),
