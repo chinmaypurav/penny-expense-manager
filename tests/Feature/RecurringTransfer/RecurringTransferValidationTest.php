@@ -55,3 +55,45 @@ it('can update past date as next transaction date', function () {
             'next_transaction_at',
         ]);
 });
+
+it('cannot have same account as debtor and creditor on save', function () {
+    $newData = RecurringTransfer::factory()->make([
+        'next_transaction_at' => today(),
+    ]);
+    $account = Account::factory()->create();
+
+    livewire(RecurringTransferResource\Pages\CreateRecurringTransfer::class)
+        ->fillForm([
+            'description' => $newData->description,
+            'creditor_id' => $account->id,
+            'debtor_id' => $account->id,
+            'amount' => $newData->amount,
+            'next_transaction_at' => $newData->next_transaction_at,
+            'remaining_recurrences' => $newData->remaining_recurrences,
+            'frequency' => $newData->frequency,
+        ])
+        ->call('create')
+        ->assertHasFormErrors([
+            'creditor_id',
+            'debtor_id',
+        ]);
+});
+
+it('cannot have same account as debtor and creditor on update', function () {
+    $account = Account::factory()->create();
+
+    $recurringTransfer = RecurringTransfer::factory()->for($this->user)->create();
+
+    livewire(RecurringTransferResource\Pages\EditRecurringTransfer::class, [
+        'record' => $recurringTransfer->getRouteKey(),
+    ])
+        ->fillForm([
+            'creditor_id' => $account->id,
+            'debtor_id' => $account->id,
+        ])
+        ->call('save')
+        ->assertHasFormErrors([
+            'creditor_id',
+            'debtor_id',
+        ]);
+});

@@ -38,10 +38,12 @@ class RecurringTransferResource extends Resource
             ->schema([
                 Select::make('creditor_id')
                     ->options($accounts)
+                    ->different('debtor_id')
                     ->required(),
 
                 Select::make('debtor_id')
                     ->options($accounts)
+                    ->different('creditor_id')
                     ->required(),
 
                 TextInput::make('description')
