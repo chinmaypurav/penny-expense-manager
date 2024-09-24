@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Enums\Frequency;
 use App\Filament\Resources\RecurringTransferResource\Pages;
 use App\Models\Account;
-use App\Models\RecurringIncome;
 use App\Models\RecurringTransfer;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
@@ -74,11 +73,11 @@ class RecurringTransferResource extends Resource
 
                 Placeholder::make('created_at')
                     ->label('Created Date')
-                    ->content(fn (?RecurringIncome $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                    ->content(fn (?RecurringTransfer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
-                    ->content(fn (?RecurringIncome $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                    ->content(fn (?RecurringTransfer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
             ]);
     }
 
