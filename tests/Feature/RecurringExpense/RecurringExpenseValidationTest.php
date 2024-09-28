@@ -19,7 +19,7 @@ beforeEach(function () {
     Carbon::setTestNow(now());
 });
 
-it('cannot add past past date as next transaction date', function () {
+it('cannot add past date as next transaction date', function () {
     $newData = RecurringExpense::factory()->make([
         'next_transaction_at' => today(),
     ]);
