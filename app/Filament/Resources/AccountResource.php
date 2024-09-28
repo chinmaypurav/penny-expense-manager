@@ -54,7 +54,8 @@ class AccountResource extends Resource
 
                 DatePicker::make('initial_date')
                     ->label('Initial Balance Date')
-                    ->default(now())
+                    ->default(today())
+                    ->beforeOrEqual(today())
                     ->required(),
             ]);
     }
