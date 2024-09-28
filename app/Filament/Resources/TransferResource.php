@@ -50,10 +50,12 @@ class TransferResource extends Resource
 
                 Select::make('creditor_id')
                     ->options($accounts)
+                    ->different('debtor_id')
                     ->required(),
 
                 Select::make('debtor_id')
                     ->options($accounts)
+                    ->different('creditor_id')
                     ->required(),
 
                 TextInput::make('description')
