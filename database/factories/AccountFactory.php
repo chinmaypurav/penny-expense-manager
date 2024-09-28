@@ -26,4 +26,11 @@ class AccountFactory extends Factory
             'user_id' => User::factory(),
         ];
     }
+
+    public function tomorrow(): self
+    {
+        return $this->state(fn (array $attributes) => [
+            'initial_date' => Carbon::now()->addDay(),
+        ]);
+    }
 }

@@ -36,4 +36,11 @@ class IncomeFactory extends Factory
             'transacted_at' => Carbon::now(),
         ]);
     }
+
+    public function tomorrow(): self
+    {
+        return $this->state(fn (array $attributes) => [
+            'transacted_at' => Carbon::now()->addDay(),
+        ]);
+    }
 }
