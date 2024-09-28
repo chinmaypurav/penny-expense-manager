@@ -17,9 +17,7 @@ beforeEach(function () {
 });
 
 it('cannot add future date as initial date', function () {
-    $newData = Account::factory()->make([
-        'initial_date' => today()->addDay(),
-    ]);
+    $newData = Account::factory()->tomorrow()->make();
 
     livewire(AccountResource\Pages\CreateAccount::class)
         ->fillForm([
