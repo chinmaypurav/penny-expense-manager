@@ -54,3 +54,35 @@ it('cannot have same account as debtor and creditor on update', function () {
             'debtor_id',
         ]);
 });
+
+it('cannot add future date as transacted_at', function () {
+    $newData = Transfer::factory()->for($this->user)->tomorrow()->make();
+
+    livewire(TransferResource\Pages\CreateTransfer::class)
+        ->fillForm([
+            'debtor_id' => $newData->debtor->id,
+            'creditor_id' => $newData->creditor_id,
+            'description' => $newData->description,
+            'amount' => $newData->amount,
+            'transacted_at' => $newData->transacted_at,
+        ])
+        ->call('create')
+        ->assertHasFormErrors([
+            'transacted_at',
+        ]);
+});
+
+it('cannot update future date as transacted_at', function () {
+    $transfer = Transfer::factory()->for($this->user)->create();
+
+    livewire(TransferResource\Pages\EditTransfer::class, [
+        'record' => $transfer->getRouteKey(),
+    ])
+        ->fillForm([
+            'transacted_at' => now()->addDay(),
+        ])
+        ->call('save')
+        ->assertHasFormErrors([
+            'transacted_at',
+        ]);
+});
