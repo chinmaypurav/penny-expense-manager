@@ -44,7 +44,7 @@ it('cannot add past date as next transaction date', function () {
         ]);
 });
 
-it('can update past date as next transaction date', function () {
+it('cannot update past date as next transaction date', function () {
 
     $recurringExpense = RecurringExpense::factory()->for($this->user)->create();
 
