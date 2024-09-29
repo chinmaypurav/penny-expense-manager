@@ -52,7 +52,7 @@ class BalanceResource extends Resource
                     ),
 
                 SelectFilter::make('record_type')
-                    ->options(RecordType::all()),
+                    ->options(RecordType::class),
             ], layout: FiltersLayout::AboveContent);
     }
 

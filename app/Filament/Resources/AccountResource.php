@@ -45,7 +45,7 @@ class AccountResource extends Resource
                 Select::make('account_type')
                     ->disabledOn('edit')
                     ->required()
-                    ->options(AccountType::all()),
+                    ->options(AccountType::class),
 
                 TextInput::make('current_balance')
                     ->label('Initial Balance')
