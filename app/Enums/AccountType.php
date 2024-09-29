@@ -2,13 +2,10 @@
 
 namespace App\Enums;
 
-use App\Concerns\Enumerable;
 use Filament\Support\Contracts\HasLabel;
 
 enum AccountType: string implements HasLabel
 {
-    use Enumerable;
-
     case SAVINGS = 'savings';
     case CURRENT = 'current';
     case CREDIT = 'credit';
