@@ -59,7 +59,7 @@ class RecurringTransferResource extends Resource
                     ->after(today()),
 
                 Select::make('frequency')
-                    ->options(Frequency::all())
+                    ->options(Frequency::class)
                     ->required(),
 
                 TextInput::make('remaining_recurrences')
@@ -102,7 +102,7 @@ class RecurringTransferResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('frequency')
-                    ->options(Frequency::all()),
+                    ->options(Frequency::class),
             ])
             ->defaultSort('next_transaction_at')
             ->actions([

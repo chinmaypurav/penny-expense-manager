@@ -57,7 +57,7 @@ trait RecurringIncomeRecurringExpenseTrait
                     ->after(today()),
 
                 Select::make('frequency')
-                    ->options(Frequency::all())
+                    ->options(Frequency::class)
                     ->required(),
 
                 TextInput::make('remaining_recurrences')
@@ -106,7 +106,7 @@ trait RecurringIncomeRecurringExpenseTrait
             ])
             ->filters([
                 SelectFilter::make('frequency')
-                    ->options(Frequency::all()),
+                    ->options(Frequency::class),
             ])
             ->defaultSort('next_transaction_at')
             ->actions([
