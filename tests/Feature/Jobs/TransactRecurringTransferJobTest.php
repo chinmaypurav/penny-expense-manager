@@ -75,7 +75,7 @@ test('it keeps remaining_recurrences null when null remaining_recurrences', func
 
 });
 
-test('it deletes remaining_recurrences remaining_recurrences is 1', function () {
+test('it deletes remaining_recurrences when remaining_recurrences is 1', function () {
     $recurringTransfer = RecurringTransfer::factory()->create([
         'remaining_recurrences' => 1,
     ]);
