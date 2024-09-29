@@ -18,4 +18,24 @@ enum Frequency: string implements HasLabel
     {
         return $this->name;
     }
+
+    public static function getRemainingRecurrences(string $frequency, ?int $remainingRecurrences): ?int
+    {
+        if ($frequency === self::ONCE->value) {
+            return 1;
+        }
+        if ($frequency === self::FOREVER->value) {
+            return null;
+        }
+
+        return $remainingRecurrences;
+    }
+
+    public static function canUpdateRemainingRecurrences(?string $frequency): bool
+    {
+        return ! in_array($frequency, [
+            Frequency::ONCE->value,
+            Frequency::FOREVER->value,
+        ]);
+    }
 }
