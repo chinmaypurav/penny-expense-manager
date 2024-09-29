@@ -12,6 +12,7 @@ enum Frequency: string implements HasLabel
     case MONTHLY = 'monthly';
     case QUARTERLY = 'quarterly';
     case YEARLY = 'yearly';
+    case FOREVER = 'forever';
 
     public function getLabel(): ?string
     {
