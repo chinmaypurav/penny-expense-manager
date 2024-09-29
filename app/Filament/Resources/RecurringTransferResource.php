@@ -11,6 +11,8 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -60,10 +62,17 @@ class RecurringTransferResource extends Resource
 
                 Select::make('frequency')
                     ->options(Frequency::class)
-                    ->required(),
+                    ->required()
+                    ->live()
+                    ->afterStateUpdated(fn (Set $set, ?string $state, Get $get) => $set(
+                        'remaining_recurrences',
+                        Frequency::getRemainingRecurrences($state, $get('remaining_recurrences')))
+                    ),
 
                 TextInput::make('remaining_recurrences')
-                    ->integer(),
+                    ->nullable()
+                    ->integer()
+                    ->readOnly(fn (Get $get) => ! Frequency::canUpdateRemainingRecurrences($get('frequency'))),
 
                 Select::make('tags')
                     ->relationship('tags', 'name')
