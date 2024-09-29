@@ -29,7 +29,7 @@ beforeEach(function () {
     ]);
 });
 
-it('sorts expenses list page using transacted_at by default', function () {
+it('sorts transfers list page using transacted_at by default', function () {
     Transfer::factory()->for($this->user)->create();
 
     $this->get(TransferResource::getUrl('index'))->assertSeeTextInOrder([
