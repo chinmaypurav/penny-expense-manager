@@ -123,6 +123,7 @@ class TransferResource extends Resource
                     ->multiple()
                     ->preload(),
             ], FiltersLayout::AboveContentCollapsible)
+            ->defaultSort('transacted_at')
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),

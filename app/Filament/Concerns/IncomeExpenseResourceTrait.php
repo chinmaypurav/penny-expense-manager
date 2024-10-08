@@ -136,6 +136,7 @@ trait IncomeExpenseResourceTrait
                     ->multiple()
                     ->preload(),
             ], FiltersLayout::AboveContentCollapsible)
+            ->defaultSort('transacted_at')
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
