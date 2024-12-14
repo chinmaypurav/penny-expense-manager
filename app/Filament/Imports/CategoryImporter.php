@@ -2,14 +2,14 @@
 
 namespace App\Filament\Imports;
 
-use App\Models\Tag;
+use App\Models\Category;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
 
-class TagImporter extends Importer
+class CategoryImporter extends Importer
 {
-    protected static ?string $model = Tag::class;
+    protected static ?string $model = Category::class;
 
     public static function getColumns(): array
     {
@@ -20,30 +20,16 @@ class TagImporter extends Importer
         ];
     }
 
-    private function generateRandomColor(): string
+    public function resolveRecord(): ?Category
     {
-        $set = '1234567890abcdef';
-        $set = str_shuffle($set);
-
-        return '#'.substr($set, 0, 6);
-    }
-
-    public function saveRecord(): void
-    {
-        $this->record->color = $this->generateRandomColor();
-        parent::saveRecord();
-    }
-
-    public function resolveRecord(): ?Tag
-    {
-        return Tag::firstOrNew([
+        return Category::firstOrNew([
             'name' => $this->data['name'],
         ]);
     }
 
     public static function getCompletedNotificationBody(Import $import): string
     {
-        $body = 'Your tag import has completed and '.number_format($import->successful_rows).' '.str('row')->plural($import->successful_rows).' imported.';
+        $body = 'Your category import has completed and '.number_format($import->successful_rows).' '.str('row')->plural($import->successful_rows).' imported.';
 
         if ($failedRowsCount = $import->getFailedRowsCount()) {
             $body .= ' '.number_format($failedRowsCount).' '.str('row')->plural($failedRowsCount).' failed to import.';
