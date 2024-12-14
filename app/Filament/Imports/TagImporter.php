@@ -36,12 +36,9 @@ class TagImporter extends Importer
 
     public function resolveRecord(): ?Tag
     {
-        // return Tag::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
-
-        return new Tag;
+        return Tag::firstOrNew([
+            'name' => $this->data['name'],
+        ]);
     }
 
     public static function getCompletedNotificationBody(Import $import): string
