@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Penny;
 
 use App\Models\User;
+use Database\Seeders\ProductionSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
@@ -34,6 +35,6 @@ class InitCommand extends Command
         $this->newLine();
         $this->info('Running Seeders...');
 
-        $this->call('db:seed', ['--class' => 'ProductionSeeder']);
+        $this->call('db:seed', ['--class' => ProductionSeeder::class]);
     }
 }
