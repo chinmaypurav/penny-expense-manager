@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
@@ -23,5 +24,13 @@ class Dashboard extends BaseDashboard
                     ])
                     ->columns(2),
             ]);
+    }
+
+    public function getWidgets(): array
+    {
+        return [
+            Widgets\IncomeChart::class,
+            Widgets\ExpenseChart::class,
+        ];
     }
 }
