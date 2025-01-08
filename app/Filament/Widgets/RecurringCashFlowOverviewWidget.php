@@ -27,10 +27,12 @@ class RecurringCashFlowOverviewWidget extends BaseWidget
 
         $disposableIncome = $totalIncomes - $totalExpenses;
 
+        $symbol = config('penny.currency_symbol');
+
         return [
-            Stat::make('Total Estimated Incomes', number_format($totalIncomes)),
-            Stat::make('Total Estimated Expenses', number_format($totalExpenses)),
-            Stat::make('Estimated Disposable Income', number_format($disposableIncome)),
+            Stat::make('Total Estimated Incomes', $symbol.' '.number_format($totalIncomes)),
+            Stat::make('Total Estimated Expenses', $symbol.' '.number_format($totalExpenses)),
+            Stat::make('Estimated Disposable Income', $symbol.' '.number_format($disposableIncome)),
         ];
     }
 }
