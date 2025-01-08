@@ -11,7 +11,7 @@ beforeEach(function () {
     $this->actingAs($this->user);
 });
 
-it('redirects root url to admin login', function () {
+it('sees recurring cash flow overview widget', function () {
     $this->get('/app/recurring/overview')
         ->assertOk()
         ->assertSeeLivewire(RecurringCashFlowOverviewWidget::class);
