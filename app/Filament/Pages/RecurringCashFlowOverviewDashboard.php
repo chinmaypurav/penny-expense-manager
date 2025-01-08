@@ -13,8 +13,6 @@ class RecurringCashFlowOverviewDashboard extends BaseDashboard
 
     protected static ?string $title = 'Recurring CashFlow Overview';
 
-    protected static ?string $navigationIcon = 'heroicon-o-chart-pie';
-
     public function getWidgets(): array
     {
         return [
