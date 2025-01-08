@@ -31,8 +31,7 @@ trait RecurringIncomeRecurringExpenseTrait
             ->schema([
                 Select::make('person_id')
                     ->relationship('person', 'name')
-                    ->preload()
-                    ->required(),
+                    ->preload(),
 
                 Select::make('account_id')
                     ->relationship('account', 'name')
@@ -41,8 +40,7 @@ trait RecurringIncomeRecurringExpenseTrait
 
                 Select::make('category_id')
                     ->relationship('category', 'name')
-                    ->preload()
-                    ->required(),
+                    ->preload(),
 
                 TextInput::make('description')
                     ->required(),
