@@ -56,8 +56,7 @@ trait IncomeExpenseResourceTrait
                     ->required(),
 
                 Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->required(),
+                    ->relationship('category', 'name'),
 
                 TextInput::make('description')
                     ->required(),

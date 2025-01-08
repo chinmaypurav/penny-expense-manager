@@ -41,8 +41,7 @@ trait RecurringIncomeRecurringExpenseTrait
 
                 Select::make('category_id')
                     ->relationship('category', 'name')
-                    ->preload()
-                    ->required(),
+                    ->preload(),
 
                 TextInput::make('description')
                     ->required(),
