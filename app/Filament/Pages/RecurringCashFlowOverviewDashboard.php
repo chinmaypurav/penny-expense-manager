@@ -9,7 +9,7 @@ class RecurringCashFlowOverviewDashboard extends BaseDashboard
 {
     protected static ?string $navigationGroup = 'Recurring Transactions';
 
-    protected static string $routePath = 'recurring/overview';
+    protected static string $routePath = 'recurring-overview';
 
     protected static ?string $title = 'Recurring CashFlow Overview';
 
