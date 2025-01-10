@@ -2,8 +2,8 @@
 
 namespace App\Enums;
 
+use Carbon\Carbon;
 use Filament\Support\Contracts\HasLabel;
-use Illuminate\Support\Carbon;
 
 enum Frequency: string implements HasLabel
 {
