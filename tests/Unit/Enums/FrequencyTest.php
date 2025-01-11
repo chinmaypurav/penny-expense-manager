@@ -25,12 +25,12 @@ it('returns correct remaining occurrences for weekly frequency', function () {
 
 it('returns correct remaining occurrences for monthly frequency', function () {
     $start = Carbon::create(2023, 1, 1);
-    $end = Carbon::create(2023, 6, 1); // 5 months
+    $end = Carbon::create(2023, 6, 1); // 6 months
     $iterationsLeft = 10;
 
     $remainingOccurrences = Frequency::MONTHLY->getRemainingIterations($start, $end, $iterationsLeft);
 
-    expect($remainingOccurrences)->toEqual(5);
+    expect($remainingOccurrences)->toEqual(6);
 });
 
 it('returns correct remaining occurrences for quarterly frequency', function () {
@@ -63,12 +63,12 @@ it('returns one for once frequency', function () {
     expect($remainingOccurrences)->toEqual(1);
 });
 
-it('returns the minimum of iterations left or the differences', function () {
+it('returns the iterations within the duration when the iteration is above the date range', function () {
     $start = Carbon::create(2023, 1, 1);
-    $end = Carbon::create(2023, 1, 5); // 4 days
-    $iterationsLeft = 2;
+    $end = Carbon::create(2023, 1, 5); // 5 days
+    $iterationsLeft = 10;
 
     $remainingOccurrences = Frequency::DAILY->getRemainingIterations($start, $end, $iterationsLeft);
 
-    expect($remainingOccurrences)->toEqual(2);
+    expect($remainingOccurrences)->toEqual(5);
 });

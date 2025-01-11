@@ -27,10 +27,12 @@ enum Frequency: string implements HasLabel
             self::MONTHLY->value => $start->diffInMonths($end, true),
             self::QUARTERLY->value => $start->diffInQuarters($end),
             self::YEARLY->value => $start->diffInYears($end),
-            default => 1,
+            self::ONCE->value => 0,
         };
 
         $diff = floor($diff);
+
+        $diff = $diff + 1; // the first date is inclusive
 
         return min($iterationsLeft, $diff);
     }
