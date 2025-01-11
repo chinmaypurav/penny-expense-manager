@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('person_id')->nullable();
             $table->foreignId('account_id');
-            $table->foreignId('category_id');
+            $table->foreignId('category_id')->nullable();
             $table->string('description');
             $table->decimal('amount', 65, 2);
             $table->date('next_transaction_at');
