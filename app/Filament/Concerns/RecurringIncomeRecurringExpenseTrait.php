@@ -28,15 +28,16 @@ trait RecurringIncomeRecurringExpenseTrait
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(3)
             ->schema([
-                Select::make('person_id')
-                    ->relationship('person', 'name')
-                    ->preload(),
-
                 Select::make('account_id')
                     ->relationship('account', 'name')
                     ->preload()
                     ->required(),
+
+                Select::make('person_id')
+                    ->relationship('person', 'name')
+                    ->preload(),
 
                 Select::make('category_id')
                     ->relationship('category', 'name')
