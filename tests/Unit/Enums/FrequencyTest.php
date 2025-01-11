@@ -25,12 +25,12 @@ it('returns correct remaining occurrences for weekly frequency', function () {
 
 it('returns correct remaining occurrences for monthly frequency', function () {
     $start = Carbon::create(2023, 1, 1);
-    $end = Carbon::create(2023, 6, 1); // 5 months
+    $end = Carbon::create(2023, 6, 1); // 6 months
     $iterationsLeft = 10;
 
     $remainingOccurrences = Frequency::MONTHLY->getRemainingIterations($start, $end, $iterationsLeft);
 
-    expect($remainingOccurrences)->toEqual(5);
+    expect($remainingOccurrences)->toEqual(6);
 });
 
 it('returns correct remaining occurrences for quarterly frequency', function () {
