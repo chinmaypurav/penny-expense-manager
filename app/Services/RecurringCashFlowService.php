@@ -24,7 +24,7 @@ class RecurringCashFlowService
                 );
 
                 return $carry + $count * $recurringIncome->amount;
-            });
+            }, 0);
     }
 
     public static function processRecurringExpenses(User $user, Carbon $startDate, Carbon $endDate): float
@@ -42,6 +42,6 @@ class RecurringCashFlowService
                 );
 
                 return $carry + $count * $recurringExpense->amount;
-            });
+            }, 0);
     }
 }
