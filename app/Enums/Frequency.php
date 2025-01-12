@@ -19,7 +19,7 @@ enum Frequency: string implements HasLabel
         return $this->name;
     }
 
-    public function getRemainingIterations(Carbon $start, Carbon $end, int $iterationsLeft): int
+    public function getRemainingIterations(Carbon $start, Carbon $end, ?int $iterationsLeft): int
     {
         $diff = match ($this->value) {
             self::DAILY->value => $start->diffInDays($end),
@@ -33,6 +33,10 @@ enum Frequency: string implements HasLabel
         $diff = floor($diff);
 
         $diff = $diff + 1; // the first date is inclusive
+
+        if (is_null($iterationsLeft)) {
+            return $diff;
+        }
 
         return min($iterationsLeft, $diff);
     }
