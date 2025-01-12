@@ -60,7 +60,8 @@ trait RecurringIncomeRecurringExpenseTrait
                     ->required(),
 
                 TextInput::make('remaining_recurrences')
-                    ->integer(),
+                    ->integer()
+                    ->helperText('Leave blank for infinite recurrences'),
 
                 Select::make('tags')
                     ->relationship('tags', 'name')

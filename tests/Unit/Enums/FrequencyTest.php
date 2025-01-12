@@ -72,3 +72,13 @@ it('returns the iterations within the duration when the iteration is above the d
 
     expect($remainingOccurrences)->toEqual(5);
 });
+
+it('returns the iterations within the date range when remaining recurrences is null', function () {
+    $start = Carbon::create(2023, 1, 1);
+    $end = Carbon::create(2023, 1, 5); // 5 days
+    $iterationsLeft = null;
+
+    $remainingOccurrences = Frequency::DAILY->getRemainingIterations($start, $end, $iterationsLeft);
+
+    expect($remainingOccurrences)->toEqual(5);
+});
