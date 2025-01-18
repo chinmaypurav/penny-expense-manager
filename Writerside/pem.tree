@@ -8,4 +8,13 @@
 
     <toc-element topic="about.md"/>
     <toc-element topic="Application-Overview.md"/>
+    <toc-element topic="Account.md"/>
+    <toc-element topic="Income.md"/>
+    <toc-element topic="Expenses.md"/>
+    <toc-element topic="Transfers.md"/>
+    <toc-element topic="Recurring-Transactions.md">
+        <toc-element topic="Recurring-Incomes.md"/>
+        <toc-element topic="Recurring-Expenses.md"/>
+        <toc-element topic="Recurring-Transfers.md"/>
+    </toc-element>
 </instance-profile>
