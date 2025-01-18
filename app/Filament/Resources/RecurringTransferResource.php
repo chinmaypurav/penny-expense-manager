@@ -36,11 +36,15 @@ class RecurringTransferResource extends Resource
         return $form
             ->schema([
                 Select::make('creditor_id')
+                    ->label('Creditor account')
+                    ->helperText('The account where money is going to')
                     ->options($accounts)
                     ->different('debtor_id')
                     ->required(),
 
                 Select::make('debtor_id')
+                    ->label('Debtor account')
+                    ->helperText('The account where money is coming from')
                     ->options($accounts)
                     ->different('creditor_id')
                     ->required(),
