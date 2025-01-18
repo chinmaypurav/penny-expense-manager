@@ -42,8 +42,7 @@ trait IncomeExpenseResourceTrait
                 Select::make('person_id')
                     ->relationship(
                         'person',
-                        'name',
-                        fn (Builder $query): Builder => $query->where('user_id', auth()->id())
+                        'name'
                     )
                     ->nullable(),
 
