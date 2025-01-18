@@ -1,6 +1,6 @@
 # Application Overview
 
-The application can track all the incomes, expenses, along with internal transfers withing accounts as well.
+The application can track all the incomes, expenses, along with internal transfers within accounts as well.
 
 ## Accounts
 
@@ -14,11 +14,12 @@ All of these accounts can be stored under their different account types as liste
 | savings      | +            | Any savings bank account which earns interest at regular frequency |
 | current      | +            | An account which is in bank but does not earn any interest         |
 | credit       | -            | This represents a credit card, which is negative in nature         |
+| loan         | -            | This represents a loan account, which is negative in nature        |
 | trading      | +            | Trading account associated with demat                              |
 | cash         | +            | As the name suggests                                               |
 
 _Do not use any of these accounts for adding any other asset class as this structure is only meant to track liquid cash points.
-Any asset class like real estate, gold, equity, etc are highly volatile in nature and there will be a separate way to track that in the future, to assess current net worth._
+Any asset class like real estate, gold, equity, etc are highly volatile in nature, and there will be a separate way to track that in the future, to assess current net worth._
 
 
 ## People
