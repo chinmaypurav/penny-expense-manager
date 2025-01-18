@@ -28,10 +28,10 @@ Any kind of [income](#incomes) or [expense](#expenses) has one creditor and one 
 [Account](#accounts) is mapped on one side and a person is mapped on another. This is optional though.
 It can be useful to track to whom a payment is made or from whom we received any payment when using filters.
 
-## Tags
+## Categories
 
-Tags can be used like tags on incomes, expenses or transfers. 
-You can define any color to that tag which will be later on used in views/reports.
+Categories are a single group head to club any incomes or expenses. 
+This helps us classify the incomes or expenditures for a particular group.
 
 ## Incomes
 
@@ -44,6 +44,11 @@ This holds all the expenses
 ## Transfers
 
 This holds all the internal transfer of money between any two accounts.
+
+## Tags
+
+Tags can be used like tags on incomes, expenses or transfers.
+You can define any color to that tag which will be later on used in views/reports.
 
 ## Balances
 
