@@ -14,7 +14,6 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 class PersonResource extends Resource
 {
@@ -67,11 +66,6 @@ class PersonResource extends Resource
             'create' => Pages\CreatePerson::route('/create'),
             'edit' => Pages\EditPerson::route('/{record}/edit'),
         ];
-    }
-
-    public static function getGlobalSearchEloquentQuery(): Builder
-    {
-        return parent::getGlobalSearchEloquentQuery();
     }
 
     public static function getGloballySearchableAttributes(): array
