@@ -13,6 +13,7 @@
     <toc-element topic="Expenses.md"/>
     <toc-element topic="Transfers.md"/>
     <toc-element topic="Recurring-Transactions.md">
+        <toc-element topic="Recurring-Expenses.md"/>
         <toc-element topic="Recurring-Incomes.md"/>
     </toc-element>
 </instance-profile>
