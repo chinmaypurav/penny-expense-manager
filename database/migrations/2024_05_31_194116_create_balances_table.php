@@ -11,8 +11,8 @@ return new class extends Migration
     {
         Schema::create('balances', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Account::class);
-            $table->decimal('balance', 65, 2);
+            $table->foreignIdFor(Account::class)->constrained()->cascadeOnDelete();
+            $table->decimal('balance', 65);
             $table->date('recorded_until');
             $table->boolean('is_initial_record')->default(false);
             $table->string('record_type')->nullable();

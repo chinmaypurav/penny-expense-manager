@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Person::class)->nullable();
-            $table->foreignIdFor(Account::class);
+            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(Person::class)->nullable()->constrained();
+            $table->foreignIdFor(Account::class)->constrained();
             $table->foreignIdFor(Category::class)->nullable()->constrained()->nullOnDelete();
             $table->string('description')->nullable();
             $table->timestamp('transacted_at');
