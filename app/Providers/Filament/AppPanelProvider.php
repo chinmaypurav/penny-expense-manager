@@ -29,9 +29,7 @@ class AppPanelProvider extends PanelProvider
             ->path($this->getAppId())
             ->login()
             ->profile()
-            ->colors([
-                'primary' => Color::Emerald,
-            ])
+            ->colors($this->getColors())
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -64,5 +62,12 @@ class AppPanelProvider extends PanelProvider
     protected function getAppId(): string
     {
         return PanelId::APP->value;
+    }
+
+    public function getColors(): array
+    {
+        return [
+            'primary' => Color::Emerald,
+        ];
     }
 }
