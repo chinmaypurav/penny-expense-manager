@@ -9,6 +9,7 @@ enum AccountType: string implements HasLabel
     case SAVINGS = 'savings';
     case CURRENT = 'current';
     case CREDIT = 'credit';
+    case LOAN = 'loan';
     case TRADING = 'trading';
     case CASH = 'cash';
 
