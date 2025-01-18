@@ -8,4 +8,6 @@
 
     <toc-element topic="about.md"/>
     <toc-element topic="Application-Overview.md"/>
+    <toc-element topic="Account.md"/>
+    <toc-element topic="Income.md"/>
 </instance-profile>
