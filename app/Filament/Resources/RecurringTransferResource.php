@@ -31,7 +31,6 @@ class RecurringTransferResource extends Resource
     public static function form(Form $form): Form
     {
         $accounts = Account::query()
-            ->where('user_id', auth()->id())
             ->pluck('name', 'id');
 
         return $form
