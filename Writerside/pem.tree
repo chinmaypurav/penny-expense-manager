@@ -12,4 +12,5 @@
     <toc-element topic="Income.md"/>
     <toc-element topic="Expenses.md"/>
     <toc-element topic="Transfers.md"/>
+    <toc-element topic="Recurring-Transactions.md"/>
 </instance-profile>
