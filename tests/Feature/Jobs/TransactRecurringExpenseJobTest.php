@@ -8,6 +8,7 @@ use App\Models\RecurringExpense;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
+use function Pest\Laravel\assertDatabaseEmpty;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function PHPUnit\Framework\assertEquals;
@@ -28,6 +29,20 @@ test('it copies recurring expense into expense', function () {
         'user_id' => $recurringExpense->user_id,
         'transacted_at' => $recurringExpense->next_transaction_at,
     ]);
+});
+
+test('it does not copy recurring expense into expense when account null', function () {
+    $recurringExpense = RecurringExpense::factory()->withoutAccount()->create([
+        'remaining_recurrences' => 2,
+    ]);
+
+    (new TransactRecurringExpenseJob($recurringExpense->frequency))->handle();
+
+    assertDatabaseEmpty(Expense::class);
+
+    $recurringExpense->refresh();
+
+    assertEquals(1, $recurringExpense->remaining_recurrences);
 });
 
 test('it copies recurring expense tags to expense', function () {

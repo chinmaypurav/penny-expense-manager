@@ -27,6 +27,12 @@ class TransactRecurringIncomeJob implements ShouldQueue
                 ->where('frequency', $this->frequency)
                 ->get()
                 ->map(function (RecurringIncome $recurringIncome) use ($fillable) {
+                    $this->processRecurringIncomeState($recurringIncome);
+
+                    if (is_null($recurringIncome->account_id)) {
+                        return;
+                    }
+
                     $data = $recurringIncome->only($fillable);
 
                     $data['transacted_at'] = $recurringIncome->next_transaction_at;
@@ -34,7 +40,6 @@ class TransactRecurringIncomeJob implements ShouldQueue
 
                     $income->tags()->attach($recurringIncome->tags);
 
-                    $this->processRecurringIncomeState($recurringIncome);
                 });
         });
     }

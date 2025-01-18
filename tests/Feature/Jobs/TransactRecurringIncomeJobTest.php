@@ -8,6 +8,7 @@ use App\Models\RecurringIncome;
 use App\Models\Tag;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
+use function Pest\Laravel\assertDatabaseEmpty;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function PHPUnit\Framework\assertEquals;
@@ -28,6 +29,20 @@ test('it copies recurring income into income', function () {
         'user_id' => $recurringIncome->user_id,
         'transacted_at' => $recurringIncome->next_transaction_at,
     ]);
+});
+
+test('it does not copy recurring income into income when account null', function () {
+    $recurringIncome = RecurringIncome::factory()->withoutAccount()->create([
+        'remaining_recurrences' => 2,
+    ]);
+
+    (new TransactRecurringIncomeJob($recurringIncome->frequency))->handle();
+
+    assertDatabaseEmpty(Income::class);
+
+    $recurringIncome->refresh();
+
+    assertEquals(1, $recurringIncome->remaining_recurrences);
 });
 
 test('it copies recurring income tags to income', function () {
