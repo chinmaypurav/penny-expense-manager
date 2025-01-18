@@ -14,10 +14,6 @@ class PersonImporter extends Importer
     public static function getColumns(): array
     {
         return [
-            ImportColumn::make('user')
-                ->requiredMapping()
-                ->relationship(resolveUsing: 'name')
-                ->rules(['required']),
             ImportColumn::make('name')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
