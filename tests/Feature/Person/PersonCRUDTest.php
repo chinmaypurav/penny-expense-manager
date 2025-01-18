@@ -71,7 +71,7 @@ it('can update person', function () {
 
 it('can delete person', function () {
 
-    $person = Person::factory()->for($this->user)->create();
+    $person = Person::factory()->create();
 
     livewire(PersonResource\Pages\EditPerson::class, [
         'record' => $person->getRouteKey(),
