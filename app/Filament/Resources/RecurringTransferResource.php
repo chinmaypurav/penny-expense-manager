@@ -31,17 +31,20 @@ class RecurringTransferResource extends Resource
     public static function form(Form $form): Form
     {
         $accounts = Account::query()
-            ->where('user_id', auth()->id())
             ->pluck('name', 'id');
 
         return $form
             ->schema([
                 Select::make('creditor_id')
+                    ->label('Creditor account')
+                    ->helperText('The account where money is going to')
                     ->options($accounts)
                     ->different('debtor_id')
                     ->required(),
 
                 Select::make('debtor_id')
+                    ->label('Debtor account')
+                    ->helperText('The account where money is coming from')
                     ->options($accounts)
                     ->different('creditor_id')
                     ->required(),

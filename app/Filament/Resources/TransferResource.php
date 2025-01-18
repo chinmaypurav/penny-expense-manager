@@ -35,7 +35,6 @@ class TransferResource extends Resource
     public static function form(Form $form): Form
     {
         $accounts = Account::query()
-            ->where('user_id', auth()->id())
             ->pluck('name', 'id');
 
         return $form
@@ -49,11 +48,15 @@ class TransferResource extends Resource
                     ->content(fn (?Transfer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
                 Select::make('creditor_id')
+                    ->label('Creditor account')
+                    ->helperText('The account where money is going to')
                     ->options($accounts)
                     ->different('debtor_id')
                     ->required(),
 
                 Select::make('debtor_id')
+                    ->label('Debtor account')
+                    ->helperText('The account where money is coming from')
                     ->options($accounts)
                     ->different('creditor_id')
                     ->required(),
