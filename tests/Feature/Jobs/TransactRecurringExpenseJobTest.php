@@ -32,7 +32,9 @@ test('it copies recurring expense into expense', function () {
 });
 
 test('it does not copy recurring expense into expense when account null', function () {
-    $recurringExpense = RecurringExpense::factory()->withoutAccount()->create();
+    $recurringExpense = RecurringExpense::factory()->withoutAccount()->create([
+        'remaining_recurrences' => 2,
+    ]);
 
     (new TransactRecurringExpenseJob($recurringExpense->frequency))->handle();
 
