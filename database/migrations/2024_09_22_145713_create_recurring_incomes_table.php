@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Person::class)->nullable();
-            $table->foreignIdFor(Account::class)->constrained();
+            $table->foreignIdFor(Account::class)->nullable()->constrained();
             $table->foreignId('category_id')->nullable();
             $table->string('description');
             $table->decimal('amount', 65, 2);
