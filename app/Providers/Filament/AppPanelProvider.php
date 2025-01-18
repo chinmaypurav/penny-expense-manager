@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Enums\PanelId;
 use App\Filament\Pages\Dashboard;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -24,8 +25,8 @@ class AppPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('app')
-            ->path('app')
+            ->id($this->getAppId())
+            ->path($this->getAppId())
             ->login()
             ->profile()
             ->colors([
@@ -58,5 +59,10 @@ class AppPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    protected function getAppId(): string
+    {
+        return PanelId::APP->value;
     }
 }
