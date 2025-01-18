@@ -15,7 +15,6 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class PersonResource extends Resource
 {
@@ -78,16 +77,5 @@ class PersonResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['name'];
-    }
-
-    public static function getGlobalSearchResultDetails(Model $record): array
-    {
-        $details = [];
-
-        if ($record->user) {
-            $details['User'] = $record->user->name;
-        }
-
-        return $details;
     }
 }
