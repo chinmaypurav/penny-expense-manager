@@ -72,12 +72,12 @@ class PersonResource extends Resource
 
     public static function getGlobalSearchEloquentQuery(): Builder
     {
-        return parent::getGlobalSearchEloquentQuery()->with(['user']);
+        return parent::getGlobalSearchEloquentQuery();
     }
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['name', 'user.name'];
+        return ['name'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
