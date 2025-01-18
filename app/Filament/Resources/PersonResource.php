@@ -14,8 +14,6 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class PersonResource extends Resource
 {
@@ -70,24 +68,8 @@ class PersonResource extends Resource
         ];
     }
 
-    public static function getGlobalSearchEloquentQuery(): Builder
-    {
-        return parent::getGlobalSearchEloquentQuery()->with(['user']);
-    }
-
     public static function getGloballySearchableAttributes(): array
     {
-        return ['name', 'user.name'];
-    }
-
-    public static function getGlobalSearchResultDetails(Model $record): array
-    {
-        $details = [];
-
-        if ($record->user) {
-            $details['User'] = $record->user->name;
-        }
-
-        return $details;
+        return ['name'];
     }
 }
