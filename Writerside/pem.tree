@@ -10,4 +10,5 @@
     <toc-element topic="Application-Overview.md"/>
     <toc-element topic="Account.md"/>
     <toc-element topic="Income.md"/>
+    <toc-element topic="Expenses.md"/>
 </instance-profile>
