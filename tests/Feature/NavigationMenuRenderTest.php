@@ -12,7 +12,6 @@ beforeEach(function () {
 });
 
 it('renders a navigation menu', function () {
-
     $this->get(Dashboard::getUrl())
         ->assertSuccessful()
         ->assertSeeText([
