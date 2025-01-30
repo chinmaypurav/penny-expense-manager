@@ -3,71 +3,31 @@
 namespace App\Providers\Filament;
 
 use App\Enums\PanelId;
-use App\Filament\Pages\Dashboard;
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\MenuItem;
 use Filament\Panel;
-use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\AuthenticateSession;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        return parent::panel($panel)
             ->default()
-            ->id($this->getAppId())
-            ->path($this->getAppId())
-            ->login()
-            ->profile()
-            ->colors($this->getColors())
+            ->path(PanelId::APP->getPath())
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([
-                Dashboard::class,
-            ])
-            ->navigationGroups([
-                NavigationGroup::make()
-                    ->label('Recurring Transactions')
-                    ->icon('heroicon-o-clock'),
-            ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([])
-            ->sidebarCollapsibleOnDesktop()
-            ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                Authenticate::class,
+            ->colors([
+                'primary' => Color::Emerald,
+            ])->userMenuItems([
+                MenuItem::make()
+                    ->label(PanelId::FAMILY->getSwitchButtonLabel())
+                    ->url(fn (): string => PanelId::FAMILY->getHomeUrl())
+                    ->icon(PanelId::FAMILY->getSwitchButtonIcon()),
             ]);
     }
 
-    protected function getAppId(): string
+    protected function getPanelId(): string
     {
-        return PanelId::APP->value;
-    }
-
-    public function getColors(): array
-    {
-        return [
-            'primary' => Color::Emerald,
-        ];
+        return PanelId::APP->getId();
     }
 }
