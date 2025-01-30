@@ -26,8 +26,8 @@ enum PanelId: string
     public function getHomeUrl(): string
     {
         return match ($this) {
-            self::APP => 'app',
-            self::FAMILY => 'family',
+            self::APP => url('app'),
+            self::FAMILY => url('family'),
         };
     }
 
