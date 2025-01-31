@@ -2,6 +2,9 @@
 
 namespace App\Enums;
 
+use Filament\Facades\Filament;
+use Filament\Panel;
+
 enum PanelId: string
 {
     case APP = 'app';
@@ -45,5 +48,15 @@ enum PanelId: string
             self::APP => 'heroicon-o-user-circle',
             self::FAMILY => 'heroicon-o-user-group',
         };
+    }
+
+    public function getPanel(): Panel
+    {
+        return Filament::getPanel($this->value);
+    }
+
+    public function setCurrentPanel(): void
+    {
+        Filament::setCurrentPanel($this->getPanel());
     }
 }
