@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PanelId;
 use App\Filament\Pages\Dashboard;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -11,7 +12,7 @@ beforeEach(function () {
     $this->actingAs($this->user);
 });
 
-it('renders a navigation menu', function () {
+it('renders a navigation menu in app panel', function () {
     $this->get(Dashboard::getUrl())
         ->assertSuccessful()
         ->assertSeeText([
@@ -29,5 +30,29 @@ it('renders a navigation menu', function () {
             'Recurring Expenses',
             'Recurring Incomes',
             'Recurring Transfers',
+        ]);
+});
+
+it('renders a navigation menu in family panel', function () {
+    PanelId::FAMILY->setCurrentPanel();
+
+    $this->get(Dashboard::getUrl())
+        ->assertSuccessful()
+        ->assertSeeText([
+            'Dashboard',
+            'Accounts',
+            'Expenses',
+            'Incomes',
+            'Transfers',
+            'Recurring Transactions',
+            'Recurring CashFlow Overview',
+            'Recurring Expenses',
+            'Recurring Incomes',
+            'Recurring Transfers',
+        ])->assertDontSeeText([
+            'Balances',
+            'Categories',
+            'People',
+            'Tags',
         ]);
 });
