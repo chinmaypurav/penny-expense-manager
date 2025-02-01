@@ -12,7 +12,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -27,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 trait IncomeExpenseResourceTrait
 {
+    use BulkDeleter, UserFilterable;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -81,6 +82,7 @@ trait IncomeExpenseResourceTrait
     {
         return $table
             ->columns([
+                self::getUserColumn(),
 
                 TextColumn::make('person.name'),
 
@@ -103,6 +105,8 @@ trait IncomeExpenseResourceTrait
                     ->sortable(),
             ])
             ->filters([
+                self::getUserFilter(),
+
                 Filter::make('transacted_at')
                     ->form([
                         DatePicker::make('transacted_from')->default(now()->startOfMonth()),
@@ -141,7 +145,7 @@ trait IncomeExpenseResourceTrait
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    self::deleteBulkAction(),
                 ]),
             ]);
     }
