@@ -12,7 +12,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -25,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 trait RecurringIncomeRecurringExpenseTrait
 {
+    use BulkDeleter, UserFilterable;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -82,6 +83,8 @@ trait RecurringIncomeRecurringExpenseTrait
     {
         return $table
             ->columns([
+                self::getUserColumn(),
+
                 TextColumn::make('person.name')
                     ->searchable()
                     ->sortable(),
@@ -105,6 +108,8 @@ trait RecurringIncomeRecurringExpenseTrait
                 TextColumn::make('remaining_recurrences'),
             ])
             ->filters([
+                self::getUserFilter(),
+
                 SelectFilter::make('frequency')
                     ->options(Frequency::class),
             ])
@@ -115,7 +120,7 @@ trait RecurringIncomeRecurringExpenseTrait
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    self::deleteBulkAction(),
                 ]),
             ]);
     }

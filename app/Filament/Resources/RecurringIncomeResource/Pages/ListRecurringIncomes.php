@@ -2,13 +2,15 @@
 
 namespace App\Filament\Resources\RecurringIncomeResource\Pages;
 
+use App\Filament\Concerns\UserFilterable;
 use App\Filament\Resources\RecurringIncomeResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Database\Eloquent\Builder;
 
 class ListRecurringIncomes extends ListRecords
 {
+    use UserFilterable;
+
     protected static string $resource = RecurringIncomeResource::class;
 
     protected function getHeaderActions(): array
@@ -16,11 +18,5 @@ class ListRecurringIncomes extends ListRecords
         return [
             CreateAction::make(),
         ];
-    }
-
-    public function filterTableQuery(Builder $query): Builder
-    {
-        return parent::filterTableQuery($query)
-            ->where('user_id', auth()->id());
     }
 }
