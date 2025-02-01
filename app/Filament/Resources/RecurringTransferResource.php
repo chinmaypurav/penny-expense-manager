@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Enums\Frequency;
+use App\Filament\Concerns\BulkDeleter;
+use App\Filament\Concerns\UserFilterable;
 use App\Filament\Resources\RecurringTransferResource\Pages;
 use App\Models\Account;
 use App\Models\RecurringTransfer;
@@ -14,7 +16,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -22,6 +23,8 @@ use Filament\Tables\Table;
 
 class RecurringTransferResource extends Resource
 {
+    use BulkDeleter, UserFilterable;
+
     protected static ?string $model = RecurringTransfer::class;
 
     protected static ?string $slug = 'recurring-transfers';
@@ -88,6 +91,8 @@ class RecurringTransferResource extends Resource
     {
         return $table
             ->columns([
+                self::getUserColumn(),
+
                 TextColumn::make('creditor.name'),
 
                 TextColumn::make('debtor.name'),
@@ -105,6 +110,8 @@ class RecurringTransferResource extends Resource
                 TextColumn::make('remaining_recurrences'),
             ])
             ->filters([
+                self::getUserFilter(),
+
                 SelectFilter::make('frequency')
                     ->options(Frequency::class),
             ])
@@ -115,7 +122,7 @@ class RecurringTransferResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    self::deleteBulkAction(),
                 ]),
             ]);
     }
