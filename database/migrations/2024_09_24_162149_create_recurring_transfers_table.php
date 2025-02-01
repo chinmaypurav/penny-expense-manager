@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Account::class, 'debtor_id')->constrained();
             $table->string('description')->nullable();
             $table->decimal('amount', 65);
-            $table->date('next_transaction_at');
+            $table->date('next_transaction_at')->index();
             $table->string('frequency')->index();
             $table->unsignedBigInteger('remaining_recurrences')->nullable();
             $table->timestamps();

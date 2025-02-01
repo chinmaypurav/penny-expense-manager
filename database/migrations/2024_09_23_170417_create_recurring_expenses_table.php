@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable();
             $table->string('description');
             $table->decimal('amount', 65, 2);
-            $table->date('next_transaction_at');
+            $table->date('next_transaction_at')->index();
             $table->string('frequency')->index();
             $table->unsignedBigInteger('remaining_recurrences')->nullable();
             $table->timestamps();
