@@ -39,7 +39,7 @@ it('cannot display delete action', function () {
 
 it('cannot display import action', function () {
     livewire(ListIncomes::class)
-        ->assertTableActionHidden('delete', $this->income->id);
+        ->assertActionHidden('import');
 });
 
 it('cannot display bulk delete action', function () {

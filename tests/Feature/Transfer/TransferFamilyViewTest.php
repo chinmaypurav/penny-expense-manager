@@ -39,7 +39,7 @@ it('cannot display delete action', function () {
 
 it('cannot display import action', function () {
     livewire(ListTransfers::class)
-        ->assertTableActionHidden('delete', $this->transfer->id);
+        ->assertActionHidden('import');
 });
 
 it('cannot display bulk delete action', function () {
