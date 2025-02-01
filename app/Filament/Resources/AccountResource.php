@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Enums\AccountType;
+use App\Filament\Concerns\BulkDeleter;
+use App\Filament\Concerns\UserFilterable;
 use App\Filament\Resources\AccountResource\Pages;
 use App\Models\Account;
 use Filament\Forms\Components\DatePicker;
@@ -13,13 +15,14 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class AccountResource extends Resource
 {
+    use BulkDeleter, UserFilterable;
+
     protected static ?string $model = Account::class;
 
     protected static ?string $slug = 'accounts';
@@ -64,6 +67,8 @@ class AccountResource extends Resource
     {
         return $table
             ->columns([
+                static::getUserColumn(),
+
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
@@ -74,7 +79,7 @@ class AccountResource extends Resource
                     ->money(config('penny.currency')),
             ])
             ->filters([
-                //
+                self::getUserFilter(),
             ])
             ->actions([
                 EditAction::make(),
@@ -82,7 +87,7 @@ class AccountResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    self::deleteBulkAction(),
                 ]),
             ]);
     }
