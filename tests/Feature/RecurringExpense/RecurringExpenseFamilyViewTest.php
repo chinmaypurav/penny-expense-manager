@@ -37,11 +37,6 @@ it('cannot display delete action', function () {
         ->assertTableActionHidden('delete', $this->recurringExpense->id);
 });
 
-it('cannot display import action', function () {
-    livewire(ListRecurringExpenses::class)
-        ->assertTableActionHidden('delete', $this->recurringExpense->id);
-});
-
 it('cannot display bulk delete action', function () {
     livewire(ListRecurringExpenses::class)
         ->set('selectedTableRecords', [$this->recurringExpense])
