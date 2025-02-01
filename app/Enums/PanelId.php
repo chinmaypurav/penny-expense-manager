@@ -59,4 +59,9 @@ enum PanelId: string
     {
         Filament::setCurrentPanel($this->getPanel());
     }
+
+    public function isCurrentPanel(): bool
+    {
+        return Filament::getId() === $this->value;
+    }
 }
