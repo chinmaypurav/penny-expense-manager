@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Concerns\BulkDeleter;
+use App\Filament\Concerns\UserFilterable;
 use App\Filament\Resources\TransferResource\Pages;
 use App\Models\Account;
 use App\Models\Transfer;
@@ -14,7 +16,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -26,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransferResource extends Resource
 {
+    use BulkDeleter, UserFilterable;
+
     protected static ?string $model = Transfer::class;
 
     protected static ?string $slug = 'transfers';
@@ -85,6 +88,8 @@ class TransferResource extends Resource
     {
         return $table
             ->columns([
+                self::getUserColumn(),
+
                 TextColumn::make('creditor.name'),
 
                 TextColumn::make('debtor.name'),
@@ -103,6 +108,8 @@ class TransferResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                self::getUserFilter(),
+
                 Filter::make('transacted_at')
                     ->form([
                         DatePicker::make('transacted_from')->default(now()->startOfMonth()),
@@ -133,7 +140,7 @@ class TransferResource extends Resource
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    self::deleteBulkAction(),
                 ]),
             ]);
     }
