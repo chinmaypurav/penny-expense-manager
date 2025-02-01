@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Account::class)->constrained()->cascadeOnDelete();
             $table->decimal('balance', 65);
-            $table->date('recorded_until');
+            $table->date('recorded_until')->index();
             $table->boolean('is_initial_record')->default(false);
             $table->string('record_type')->nullable();
             $table->timestamps();
