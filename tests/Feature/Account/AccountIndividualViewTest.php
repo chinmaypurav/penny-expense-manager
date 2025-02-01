@@ -40,3 +40,9 @@ it('can display import action', function () {
     livewire(ListAccounts::class)
         ->assertActionVisible('import');
 });
+
+it('can display bulk delete action', function () {
+    livewire(ListAccounts::class)
+        ->set('selectedTableRecords', [$this->account])
+        ->assertTableBulkActionVisible('delete');
+});

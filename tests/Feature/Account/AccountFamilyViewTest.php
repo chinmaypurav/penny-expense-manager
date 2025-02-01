@@ -42,6 +42,12 @@ it('cannot display import action', function () {
         ->assertTableActionHidden('delete', $this->account->id);
 });
 
+it('cannot display bulk delete action', function () {
+    livewire(ListAccounts::class)
+        ->set('selectedTableRecords', [$this->account])
+        ->assertTableBulkActionHidden('delete');
+});
+
 it('cannot render create account page', function () {
     $this->get(AccountResource::getUrl('create'))
         ->assertForbidden();
