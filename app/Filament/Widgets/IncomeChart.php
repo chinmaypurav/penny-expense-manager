@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Enums\PanelId;
 use App\Filament\Concerns\CashFlowChartTrait;
 use App\Models\Income;
 use Filament\Widgets\ChartWidget;
@@ -40,10 +41,16 @@ class IncomeChart extends ChartWidget
     {
         $startDate = Arr::get($this->filters, 'start_date');
         $endDate = Arr::get($this->filters, 'end_date');
+        $userIds = Arr::get($this->filters, 'user_id', []);
 
         return Income::query()
             ->selectRaw('DATE(transacted_at) as day, SUM(amount) as amount')
-            ->where('user_id', auth()->id())
+            ->when(
+                PanelId::FAMILY->isCurrentPanel(),
+                fn (Builder $q) => $q->when($userIds,
+                    fn (Builder $q) => $q->whereIn('user_id', $userIds)),
+                fn (Builder $q) => $q->where('user_id', auth()->id())
+            )
             ->when($startDate && $endDate,
                 fn (Builder $q) => $q->whereDate('transacted_at', '>=', $startDate)
                     ->whereDate('transacted_at', '<=', $endDate),
