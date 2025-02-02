@@ -12,7 +12,6 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class BalanceResource extends Resource
 {
@@ -61,26 +60,5 @@ class BalanceResource extends Resource
         return [
             'index' => Pages\ListBalances::route('/'),
         ];
-    }
-
-    public static function getGlobalSearchEloquentQuery(): Builder
-    {
-        return parent::getGlobalSearchEloquentQuery()->with(['account']);
-    }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return ['account.name'];
-    }
-
-    public static function getGlobalSearchResultDetails(Model $record): array
-    {
-        $details = [];
-
-        if ($record->account) {
-            $details['Account'] = $record->account->name;
-        }
-
-        return $details;
     }
 }
