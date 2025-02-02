@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait UserFilterable
 {
-    public static function getUserFilterForm(): SelectFilter
+    public static function getUserFilterForm(): Select
     {
         return Select::make('users')
             ->label('Users')
