@@ -13,7 +13,7 @@ trait UserFilterable
 {
     public static function getUserFilterForm(): Select
     {
-        return Select::make('users')
+        return Select::make('user_id')
             ->label('Users')
             ->options(User::pluck('name', 'id'))
             ->multiple()

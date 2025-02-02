@@ -41,7 +41,7 @@ class IncomeChart extends ChartWidget
     {
         $startDate = Arr::get($this->filters, 'start_date');
         $endDate = Arr::get($this->filters, 'end_date');
-        $userIds = Arr::get($this->filters, 'users', []);
+        $userIds = Arr::get($this->filters, 'user_id', []);
 
         return Income::query()
             ->selectRaw('DATE(transacted_at) as day, SUM(amount) as amount')
