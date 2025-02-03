@@ -16,8 +16,6 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * @mixin RecurringIncome|RecurringExpense
@@ -123,34 +121,5 @@ trait RecurringIncomeRecurringExpenseTrait
                     self::deleteBulkAction(),
                 ]),
             ]);
-    }
-
-    public static function getGlobalSearchEloquentQuery(): Builder
-    {
-        return parent::getGlobalSearchEloquentQuery()->with(['person', 'account', 'category']);
-    }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return ['person.name', 'account.name', 'category.name'];
-    }
-
-    public static function getGlobalSearchResultDetails(Model $record): array
-    {
-        $details = [];
-
-        if ($record->person) {
-            $details['Person'] = $record->person->name;
-        }
-
-        if ($record->account) {
-            $details['Account'] = $record->account->name;
-        }
-
-        if ($record->category) {
-            $details['Category'] = $record->category->name;
-        }
-
-        return $details;
     }
 }

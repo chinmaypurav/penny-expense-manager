@@ -100,9 +100,4 @@ class AccountResource extends Resource
             'edit' => Pages\EditAccount::route('/{record}/edit'),
         ];
     }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return ['name'];
-    }
 }

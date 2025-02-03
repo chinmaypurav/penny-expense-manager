@@ -2,6 +2,7 @@
 
 namespace App\Filament\Concerns;
 
+use App\Enums\PanelId;
 use App\Models\Expense;
 use App\Models\Income;
 use Filament\Forms\Components\DatePicker;
@@ -152,19 +153,19 @@ trait IncomeExpenseResourceTrait
 
     public static function getGlobalSearchEloquentQuery(): Builder
     {
-        return parent::getGlobalSearchEloquentQuery()->with(['user', 'person', 'account']);
+        return parent::getGlobalSearchEloquentQuery()
+            ->when(PanelId::APP->isCurrentPanel(), fn (Builder $q) => $q->where('user_id', auth()->id()))
+            ->with(['user', 'person', 'account']);
     }
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['user.name', 'person.name', 'account.name'];
+        return ['user.name', 'person.name', 'account.name', 'description'];
     }
 
     public static function getGlobalSearchResultDetails(Model|Income|Expense $record): array
     {
-        $details = [];
-
-        if ($record->user) {
+        if ($record->user && PanelId::FAMILY->isCurrentPanel()) {
             $details['User'] = $record->user->name;
         }
 
@@ -175,6 +176,8 @@ trait IncomeExpenseResourceTrait
         if ($record->account) {
             $details['Account'] = $record->account->name;
         }
+
+        $details['Description'] = $record->description;
 
         return $details;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\PanelId;
 use App\Filament\Concerns\BulkDeleter;
 use App\Filament\Concerns\UserFilterable;
 use App\Filament\Resources\TransferResource\Pages;
@@ -156,19 +157,21 @@ class TransferResource extends Resource
 
     public static function getGlobalSearchEloquentQuery(): Builder
     {
-        return parent::getGlobalSearchEloquentQuery()->with(['user', 'creditor', 'debtor']);
+        return parent::getGlobalSearchEloquentQuery()
+            ->when(PanelId::APP->isCurrentPanel(), fn (Builder $q) => $q->where('user_id', auth()->id()))
+            ->with(['user', 'creditor', 'debtor']);
     }
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['user.name', 'creditor.name', 'debtor.name'];
+        return ['user.name', 'creditor.name', 'debtor.name', 'description'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         $details = [];
 
-        if ($record->user) {
+        if ($record->user && PanelId::FAMILY->isCurrentPanel()) {
             $details['User'] = $record->user->name;
         }
 
@@ -179,6 +182,8 @@ class TransferResource extends Resource
         if ($record->debtor) {
             $details['Debtor'] = $record->debtor->name;
         }
+
+        $details['Description'] = $record->description;
 
         return $details;
     }
