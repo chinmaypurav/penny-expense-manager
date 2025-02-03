@@ -67,9 +67,4 @@ class PersonResource extends Resource
             'edit' => Pages\EditPerson::route('/{record}/edit'),
         ];
     }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return ['name'];
-    }
 }
