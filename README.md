@@ -15,6 +15,13 @@ to view at individual level or at a group level.
 
 The application is using [Filament](https://filamentphp.com/) at its core.
 
+## Requirements
+
+- A Web server with PHP ^8.2
+- MariaDB 11.4 or any compatible DB
+- Redis for queue, session and caching (optional-database driver can be used instead)
+- SMTP Mail server or any mail sending service (optional—if you want email notifications)
+
 ## Installation
 
 ### Local Development
