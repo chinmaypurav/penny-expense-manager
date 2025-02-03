@@ -47,6 +47,10 @@ RUN echo "user = www-data" >> /usr/local/etc/php-fpm.d/docker-php-serversideup-p
 ############################################
 FROM base AS deploy
 
+ENV AUTORUN_ENABLED=true
+ENV PHP_OPCACHE_ENABLE=1
+ENV SHOW_WELCOME_MESSAGE=false
+
 COPY --chown=www-data:www-data . /var/www/html
 
 WORKDIR /var/www/html
