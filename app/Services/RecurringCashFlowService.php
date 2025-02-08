@@ -2,17 +2,19 @@
 
 namespace App\Services;
 
+use App\Enums\PanelId;
 use App\Models\RecurringExpense;
 use App\Models\RecurringIncome;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class RecurringCashFlowService
 {
     public static function processRecurringIncomes(User $user, Carbon $startDate, Carbon $endDate): float
     {
         return RecurringIncome::query()
-            ->where('user_id', $user->id)
+            ->when(PanelId::APP->isCurrentPanel(), fn (Builder $q) => $q->where('user_id', $user->id))
             ->whereDate('next_transaction_at', '>=', $startDate)
             ->whereDate('next_transaction_at', '<=', $endDate)
             ->get()
@@ -30,7 +32,7 @@ class RecurringCashFlowService
     public static function processRecurringExpenses(User $user, Carbon $startDate, Carbon $endDate): float
     {
         return RecurringExpense::query()
-            ->where('user_id', $user->id)
+            ->when(PanelId::APP->isCurrentPanel(), fn (Builder $q) => $q->where('user_id', $user->id))
             ->whereDate('next_transaction_at', '>=', $startDate)
             ->whereDate('next_transaction_at', '<=', $endDate)
             ->get()
