@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Frequency;
+use App\Enums\PanelId;
 use App\Models\Account;
 use App\Models\RecurringExpense;
 use App\Models\RecurringIncome;
@@ -15,20 +16,32 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
-});
-
-test('it returns recurring incomes total', function () {
-    $account = Account::factory()->create();
-
+    $userAccount = Account::factory()->for($this->user)->create();
     RecurringIncome::factory()
         ->for($this->user)
-        ->for($account)
+        ->for($userAccount)
         ->create([
             'amount' => 1000,
             'frequency' => Frequency::MONTHLY,
             'remaining_recurrences' => 12,
             'next_transaction_at' => today()->addDay(),
         ]);
+
+    $familyMember = User::factory()->create();
+    $familyMemberAccount = Account::factory()->for($familyMember)->create();
+    RecurringIncome::factory()
+        ->for($familyMember)
+        ->for($familyMemberAccount)
+        ->create([
+            'amount' => 2000,
+            'frequency' => Frequency::MONTHLY,
+            'remaining_recurrences' => 12,
+            'next_transaction_at' => today()->addDay(),
+        ]);
+});
+
+test('it returns recurring incomes total only for auth user', function () {
+    PanelId::APP->setCurrentPanel();
 
     $total = RecurringCashFlowService::processRecurringIncomes(
         $this->user,
@@ -37,6 +50,18 @@ test('it returns recurring incomes total', function () {
     );
 
     assertEquals(12000, $total);
+});
+
+test('it returns recurring incomes total only for all users', function () {
+    PanelId::FAMILY->setCurrentPanel();
+
+    $total = RecurringCashFlowService::processRecurringIncomes(
+        $this->user,
+        today(),
+        today()->addYear()
+    );
+
+    assertEquals(36000, $total);
 });
 
 test('it returns recurring expenses total', function () {
