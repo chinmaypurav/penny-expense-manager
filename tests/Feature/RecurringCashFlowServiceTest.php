@@ -40,7 +40,7 @@ beforeEach(function () {
         ]);
 });
 
-test('it returns recurring incomes total only for auth user', function () {
+it('returns recurring incomes total only for auth user', function () {
     PanelId::APP->setCurrentPanel();
 
     $total = RecurringCashFlowService::processRecurringIncomes(
@@ -52,7 +52,7 @@ test('it returns recurring incomes total only for auth user', function () {
     assertEquals(12000, $total);
 });
 
-test('it returns recurring incomes total only for all users', function () {
+it('returns recurring incomes total only for all users', function () {
     PanelId::FAMILY->setCurrentPanel();
 
     $total = RecurringCashFlowService::processRecurringIncomes(
@@ -64,7 +64,7 @@ test('it returns recurring incomes total only for all users', function () {
     assertEquals(36000, $total);
 });
 
-test('it returns recurring expenses total', function () {
+it('returns recurring expenses total', function () {
     $account = Account::factory()->create();
 
     RecurringExpense::factory()
