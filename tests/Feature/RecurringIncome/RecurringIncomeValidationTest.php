@@ -19,6 +19,24 @@ beforeEach(function () {
     Carbon::setTestNow(now());
 });
 
+it('can have some null and some required fields', function () {
+    livewire(RecurringIncomeResource\Pages\CreateRecurringIncome::class)
+        ->call('create')
+        ->assertHasNoFormErrors([
+            'account_id',
+            'category_id',
+            'person_id',
+            'remaining_recurrences',
+            'tags',
+        ])
+        ->assertHasFormErrors([
+            'description',
+            'amount',
+            'next_transaction_at',
+            'frequency',
+        ]);
+});
+
 it('cannot add past past date as next transaction date', function () {
     $newData = RecurringIncome::factory()->make([
         'next_transaction_at' => today(),
