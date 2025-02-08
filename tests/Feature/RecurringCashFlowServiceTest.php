@@ -16,7 +16,6 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
-
 });
 
 function prepareIncomes(User $user): void
