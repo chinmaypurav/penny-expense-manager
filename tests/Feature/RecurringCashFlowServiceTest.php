@@ -16,9 +16,14 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
-    $userAccount = Account::factory()->for($this->user)->create();
+
+});
+
+function prepareIncomes(User $user): void
+{
+    $userAccount = Account::factory()->for($user)->create();
     RecurringIncome::factory()
-        ->for($this->user)
+        ->for($user)
         ->for($userAccount)
         ->create([
             'amount' => 1000,
@@ -38,9 +43,10 @@ beforeEach(function () {
             'remaining_recurrences' => 12,
             'next_transaction_at' => today()->addDay(),
         ]);
-});
+}
 
 it('returns recurring incomes total only for auth user', function () {
+    prepareIncomes($this->user);
     PanelId::APP->setCurrentPanel();
 
     $total = RecurringCashFlowService::processRecurringIncomes(
@@ -53,6 +59,7 @@ it('returns recurring incomes total only for auth user', function () {
 });
 
 it('returns recurring incomes total only for all users', function () {
+    prepareIncomes($this->user);
     PanelId::FAMILY->setCurrentPanel();
 
     $total = RecurringCashFlowService::processRecurringIncomes(
