@@ -16,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -76,7 +77,12 @@ class AccountResource extends Resource
                 TextColumn::make('account_type'),
 
                 TextColumn::make('current_balance')
-                    ->money(config('penny.currency')),
+                    ->money(config('penny.currency'))
+                    ->summarize(
+                        Sum::make('sum')
+                            ->label('Total Available Balance')
+                            ->money(config('penny.currency'))
+                    ),
             ])
             ->filters([
                 self::getUserFilter(),
