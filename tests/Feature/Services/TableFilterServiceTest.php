@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('is ordered in asc order', function () {
+it('orders accounts filter in asc order', function () {
     $user = User::factory()->create();
     Account::factory()->for($user)->create(['name' => 'Charlie']);
     Account::factory()->for($user)->create(['name' => 'Alfa']);
