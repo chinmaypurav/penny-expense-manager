@@ -134,7 +134,7 @@ trait IncomeExpenseResourceTrait
 
                 SelectFilter::make('account_id')
                     ->label('Account')
-                    ->options(TableFilterService::getAccountsFilter(Auth::id())),
+                    ->options(TableFilterService::getAccountFilter(Auth::id())),
 
                 SelectFilter::make('tags')
                     ->relationship('tags', 'name')
