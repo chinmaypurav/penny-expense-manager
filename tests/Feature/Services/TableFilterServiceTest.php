@@ -22,5 +22,4 @@ it('orders accounts filter in asc order', function () {
         fn ($account) => $account->toBe('Bravo'),
         fn ($account) => $account->toBe('Charlie'),
     );
-
 });
