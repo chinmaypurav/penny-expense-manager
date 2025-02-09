@@ -15,6 +15,8 @@ class AccountService
             ->when(
                 PanelId::APP->isCurrentPanel(),
                 fn (Builder $q) => $q->where('user_id', $userId)
-            )->pluck('name', 'id');
+            )
+            ->orderBy('name')
+            ->pluck('name', 'id');
     }
 }
