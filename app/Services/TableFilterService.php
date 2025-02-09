@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\PanelId;
 use App\Models\Account;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
@@ -16,6 +17,13 @@ class TableFilterService
                 PanelId::APP->isCurrentPanel(),
                 fn (Builder $q) => $q->where('user_id', $userId)
             )
+            ->orderBy('name')
+            ->pluck('name', 'id');
+    }
+
+    public static function getCategoryFilter(): Collection
+    {
+        return Category::query()
             ->orderBy('name')
             ->pluck('name', 'id');
     }

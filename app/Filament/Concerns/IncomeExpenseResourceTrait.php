@@ -128,9 +128,9 @@ trait IncomeExpenseResourceTrait
                                     ->whereDate('transacted_at', '<=', $date),
                             );
                     }),
-                SelectFilter::make('categories')
-                    ->relationship('category', 'name')
-                    ->preload(),
+                SelectFilter::make('category_id')
+                    ->label('Category')
+                    ->options(TableFilterService::getCategoryFilter()),
 
                 SelectFilter::make('account_id')
                     ->label('Account')
