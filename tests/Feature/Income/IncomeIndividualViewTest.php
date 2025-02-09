@@ -2,6 +2,7 @@
 
 use App\Enums\PanelId;
 use App\Filament\Resources\IncomeResource\Pages\ListIncomes;
+use App\Models\Account;
 use App\Models\Income;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -45,4 +46,12 @@ it('can display bulk delete action', function () {
     livewire(ListIncomes::class)
         ->set('selectedTableRecords', [$this->income])
         ->assertTableBulkActionVisible('delete');
+});
+
+it('displays only current user accounts filter', function () {
+    $u1a1 = Account::factory()->for($this->user)->create(['name' => 'u1a1']);
+    $u2a2 = Account::factory()->for(User::factory())->create(['name' => 'u2a2']);
+    livewire(ListIncomes::class)
+        ->assertSeeText($u1a1->name)
+        ->assertDontSeeText($u2a2->name);
 });
