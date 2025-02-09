@@ -7,7 +7,7 @@ use App\Models\Account;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
-class AccountService
+class TableFilterService
 {
     public static function getAccountsFilter(int $userId): Collection
     {

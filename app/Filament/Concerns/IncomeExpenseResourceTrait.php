@@ -5,7 +5,7 @@ namespace App\Filament\Concerns;
 use App\Enums\PanelId;
 use App\Models\Expense;
 use App\Models\Income;
-use App\Services\AccountService;
+use App\Services\TableFilterService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
@@ -134,7 +134,7 @@ trait IncomeExpenseResourceTrait
 
                 SelectFilter::make('account_id')
                     ->label('Account')
-                    ->options(AccountService::getAccountsFilter(Auth::id())),
+                    ->options(TableFilterService::getAccountsFilter(Auth::id())),
 
                 SelectFilter::make('tags')
                     ->relationship('tags', 'name')

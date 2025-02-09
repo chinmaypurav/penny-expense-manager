@@ -4,7 +4,7 @@ namespace Tests\Feature\Services;
 
 use App\Models\Account;
 use App\Models\User;
-use App\Services\AccountService;
+use App\Services\TableFilterService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -15,7 +15,7 @@ it('is ordered in asc order', function () {
     Account::factory()->for($user)->create(['name' => 'Alfa']);
     Account::factory()->for($user)->create(['name' => 'Bravo']);
 
-    $accounts = AccountService::getAccountsFilter($user->id);
+    $accounts = TableFilterService::getAccountsFilter($user->id);
 
     expect($accounts)->sequence(
         fn ($account) => $account->toBe('Alfa'),
