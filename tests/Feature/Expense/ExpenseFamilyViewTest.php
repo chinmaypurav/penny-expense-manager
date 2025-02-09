@@ -78,3 +78,8 @@ it('displays only current user accounts filter', function () {
         ->assertSeeText($u1a1->name)
         ->assertSeeText($u2a2->name);
 });
+
+it('displays category filter', function () {
+    livewire(ListExpenses::class)
+        ->assertTableFilterExists('category_id', fn (SelectFilter $filter) => $filter->getLabel() === 'Category');
+});
