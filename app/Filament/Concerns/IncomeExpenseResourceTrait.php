@@ -5,6 +5,7 @@ namespace App\Filament\Concerns;
 use App\Enums\PanelId;
 use App\Models\Expense;
 use App\Models\Income;
+use App\Services\AccountService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
@@ -21,6 +22,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @mixin Income|Expense
@@ -130,9 +132,9 @@ trait IncomeExpenseResourceTrait
                     ->relationship('category', 'name')
                     ->preload(),
 
-                SelectFilter::make('accounts')
-                    ->relationship('account', 'name')
-                    ->preload(),
+                SelectFilter::make('account_id')
+                    ->label('Account')
+                    ->options(AccountService::getAccountsFilter(Auth::id())),
 
                 SelectFilter::make('tags')
                     ->relationship('tags', 'name')
