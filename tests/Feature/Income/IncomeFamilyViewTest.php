@@ -6,6 +6,7 @@ use App\Filament\Resources\IncomeResource\Pages\ListIncomes;
 use App\Models\Account;
 use App\Models\Income;
 use App\Models\User;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Livewire\livewire;
@@ -73,6 +74,7 @@ it('displays only current user accounts filter', function () {
     $u2a2 = Account::factory()->for(User::factory())->create(['name' => 'u2a2']);
 
     livewire(ListIncomes::class)
+        ->assertTableFilterExists('account_id', fn (SelectFilter $filter) => $filter->getLabel() === 'Account')
         ->assertSeeText($u1a1->name)
         ->assertSeeText($u2a2->name);
 });
