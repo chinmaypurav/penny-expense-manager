@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class TableFilterService
 {
-    public static function getAccountsFilter(int $userId): Collection
+    public static function getAccountFilter(int $userId): Collection
     {
         return Account::query()
             ->when(

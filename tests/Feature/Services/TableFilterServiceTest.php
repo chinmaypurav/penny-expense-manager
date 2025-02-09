@@ -16,7 +16,7 @@ it('orders accounts filter in asc order', function () {
     Account::factory()->for($user)->create(['name' => 'Alfa']);
     Account::factory()->for($user)->create(['name' => 'Bravo']);
 
-    $accounts = TableFilterService::getAccountsFilter($user->id);
+    $accounts = TableFilterService::getAccountFilter($user->id);
 
     expect($accounts)->sequence(
         fn ($account) => $account->toBe('Alfa'),
