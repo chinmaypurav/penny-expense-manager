@@ -49,7 +49,8 @@ abstract class PanelProvider extends BasePanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->databaseTransactions();
     }
 
     abstract protected function getPanelId(): string;
