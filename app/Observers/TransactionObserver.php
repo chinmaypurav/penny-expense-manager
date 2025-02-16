@@ -30,6 +30,10 @@ abstract class TransactionObserver
 
     public function updated(Income|Expense $transaction): void
     {
+        if ($transaction->isClean(['amount', 'transacted_at'])) {
+            return;
+        }
+
         $diff = $this->getUpdatedAmountDiff($transaction);
 
         $currentBalance = $this->getCurrentBalanceWhenCreated(
