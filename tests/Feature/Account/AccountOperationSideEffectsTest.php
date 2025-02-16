@@ -5,14 +5,14 @@ use App\Models\Account;
 use App\Models\Balance;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\freezeTime;
 use function Pest\Livewire\livewire;
 
 uses(DatabaseMigrations::class);
 
 beforeEach(function () {
-    Carbon::setTestNow(today());
+    freezeTime();
 
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
