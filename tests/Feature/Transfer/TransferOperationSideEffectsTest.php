@@ -134,6 +134,56 @@ it('verifies account initial date adjustment when transfer before today added',
         ]);
     })->with('predated entries');
 
+it('verifies account initial date adjustment when transfer before today updated',
+    function (
+        int $beforeCrDay, int $afterCrDay, int $beforeDrDay, int $afterDrDay
+    ) {
+        travelTo($transactedAt = Carbon::create(2025, 01, 20));
+
+        $ca = Account::factory()
+            ->for($this->user)
+            ->create(['current_balance' => 1000, 'initial_date' => Carbon::create(2025, 01, $beforeCrDay)]);
+        $da = Account::factory()
+            ->for($this->user)
+            ->create(['current_balance' => 2000, 'initial_date' => Carbon::create(2025, 01, $beforeDrDay)]);
+
+        $transfer = Transfer::factory()
+            ->for($this->user)
+            ->for($da, 'debtor')
+            ->for($ca, 'creditor')
+            ->today()
+            ->createQuietly([
+                'transacted_at' => $transactedAt,
+                'amount' => 3000,
+            ])->refresh();
+
+        $transfer->update([
+            'transacted_at' => Carbon::create(2025, 01, 10),
+            'amount' => 2000,
+        ]);
+
+        $this->assertDatabaseHas(Account::class, [
+            'id' => $ca->id,
+            'current_balance' => 0,
+            // 'initial_date' => Carbon::create(2025, 01, $afterCrDay),
+        ]);
+        $this->assertDatabaseHas(Balance::class, [
+            'account_id' => $ca->id,
+            'is_initial_record' => true,
+            // 'recorded_until' => Carbon::create(2025, 01, $afterCrDay),
+        ]);
+        $this->assertDatabaseHas(Account::class, [
+            'id' => $da->id,
+            'current_balance' => 3000,
+            // 'initial_date' => Carbon::create(2025, 01, $afterDrDay),
+        ]);
+        $this->assertDatabaseHas(Balance::class, [
+            'account_id' => $da->id,
+            'is_initial_record' => true,
+            // 'recorded_until' => Carbon::create(2025, 01, $afterDrDay),
+        ]);
+    })->with('predated entries');
+
 dataset('predated entries', [
     // before cr day | after cr day | before dr day | after dr day
     'cr before dr before' => [5, 5, 5, 5],
