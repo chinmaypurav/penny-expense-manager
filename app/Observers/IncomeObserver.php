@@ -4,7 +4,7 @@ namespace App\Observers;
 
 class IncomeObserver extends TransactionObserver
 {
-    protected function getCurrentBalance(float $existingBalance, float $difference): float
+    protected function getCurrentBalanceWhenCreated(float $existingBalance, float $difference): float
     {
         return $existingBalance + $difference;
     }

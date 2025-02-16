@@ -10,7 +10,7 @@ abstract class TransactionObserver
 {
     public function creating(Income|Expense $transaction): void
     {
-        $currentBalance = $this->getCurrentBalance(
+        $currentBalance = $this->getCurrentBalanceWhenCreated(
             $transaction->account->current_balance, $transaction->amount
         );
 
@@ -32,7 +32,7 @@ abstract class TransactionObserver
     {
         $diff = $this->getUpdatedAmountDiff($transaction);
 
-        $currentBalance = $this->getCurrentBalance(
+        $currentBalance = $this->getCurrentBalanceWhenCreated(
             $transaction->account->current_balance, $diff
         );
 
@@ -89,7 +89,7 @@ abstract class TransactionObserver
         return $changedAmount - $originalAmount;
     }
 
-    abstract protected function getCurrentBalance(float $existingBalance, float $difference): float;
+    abstract protected function getCurrentBalanceWhenCreated(float $existingBalance, float $difference): float;
 
     abstract protected function getCurrentBalanceWhenDeleted(float $existingBalance, float $difference): float;
 }
