@@ -8,10 +8,15 @@ class ExpenseObserver
 {
     public function creating(Expense $expense): void
     {
-        if ($expense->transacted_at->lessThanOrEqualTo(today())) {
+        $transactedAt = $expense->transacted_at->startOfDay();
+
+        if (
+            today()->greaterThanOrEqualTo($transactedAt)
+            && $expense->account->initial_date->greaterThanOrEqualTo($transactedAt)
+        ) {
             $expense->account->update([
                 'current_balance' => $expense->account->current_balance - $expense->amount,
-                'initial_date' => $expense->transacted_at->startOfDay(),
+                'initial_date' => $transactedAt,
             ]);
 
             return;
@@ -27,10 +32,15 @@ class ExpenseObserver
 
         $diff = $originalAmount - $modifiedAmount;
 
-        if ($expense->transacted_at->lessThanOrEqualTo(today())) {
+        $transactedAt = $expense->transacted_at->startOfDay();
+
+        if (
+            today()->greaterThanOrEqualTo($transactedAt)
+            && $expense->account->initial_date->greaterThanOrEqualTo($transactedAt)
+        ) {
             $expense->account->update([
                 'current_balance' => $expense->account->current_balance + $diff,
-                'initial_date' => $expense->transacted_at->startOfDay(),
+                'initial_date' => $transactedAt,
             ]);
 
             return;

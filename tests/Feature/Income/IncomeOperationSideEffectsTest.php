@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Filament\Actions\DeleteAction;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
+use function Pest\Laravel\travelTo;
 use function Pest\Livewire\livewire;
 
 uses(DatabaseMigrations::class);
@@ -107,32 +108,43 @@ it('subtracts account current_balance when removed', function () {
     ]);
 });
 
-it('adjusts account initial date when predated income added', function () {
-    $account = Account::factory()->today()->create([
-        'current_balance' => 1000,
-    ]);
-    Income::factory()
-        ->for($this->user)
-        ->for($account)
-        ->yesterday()
-        ->create([
-            'transacted_at' => Carbon::yesterday(),
-            'amount' => 4000,
+it('adjusts account initial date when predated income added',
+    function (Carbon $transactedAt, Carbon $expectedAccountInitialDate) {
+        travelTo(Carbon::create(2025, 01, 20));
+
+        $account = Account::factory()->create([
+            'initial_date' => Carbon::create(2025, 01, 10),
+            'current_balance' => 1000,
+        ]);
+        Income::factory()
+            ->for($this->user)
+            ->for($account)
+            ->create([
+                'transacted_at' => $transactedAt,
+                'amount' => 4000,
+            ]);
+
+        $this->assertDatabaseHas(Account::class, [
+            'id' => $account->id,
+            'current_balance' => 5000,
+            'initial_date' => $expectedAccountInitialDate,
         ]);
 
-    $this->assertDatabaseHas(Account::class, [
-        'id' => $account->id,
-        'current_balance' => 5000,
-        'initial_date' => Carbon::yesterday(),
+        $this->assertDatabaseHas(Balance::class, [
+            'account_id' => $account->id,
+            'is_initial_record' => true,
+            'recorded_until' => $expectedAccountInitialDate,
+        ]);
+    })->with([
+        'date before account initial date' => [
+            Carbon::create(2025, 01, 5),
+            Carbon::create(2025, 01, 5),
+        ],
+        'date after account initial date' => [
+            Carbon::create(2025, 01, 15),
+            Carbon::create(2025, 01, 10),
+        ],
     ]);
-
-    $this->assertDatabaseHas(Balance::class, [
-        'account_id' => $account->id,
-        'is_initial_record' => true,
-        'balance' => 5000,
-        'recorded_until' => Carbon::yesterday(),
-    ]);
-});
 
 it('adjusts account initial date when income updated with date older than account', function () {
     $account = Account::factory()->today()->create([
