@@ -66,7 +66,7 @@ abstract class TransactionObserver
         return $transaction->transacted_at->startOfDay();
     }
 
-    protected function shouldUpdateAccountInitialDate(Income|Expense $transaction): ?Carbon
+    private function shouldUpdateAccountInitialDate(Income|Expense $transaction): ?Carbon
     {
         $transactedAt = $this->getTransactedAt($transaction);
 
