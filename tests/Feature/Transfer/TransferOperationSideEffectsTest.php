@@ -165,22 +165,22 @@ it('verifies account initial date adjustment when transfer before today updated'
         $this->assertDatabaseHas(Account::class, [
             'id' => $ca->id,
             'current_balance' => 0,
-            // 'initial_date' => Carbon::create(2025, 01, $afterCrDay),
+            'initial_date' => Carbon::create(2025, 01, $afterCrDay),
         ]);
         $this->assertDatabaseHas(Balance::class, [
             'account_id' => $ca->id,
             'is_initial_record' => true,
-            // 'recorded_until' => Carbon::create(2025, 01, $afterCrDay),
+            'recorded_until' => Carbon::create(2025, 01, $afterCrDay),
         ]);
         $this->assertDatabaseHas(Account::class, [
             'id' => $da->id,
             'current_balance' => 3000,
-            // 'initial_date' => Carbon::create(2025, 01, $afterDrDay),
+            'initial_date' => Carbon::create(2025, 01, $afterDrDay),
         ]);
         $this->assertDatabaseHas(Balance::class, [
             'account_id' => $da->id,
             'is_initial_record' => true,
-            // 'recorded_until' => Carbon::create(2025, 01, $afterDrDay),
+            'recorded_until' => Carbon::create(2025, 01, $afterDrDay),
         ]);
     })->with('predated entries');
 

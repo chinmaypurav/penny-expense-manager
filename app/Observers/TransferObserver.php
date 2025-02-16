@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\Account;
 use App\Models\Transfer;
 use Carbon\Carbon;
 
@@ -38,32 +37,32 @@ readonly class TransferObserver
 
     public function updating(Transfer $transfer): void
     {
-        $oldAmount = $transfer->getOriginal('amount');
-        $newAmount = $transfer->getAttribute('amount');
-        $diff = 0;
+        $diff = $this->getUpdatedAmountDiff($transfer);
 
-        if ($transfer->isDirty('amount')) {
-            $diff = $oldAmount - $newAmount;
-            $transfer->debtor()->increment('current_balance', $diff);
-            $transfer->creditor()->decrement('current_balance', $diff);
+        $creditBalance = $this->getCreditBalance(
+            $transfer->creditor->current_balance, $diff
+        );
+        $debitBalance = $this->getDebitBalance(
+            $transfer->debtor->current_balance, $diff
+        );
+
+        if ($transactedAt = $this->shouldUpdateCreditorInitialDate($transfer)) {
+            $transfer->creditor->update([
+                'current_balance' => $creditBalance,
+                'initial_date' => $transactedAt,
+            ]);
+        } else {
+            $transfer->creditor()->increment('current_balance', $diff);
         }
 
-        if ($transfer->isDirty('creditor_id')) {
-            $oldAccount = Account::find($transfer->getOriginal('creditor_id'));
-            $newAccount = Account::find($transfer->getAttribute('creditor_id'));
-
-            $oldAccount->newQuery()->decrement('current_balance', $oldAmount);
-            $newAccount->newQuery()->increment('current_balance', $newAmount + $diff);
+        if ($transactedAt = $this->shouldUpdateDebtorInitialDate($transfer)) {
+            $transfer->debtor->update([
+                'current_balance' => $debitBalance,
+                'initial_date' => $transactedAt,
+            ]);
+        } else {
+            $transfer->debtor()->decrement('current_balance', $diff);
         }
-
-        if ($transfer->isDirty('debtor_id')) {
-            $oldAccount = Account::find($transfer->getOriginal('debtor_id'));
-            $newAccount = Account::find($transfer->getAttribute('debtor_id'));
-
-            $oldAccount->newQuery()->increment('current_balance', $oldAmount);
-            $newAccount->newQuery()->decrement('current_balance', $newAmount + $diff);
-        }
-
     }
 
     public function deleted(Transfer $transfer): void
@@ -115,5 +114,13 @@ readonly class TransferObserver
     private function getDebitBalance(float $currentBalance, float $amount): float
     {
         return $currentBalance - $amount;
+    }
+
+    private function getUpdatedAmountDiff(Transfer $transfer): float
+    {
+        $oldAmount = $transfer->getOriginal('amount');
+        $newAmount = $transfer->getAttribute('amount');
+
+        return $newAmount - $oldAmount;
     }
 }
