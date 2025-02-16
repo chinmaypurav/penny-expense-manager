@@ -121,7 +121,6 @@ it('adjusts account initial date when predated expense added',
         Expense::factory()
             ->for($this->user)
             ->for($account)
-            ->yesterday()
             ->create([
                 'transacted_at' => $transactedAt,
                 'amount' => 4000,
