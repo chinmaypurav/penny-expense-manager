@@ -6,9 +6,9 @@ use App\Models\Income;
 
 class IncomeObserver
 {
-    public function creating(Income $expense): void
+    public function creating(Income $income): void
     {
-        $expense->account()->increment('current_balance', $expense->amount);
+        $income->account()->increment('current_balance', $income->amount);
     }
 
     public function updating(Income $income): void
