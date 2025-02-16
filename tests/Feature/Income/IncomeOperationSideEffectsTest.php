@@ -143,7 +143,7 @@ it('adjusts account initial date when income updated with date older than accoun
 
         $account = Account::factory()->create([
             'initial_date' => $initialDate = Carbon::create(2025, 01, 10),
-            'current_balance' => 1000,
+            'current_balance' => 5000,
         ]);
         $income = Income::factory()
             ->for($this->user)
@@ -151,7 +151,7 @@ it('adjusts account initial date when income updated with date older than accoun
             ->createQuietly([
                 'transacted_at' => $initialDate,
                 'amount' => 4000,
-            ]);
+            ])->refresh();
 
         $income->update([
             'amount' => 3000, // reduced income by 1000
