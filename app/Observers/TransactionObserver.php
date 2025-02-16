@@ -28,6 +28,28 @@ abstract class TransactionObserver
         ]);
     }
 
+    public function updating(Income|Expense $transaction): void
+    {
+        $diff = $this->getUpdatedAmountDiff($transaction);
+
+        $currentBalance = $this->getCurrentBalance(
+            $transaction->account->current_balance, $diff
+        );
+
+        if ($transactedAt = $this->shouldUpdateAccountInitialDate($transaction)) {
+            $transaction->account->update([
+                'current_balance' => $currentBalance,
+                'initial_date' => $transactedAt,
+            ]);
+
+            return;
+        }
+
+        $transaction->account->update([
+            'current_balance' => $currentBalance,
+        ]);
+    }
+
     private function getTransactedAt(Income|Expense $transaction): Carbon
     {
         return $transaction->transacted_at->startOfDay();
@@ -46,6 +68,14 @@ abstract class TransactionObserver
         }
 
         return $transactedAt;
+    }
+
+    private function getUpdatedAmountDiff(Income|Expense $transaction): float
+    {
+        $originalAmount = $transaction->getOriginal('amount');
+        $changedAmount = $transaction->getAttribute('amount');
+
+        return $changedAmount - $originalAmount;
     }
 
     abstract protected function getCurrentBalance(float $existingBalance, float $difference): float;
