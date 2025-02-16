@@ -110,7 +110,7 @@ it('adds account current_balance when removed', function () {
     ]);
 });
 
-it('adjusts account initial date when predated expense added',
+it('verifies account initial date adjustment when expense before today added',
     function (Carbon $transactedAt, Carbon $expectedAccountInitialDate) {
         travelTo(Carbon::create(2025, 01, 20));
 
@@ -139,7 +139,7 @@ it('adjusts account initial date when predated expense added',
         ]);
     })->with('predated entries');
 
-it('adjusts account initial date when expense updated with date older than account',
+it('verifies account initial date adjustment when expense before today updated',
     function (Carbon $transactedAt, Carbon $expectedAccountInitialDate) {
         travelTo(Carbon::create(2025, 01, 20));
         $account = Account::factory()->create([
