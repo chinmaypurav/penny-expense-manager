@@ -112,28 +112,25 @@ it('adjusts account initial date when predated expense added', function () {
     $account = Account::factory()->today()->create([
         'current_balance' => 5000,
     ]);
-    $expense = Expense::factory()
+    Expense::factory()
         ->for($this->user)
         ->for($account)
         ->yesterday()
         ->create([
+            'transacted_at' => Carbon::yesterday(),
             'amount' => 4000,
         ]);
-
-    $expense->update([
-        'transacted_at' => Carbon::now()->subDay(),
-    ]);
 
     $this->assertDatabaseHas(Account::class, [
         'id' => $account->id,
         'current_balance' => 1000,
-        'initial_date' => Carbon::now()->subDay(),
+        'initial_date' => Carbon::yesterday(),
     ]);
 
     $this->assertDatabaseHas(Balance::class, [
         'account_id' => $account->id,
         'is_initial_record' => true,
         'balance' => 1000,
-        'recorded_until' => Carbon::now()->subDay(),
+        'recorded_until' => Carbon::yesterday(),
     ]);
 });
