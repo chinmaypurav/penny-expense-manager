@@ -56,6 +56,7 @@ class TransferResource extends Resource
                     ->helperText('The account where money is going to')
                     ->options($accounts)
                     ->different('debtor_id')
+                    ->disabledOn('edit')
                     ->required(),
 
                 Select::make('debtor_id')
@@ -63,6 +64,7 @@ class TransferResource extends Resource
                     ->helperText('The account where money is coming from')
                     ->options($accounts)
                     ->different('creditor_id')
+                    ->disabledOn('edit')
                     ->required(),
 
                 TextInput::make('description')
