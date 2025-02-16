@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 abstract class TransactionObserver
 {
-    public function creating(Income|Expense $transaction): void
+    public function created(Income|Expense $transaction): void
     {
         $currentBalance = $this->getCurrentBalanceWhenCreated(
             $transaction->account->current_balance, $transaction->amount
@@ -28,7 +28,7 @@ abstract class TransactionObserver
         ]);
     }
 
-    public function updating(Income|Expense $transaction): void
+    public function updated(Income|Expense $transaction): void
     {
         $diff = $this->getUpdatedAmountDiff($transaction);
 
@@ -50,7 +50,7 @@ abstract class TransactionObserver
         ]);
     }
 
-    public function deleting(Income|Expense $transaction): void
+    public function deleted(Income|Expense $transaction): void
     {
         $currentBalance = $this->getCurrentBalanceWhenDeleted(
             $transaction->account->current_balance, $transaction->amount
