@@ -16,6 +16,10 @@ uses(
     // Illuminate\Foundation\Testing\RefreshDatabase::class,
 )->in('Feature');
 
+pest()->beforeEach(function () {
+    $this->freezeTime();
+});
+
 /*
 |--------------------------------------------------------------------------
 | Expectations

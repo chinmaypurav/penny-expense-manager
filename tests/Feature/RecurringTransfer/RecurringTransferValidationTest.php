@@ -6,7 +6,6 @@ use App\Models\RecurringTransfer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-use function Pest\Laravel\freezeTime;
 use function Pest\Livewire\livewire;
 
 uses(RefreshDatabase::class);
@@ -14,7 +13,6 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
-    freezeTime();
 });
 
 it('cannot add past date as next transaction date', function () {

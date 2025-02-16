@@ -8,7 +8,6 @@ use App\Models\RecurringExpense;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-use function Pest\Laravel\freezeTime;
 use function Pest\Livewire\livewire;
 
 uses(RefreshDatabase::class);
@@ -16,7 +15,6 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
-    freezeTime();
 });
 
 it('can have some null and some required fields', function () {
