@@ -140,36 +140,39 @@ it('adjusts account initial date when predated expense added',
         ]);
     })->with('predated entries');
 
-it('adjusts account initial date when expense updated with date older than account', function () {
-    $account = Account::factory()->today()->create([
-        'current_balance' => 5000,
-    ]);
-    $expense = Expense::factory()
-        ->for($this->user)
-        ->for($account)
-        ->today()
-        ->createQuietly([
-            'amount' => 4000,
+it('adjusts account initial date when expense updated with date older than account',
+    function (Carbon $transactedAt, Carbon $expectedAccountInitialDate) {
+        travelTo(Carbon::create(2025, 01, 20));
+        $account = Account::factory()->create([
+            'initial_date' => $initialDate = Carbon::create(2025, 01, 10),
+            'current_balance' => 5000,
         ]);
 
-    $expense->update([
-        'amount' => 3000, // reduced expense by 1000
-        'transacted_at' => Carbon::yesterday(),
-    ]);
+        $expense = Expense::factory()
+            ->for($this->user)
+            ->for($account)
+            ->createQuietly([
+                'transacted_at' => $initialDate,
+                'amount' => 4000,
+            ])->refresh();
 
-    $this->assertDatabaseHas(Account::class, [
-        'id' => $account->id,
-        'current_balance' => 6000, // account adjusted by +1000
-        'initial_date' => Carbon::yesterday(),
-    ]);
+        $expense->update([
+            'amount' => 3000, // reduced expense by 1000
+            'transacted_at' => $transactedAt,
+        ]);
 
-    $this->assertDatabaseHas(Balance::class, [
-        'account_id' => $account->id,
-        'is_initial_record' => true,
-        'balance' => 6000,
-        'recorded_until' => Carbon::yesterday(),
-    ]);
-});
+        $this->assertDatabaseHas(Account::class, [
+            'id' => $account->id,
+            'current_balance' => 6000, // account adjusted by +1000
+            'initial_date' => $expectedAccountInitialDate,
+        ]);
+
+        $this->assertDatabaseHas(Balance::class, [
+            'account_id' => $account->id,
+            'is_initial_record' => true,
+            'recorded_until' => $expectedAccountInitialDate,
+        ]);
+    })->with('predated entries');
 
 dataset('predated entries', [
     'date before account initial date' => [

@@ -32,10 +32,15 @@ class IncomeObserver
 
         $diff = $originalAmount - $modifiedAmount;
 
-        if ($income->transacted_at->lessThanOrEqualTo(today())) {
+        $transactedAt = $income->transacted_at->startOfDay();
+
+        if (
+            today()->greaterThanOrEqualTo($transactedAt)
+            && $income->account->initial_date->greaterThanOrEqualTo($transactedAt)
+        ) {
             $income->account->update([
                 'current_balance' => $income->account->current_balance - $diff,
-                'initial_date' => $income->transacted_at->startOfDay(),
+                'initial_date' => $transactedAt,
             ]);
 
             return;
