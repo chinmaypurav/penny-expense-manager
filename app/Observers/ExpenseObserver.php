@@ -2,55 +2,15 @@
 
 namespace App\Observers;
 
-use App\Models\Expense;
-
-class ExpenseObserver
+class ExpenseObserver extends TransactionObserver
 {
-    public function creating(Expense $expense): void
+    protected function getCurrentBalanceWhenCreated(float $existingBalance, float $difference): float
     {
-        $transactedAt = $expense->transacted_at->startOfDay();
-
-        if (
-            today()->greaterThanOrEqualTo($transactedAt)
-            && $expense->account->initial_date->greaterThanOrEqualTo($transactedAt)
-        ) {
-            $expense->account->update([
-                'current_balance' => $expense->account->current_balance - $expense->amount,
-                'initial_date' => $transactedAt,
-            ]);
-
-            return;
-        }
-
-        $expense->account()->decrement('current_balance', $expense->amount);
+        return $existingBalance - $difference;
     }
 
-    public function updating(Expense $expense): void
+    protected function getCurrentBalanceWhenDeleted(float $existingBalance, float $difference): float
     {
-        $originalAmount = $expense->getOriginal('amount');
-        $modifiedAmount = $expense->getAttribute('amount');
-
-        $diff = $originalAmount - $modifiedAmount;
-
-        $transactedAt = $expense->transacted_at->startOfDay();
-
-        if (
-            today()->greaterThanOrEqualTo($transactedAt)
-            && $expense->account->initial_date->greaterThanOrEqualTo($transactedAt)
-        ) {
-            $expense->account->update([
-                'current_balance' => $expense->account->current_balance + $diff,
-                'initial_date' => $transactedAt,
-            ]);
-
-            return;
-        }
-
-        $expense->account()->increment('current_balance', $diff);
-    }
-
-    public function deleting(Expense $expense): void
-    {
-        $expense->account()->increment('current_balance', $expense->amount);
+        return $existingBalance + $difference;
     }
 }

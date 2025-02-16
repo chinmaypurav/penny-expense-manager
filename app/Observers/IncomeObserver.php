@@ -2,55 +2,15 @@
 
 namespace App\Observers;
 
-use App\Models\Income;
-
-class IncomeObserver
+class IncomeObserver extends TransactionObserver
 {
-    public function creating(Income $income): void
+    protected function getCurrentBalanceWhenCreated(float $existingBalance, float $difference): float
     {
-        $transactedAt = $income->transacted_at->startOfDay();
-
-        if (
-            today()->greaterThanOrEqualTo($transactedAt)
-            && $income->account->initial_date->greaterThanOrEqualTo($transactedAt)
-        ) {
-            $income->account->update([
-                'current_balance' => $income->account->current_balance + $income->amount,
-                'initial_date' => $transactedAt,
-            ]);
-
-            return;
-        }
-
-        $income->account()->increment('current_balance', $income->amount);
+        return $existingBalance + $difference;
     }
 
-    public function updating(Income $income): void
+    protected function getCurrentBalanceWhenDeleted(float $existingBalance, float $difference): float
     {
-        $originalAmount = $income->getOriginal('amount');
-        $modifiedAmount = $income->getAttribute('amount');
-
-        $diff = $originalAmount - $modifiedAmount;
-
-        $transactedAt = $income->transacted_at->startOfDay();
-
-        if (
-            today()->greaterThanOrEqualTo($transactedAt)
-            && $income->account->initial_date->greaterThanOrEqualTo($transactedAt)
-        ) {
-            $income->account->update([
-                'current_balance' => $income->account->current_balance - $diff,
-                'initial_date' => $transactedAt,
-            ]);
-
-            return;
-        }
-
-        $income->account()->decrement('current_balance', $diff);
-    }
-
-    public function deleting(Income $income): void
-    {
-        $income->account()->decrement('current_balance', $income->amount);
+        return $existingBalance - $difference;
     }
 }
