@@ -35,8 +35,12 @@ readonly class TransferObserver
         }
     }
 
-    public function updating(Transfer $transfer): void
+    public function updated(Transfer $transfer): void
     {
+        if ($transfer->isClean(['amount', 'transacted_at'])) {
+            return;
+        }
+
         $diff = $this->getUpdatedAmountDiff($transfer);
 
         $creditBalance = $this->getCreditBalance(
