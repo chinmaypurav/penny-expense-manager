@@ -65,6 +65,31 @@ it('changes account balances on transfer updated', function () {
     ]);
 });
 
+it('changes account balances on transfer deleted', function () {
+    $ca = Account::factory()->for($this->user)->create(['current_balance' => 1000]);
+    $da = Account::factory()->for($this->user)->create(['current_balance' => 2000]);
+
+    $transfer = Transfer::factory()
+        ->for($this->user)
+        ->for($da, 'debtor')
+        ->for($ca, 'creditor')
+        ->today()
+        ->createQuietly([
+            'amount' => 3000,
+        ])->refresh();
+
+    $transfer->delete();
+
+    $this->assertDatabaseHas(Account::class, [
+        'id' => $ca->id,
+        'current_balance' => -2000,
+    ]);
+    $this->assertDatabaseHas(Account::class, [
+        'id' => $da->id,
+        'current_balance' => 5000,
+    ]);
+});
+
 it('verifies account initial date adjustment when transfer before today added',
     function (
         int $beforeCrDay, int $afterCrDay, int $beforeDrDay, int $afterDrDay
