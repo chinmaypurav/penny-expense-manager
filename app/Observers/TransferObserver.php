@@ -35,7 +35,7 @@ readonly class TransferObserver
         }
     }
 
-    public function updating(Transfer $transfer): void
+    public function updated(Transfer $transfer): void
     {
         $diff = $this->getUpdatedAmountDiff($transfer);
 
