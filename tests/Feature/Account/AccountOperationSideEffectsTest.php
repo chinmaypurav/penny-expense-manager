@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Livewire\livewire;
 
 uses(DatabaseMigrations::class);
@@ -96,25 +95,25 @@ it('updates all balances when account initial date is updated', function () {
         'current_balance' => 1000,
     ]);
 
-    assertDatabaseHas(Balance::class, [
+    $this->assertDatabaseHas(Balance::class, [
         'account_id' => $account->id,
         'balance' => 1000,
         'is_initial_record' => true,
         'recorded_until' => $newInitialDate,
     ]);
-    assertDatabaseHas(Balance::class, [
+    $this->assertDatabaseHas(Balance::class, [
         'account_id' => $account->id,
         'balance' => 2000,
         'is_initial_record' => false,
         'recorded_until' => $firstMonth,
     ]);
-    assertDatabaseHas(Balance::class, [
+    $this->assertDatabaseHas(Balance::class, [
         'account_id' => $account->id,
         'balance' => 3000,
         'is_initial_record' => false,
         'recorded_until' => $secondMonth,
     ]);
-    assertDatabaseHas(Balance::class, [
+    $this->assertDatabaseHas(Balance::class, [
         'account_id' => $account->id,
         'balance' => 4000,
         'is_initial_record' => false,
