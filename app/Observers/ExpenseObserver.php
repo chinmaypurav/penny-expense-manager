@@ -27,6 +27,15 @@ class ExpenseObserver
 
         $diff = $originalAmount - $modifiedAmount;
 
+        if ($expense->transacted_at->lessThanOrEqualTo(today())) {
+            $expense->account->update([
+                'current_balance' => $expense->account->current_balance + $diff,
+                'initial_date' => $expense->transacted_at->startOfDay(),
+            ]);
+
+            return;
+        }
+
         $expense->account()->increment('current_balance', $diff);
     }
 

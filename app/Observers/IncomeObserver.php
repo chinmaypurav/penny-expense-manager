@@ -27,6 +27,15 @@ class IncomeObserver
 
         $diff = $originalAmount - $modifiedAmount;
 
+        if ($income->transacted_at->lessThanOrEqualTo(today())) {
+            $income->account->update([
+                'current_balance' => $income->account->current_balance - $diff,
+                'initial_date' => $income->transacted_at->startOfDay(),
+            ]);
+
+            return;
+        }
+
         $income->account()->decrement('current_balance', $diff);
     }
 

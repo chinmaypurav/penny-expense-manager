@@ -133,3 +133,34 @@ it('adjusts account initial date when predated income added', function () {
         'recorded_until' => Carbon::yesterday(),
     ]);
 });
+
+it('adjusts account initial date when income updated with date older than account', function () {
+    $account = Account::factory()->today()->create([
+        'current_balance' => 5000,
+    ]);
+    $income = Income::factory()
+        ->for($this->user)
+        ->for($account)
+        ->today()
+        ->createQuietly([
+            'amount' => 4000,
+        ]);
+
+    $income->update([
+        'amount' => 3000, // reduced income by 1000
+        'transacted_at' => Carbon::yesterday(),
+    ]);
+
+    $this->assertDatabaseHas(Account::class, [
+        'id' => $account->id,
+        'current_balance' => 4000, // account adjusted by -1000
+        'initial_date' => Carbon::yesterday(),
+    ]);
+
+    $this->assertDatabaseHas(Balance::class, [
+        'account_id' => $account->id,
+        'is_initial_record' => true,
+        'balance' => 4000,
+        'recorded_until' => Carbon::yesterday(),
+    ]);
+});
