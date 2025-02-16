@@ -17,7 +17,7 @@ class AccountObserver
         ]);
     }
 
-    public function updating(Account $account): void
+    public function updated(Account $account): void
     {
         if ($account->isDirty('initial_date')) {
             $oldBalance = $account->getOriginal('current_balance');
