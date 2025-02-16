@@ -7,8 +7,8 @@ use App\Models\Income;
 use App\Models\Person;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Carbon;
 
+use function Pest\Laravel\freezeTime;
 use function Pest\Livewire\livewire;
 
 uses(RefreshDatabase::class);
@@ -16,7 +16,7 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
-    Carbon::setTestNow(now());
+    freezeTime();
 });
 
 it('cannot add future date as transacted_at', function () {
