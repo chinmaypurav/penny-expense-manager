@@ -40,4 +40,11 @@ class AccountFactory extends Factory
             'initial_date' => Carbon::today(),
         ]);
     }
+
+    public function yesterday(): self
+    {
+        return $this->state(fn (array $attributes) => [
+            'initial_date' => Carbon::yesterday(),
+        ]);
+    }
 }
