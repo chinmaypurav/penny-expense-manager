@@ -34,23 +34,14 @@ it('cannot have same account as debtor and creditor on save', function () {
         ]);
 });
 
-it('cannot have same account as debtor and creditor on update', function () {
-    $account = Account::factory()->create();
-
+it('cannot change accounts on update', function () {
     $transfer = Transfer::factory()->for($this->user)->create();
 
     livewire(TransferResource\Pages\EditTransfer::class, [
         'record' => $transfer->getRouteKey(),
     ])
-        ->fillForm([
-            'creditor_id' => $account->id,
-            'debtor_id' => $account->id,
-        ])
-        ->call('save')
-        ->assertHasFormErrors([
-            'creditor_id',
-            'debtor_id',
-        ]);
+        ->assertFormFieldIsDisabled('creditor_id')
+        ->assertFormFieldIsDisabled('debtor_id');
 });
 
 it('cannot add future date as transacted_at', function () {
