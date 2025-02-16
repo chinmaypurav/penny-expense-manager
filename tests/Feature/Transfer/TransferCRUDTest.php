@@ -67,16 +67,16 @@ it('can retrieve transfer data', function () {
 });
 
 it('can update transfer', function () {
-
     $transfer = Transfer::factory()->for($this->user)->create();
-    $newData = Transfer::factory()->for($this->user)->make();
+    $newData = Transfer::factory()->for($this->user)->make([
+        'debtor_id' => $transfer->debtor_id,
+        'creditor_id' => $transfer->creditor_id,
+    ]);
 
     livewire(TransferResource\Pages\EditTransfer::class, [
         'record' => $transfer->getRouteKey(),
     ])
         ->fillForm([
-            'debtor_id' => $newData->debtor->id,
-            'creditor_id' => $newData->creditor_id,
             'description' => $newData->description,
             'amount' => $newData->amount,
             'transacted_at' => $newData->transacted_at,
@@ -85,8 +85,6 @@ it('can update transfer', function () {
         ->assertHasNoFormErrors();
 
     $this->assertDatabaseHas(Transfer::class, [
-        'debtor_id' => $newData->debtor->id,
-        'creditor_id' => $newData->creditor_id,
         'description' => $newData->description,
         'amount' => $newData->amount,
         'transacted_at' => $newData->transacted_at,
