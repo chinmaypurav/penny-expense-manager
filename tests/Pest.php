@@ -14,9 +14,7 @@
 uses(
     Tests\TestCase::class,
     // Illuminate\Foundation\Testing\RefreshDatabase::class,
-)->in('Feature');
-
-pest()->beforeEach(function () {
+)->in('Feature')->beforeEach(function () {
     $this->freezeTime();
 });
 
