@@ -114,19 +114,19 @@ it('adjusts account initial date when predated income added',
 
         $account = Account::factory()->create([
             'initial_date' => Carbon::create(2025, 01, 10),
-            'current_balance' => 1000,
+            'current_balance' => 5000,
         ]);
         Income::factory()
             ->for($this->user)
             ->for($account)
             ->create([
                 'transacted_at' => $transactedAt,
-                'amount' => 4000,
+                'amount' => 1000,
             ]);
 
         $this->assertDatabaseHas(Account::class, [
             'id' => $account->id,
-            'current_balance' => 5000,
+            'current_balance' => 6000,
             'initial_date' => $expectedAccountInitialDate,
         ]);
 
