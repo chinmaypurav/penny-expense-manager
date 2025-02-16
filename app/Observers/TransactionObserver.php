@@ -50,6 +50,17 @@ abstract class TransactionObserver
         ]);
     }
 
+    public function deleting(Income|Expense $transaction): void
+    {
+        $currentBalance = $this->getCurrentBalanceWhenDeleted(
+            $transaction->account->current_balance, $transaction->amount
+        );
+
+        $transaction->account()->update([
+            'current_balance' => $currentBalance,
+        ]);
+    }
+
     private function getTransactedAt(Income|Expense $transaction): Carbon
     {
         return $transaction->transacted_at->startOfDay();
@@ -79,4 +90,6 @@ abstract class TransactionObserver
     }
 
     abstract protected function getCurrentBalance(float $existingBalance, float $difference): float;
+
+    abstract protected function getCurrentBalanceWhenDeleted(float $existingBalance, float $difference): float;
 }
