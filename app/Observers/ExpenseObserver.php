@@ -4,27 +4,8 @@ namespace App\Observers;
 
 use App\Models\Expense;
 
-class ExpenseObserver
+class ExpenseObserver extends TransactionObserver
 {
-    public function creating(Expense $expense): void
-    {
-        $transactedAt = $expense->transacted_at->startOfDay();
-
-        if (
-            today()->greaterThanOrEqualTo($transactedAt)
-            && $expense->account->initial_date->greaterThanOrEqualTo($transactedAt)
-        ) {
-            $expense->account->update([
-                'current_balance' => $expense->account->current_balance - $expense->amount,
-                'initial_date' => $transactedAt,
-            ]);
-
-            return;
-        }
-
-        $expense->account()->decrement('current_balance', $expense->amount);
-    }
-
     public function updating(Expense $expense): void
     {
         $originalAmount = $expense->getOriginal('amount');
@@ -52,5 +33,10 @@ class ExpenseObserver
     public function deleting(Expense $expense): void
     {
         $expense->account()->increment('current_balance', $expense->amount);
+    }
+
+    protected function getCurrentBalance(float $existingBalance, float $difference): float
+    {
+        return $existingBalance - $difference;
     }
 }
