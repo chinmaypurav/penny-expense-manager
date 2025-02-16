@@ -33,4 +33,11 @@ class BalanceFactory extends Factory
             'is_initial_record' => true,
         ]);
     }
+
+    public function monthly(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'record_type' => RecordType::MONTHLY,
+        ]);
+    }
 }

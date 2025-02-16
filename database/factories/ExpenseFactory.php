@@ -43,4 +43,11 @@ class ExpenseFactory extends Factory
             'transacted_at' => Carbon::now()->addDay(),
         ]);
     }
+
+    public function yesterday(): self
+    {
+        return $this->state(fn (array $attributes) => [
+            'transacted_at' => Carbon::now()->subDay(),
+        ]);
+    }
 }

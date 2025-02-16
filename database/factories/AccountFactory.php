@@ -30,7 +30,21 @@ class AccountFactory extends Factory
     public function tomorrow(): self
     {
         return $this->state(fn (array $attributes) => [
-            'initial_date' => Carbon::now()->addDay(),
+            'initial_date' => Carbon::tomorrow(),
+        ]);
+    }
+
+    public function today(): self
+    {
+        return $this->state(fn (array $attributes) => [
+            'initial_date' => Carbon::today(),
+        ]);
+    }
+
+    public function yesterday(): self
+    {
+        return $this->state(fn (array $attributes) => [
+            'initial_date' => Carbon::yesterday(),
         ]);
     }
 }
