@@ -47,3 +47,30 @@ it('changes account balances on transfer created', function () {
         'current_balance' => -1000,
     ]);
 });
+
+it('changes account balances on transfer updated', function () {
+    $ca = Account::factory()->for($this->user)->create(['current_balance' => 1000]);
+    $da = Account::factory()->for($this->user)->create(['current_balance' => 2000]);
+
+    $transfer = Transfer::factory()
+        ->for($this->user)
+        ->for($da, 'debtor')
+        ->for($ca, 'creditor')
+        ->today()
+        ->createQuietly([
+            'amount' => 3000,
+        ])->refresh();
+
+    $transfer->update([
+        'amount' => 2000, // amount reduced by 2
+    ]);
+
+    $this->assertDatabaseHas(Account::class, [
+        'id' => $ca->id,
+        'current_balance' => 0,
+    ]);
+    $this->assertDatabaseHas(Account::class, [
+        'id' => $da->id,
+        'current_balance' => 3000,
+    ]);
+});
