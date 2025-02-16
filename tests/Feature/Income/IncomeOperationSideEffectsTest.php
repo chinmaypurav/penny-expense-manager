@@ -135,16 +135,7 @@ it('adjusts account initial date when predated income added',
             'is_initial_record' => true,
             'recorded_until' => $expectedAccountInitialDate,
         ]);
-    })->with([
-        'date before account initial date' => [
-            Carbon::create(2025, 01, 5),
-            Carbon::create(2025, 01, 5),
-        ],
-        'date after account initial date' => [
-            Carbon::create(2025, 01, 15),
-            Carbon::create(2025, 01, 10),
-        ],
-    ]);
+    })->with('predated entries');
 
 it('adjusts account initial date when income updated with date older than account', function () {
     $account = Account::factory()->today()->create([
@@ -176,3 +167,14 @@ it('adjusts account initial date when income updated with date older than accoun
         'recorded_until' => Carbon::yesterday(),
     ]);
 });
+
+dataset('predated entries', [
+    'date before account initial date' => [
+        Carbon::create(2025, 01, 5),
+        Carbon::create(2025, 01, 5),
+    ],
+    'date after account initial date' => [
+        Carbon::create(2025, 01, 15),
+        Carbon::create(2025, 01, 10),
+    ],
+]);
