@@ -8,6 +8,15 @@ class IncomeObserver
 {
     public function creating(Income $income): void
     {
+        if ($income->transacted_at->lessThanOrEqualTo(today())) {
+            $income->account->update([
+                'current_balance' => $income->account->current_balance + $income->amount,
+                'initial_date' => $income->transacted_at->startOfDay(),
+            ]);
+
+            return;
+        }
+
         $income->account()->increment('current_balance', $income->amount);
     }
 

@@ -8,6 +8,15 @@ class ExpenseObserver
 {
     public function creating(Expense $expense): void
     {
+        if ($expense->transacted_at->lessThanOrEqualTo(today())) {
+            $expense->account->update([
+                'current_balance' => $expense->account->current_balance - $expense->amount,
+                'initial_date' => $expense->transacted_at->startOfDay(),
+            ]);
+
+            return;
+        }
+
         $expense->account()->decrement('current_balance', $expense->amount);
     }
 

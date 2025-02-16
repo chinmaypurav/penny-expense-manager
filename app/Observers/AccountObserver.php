@@ -19,6 +19,20 @@ class AccountObserver
 
     public function updating(Account $account): void
     {
+        if ($account->isDirty('initial_date')) {
+            $oldBalance = $account->getOriginal('current_balance');
+            $newBalance = $account->getAttribute('current_balance');
+            $diff = $newBalance - $oldBalance;
+
+            $account->initialBalance()->update([
+                'recorded_until' => $account->initial_date->startOfDay(),
+            ]);
+
+            $account->balances()->increment('balance', $diff);
+
+            return;
+        }
+
         if ($account->isDirty('current_balance')) {
             $oldBalance = $account->getOriginal('current_balance');
             $newBalance = $account->getAttribute('current_balance');

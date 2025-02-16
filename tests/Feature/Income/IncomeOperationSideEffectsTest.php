@@ -2,6 +2,7 @@
 
 use App\Filament\Resources\IncomeResource;
 use App\Models\Account;
+use App\Models\Balance;
 use App\Models\Income;
 use App\Models\Person;
 use App\Models\User;
@@ -102,5 +103,35 @@ it('subtracts account current_balance when removed', function () {
     $this->assertDatabaseHas(Account::class, [
         'id' => $account->id,
         'current_balance' => -2000,
+    ]);
+});
+
+it('adjusts account initial date when predated income added', function () {
+    $account = Account::factory()->today()->create([
+        'current_balance' => 1000,
+    ]);
+    $income = Income::factory()
+        ->for($this->user)
+        ->for($account)
+        ->yesterday()
+        ->create([
+            'amount' => 4000,
+        ]);
+
+    $income->update([
+        'transacted_at' => Carbon::now()->subDay(),
+    ]);
+
+    $this->assertDatabaseHas(Account::class, [
+        'id' => $account->id,
+        'current_balance' => 5000,
+        'initial_date' => Carbon::now()->subDay(),
+    ]);
+
+    $this->assertDatabaseHas(Balance::class, [
+        'account_id' => $account->id,
+        'is_initial_record' => true,
+        'balance' => 5000,
+        'recorded_until' => Carbon::now()->subDay(),
     ]);
 });
