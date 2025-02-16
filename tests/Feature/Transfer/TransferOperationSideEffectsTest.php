@@ -1,6 +1,5 @@
 <?php
 
-use App\Filament\Resources\TransferResource;
 use App\Models\Account;
 use App\Models\Balance;
 use App\Models\Transfer;
@@ -9,7 +8,6 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 use function Pest\Laravel\travelTo;
-use function Pest\Livewire\livewire;
 
 uses(DatabaseMigrations::class);
 
@@ -22,24 +20,13 @@ it('changes account balances on transfer created', function () {
     $ca = Account::factory()->for($this->user)->create(['current_balance' => 1000]);
     $da = Account::factory()->for($this->user)->create(['current_balance' => 2000]);
 
-    $newData = Transfer::factory()
+    Transfer::factory()
         ->for($this->user)
         ->for($da, 'debtor')
         ->for($ca, 'creditor')
-        ->make([
+        ->create([
             'amount' => 3000,
         ]);
-
-    livewire(TransferResource\Pages\CreateTransfer::class)
-        ->fillForm([
-            'debtor_id' => $newData->debtor->id,
-            'creditor_id' => $newData->creditor_id,
-            'description' => $newData->description,
-            'amount' => $newData->amount,
-            'transacted_at' => $newData->transacted_at,
-        ])
-        ->call('create')
-        ->assertHasNoFormErrors();
 
     $this->assertDatabaseHas(Account::class, [
         'id' => $ca->id,
