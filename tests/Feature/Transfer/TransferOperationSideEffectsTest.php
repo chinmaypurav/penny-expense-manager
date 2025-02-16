@@ -5,15 +5,12 @@ use App\Models\Account;
 use App\Models\Transfer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Carbon;
 
 use function Pest\Livewire\livewire;
 
 uses(DatabaseMigrations::class);
 
 beforeEach(function () {
-    Carbon::setTestNow(today());
-
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
 });

@@ -7,7 +7,6 @@ use App\Models\Person;
 use App\Models\RecurringExpense;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Carbon;
 
 use function Pest\Livewire\livewire;
 
@@ -16,7 +15,6 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
-    Carbon::setTestNow(now());
 });
 
 it('can have some null and some required fields', function () {

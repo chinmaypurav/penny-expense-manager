@@ -4,14 +4,15 @@ use App\Filament\Resources\IncomeResource;
 use App\Models\Income;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Carbon;
+
+use function Pest\Laravel\travelTo;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
-    Carbon::setTestNow(Carbon::now()->setDay(20)); // ensure default monthly filter does not exclude results
+    travelTo(now()->setDay(20)); // ensure default monthly filter does not exclude results
 
     Income::factory()->for($this->user)->create([
         'description' => 'income 15',

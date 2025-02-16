@@ -6,7 +6,6 @@ use App\Models\RecurringTransfer;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Carbon;
 
 use function Pest\Livewire\livewire;
 
@@ -15,7 +14,6 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
-    Carbon::setTestNow(now());
 });
 
 it('can render recurring recurring transfers list page', function () {
