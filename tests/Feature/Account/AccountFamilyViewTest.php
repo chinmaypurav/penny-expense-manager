@@ -5,6 +5,7 @@ use App\Filament\Resources\AccountResource;
 use App\Filament\Resources\AccountResource\Pages\ListAccounts;
 use App\Models\Account;
 use App\Models\User;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Livewire\livewire;
@@ -24,7 +25,7 @@ beforeEach(function () {
 
 it('can display account type filter', function () {
     livewire(ListAccounts::class)
-        ->assertTableFilterExists('account_type');
+        ->assertTableFilterExists('account_type', fn (SelectFilter $selectFilter) => $selectFilter->isMultiple());
 });
 
 it('cannot display create action', function () {
