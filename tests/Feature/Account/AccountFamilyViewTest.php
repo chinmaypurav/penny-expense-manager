@@ -22,6 +22,11 @@ beforeEach(function () {
     PanelId::FAMILY->setCurrentPanel();
 });
 
+it('can display account type filter', function () {
+    livewire(ListAccounts::class)
+        ->assertTableFilterExists('account_type');
+});
+
 it('cannot display create action', function () {
     livewire(ListAccounts::class)
         ->assertActionHidden('create');
