@@ -18,6 +18,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class AccountResource extends Resource
@@ -86,6 +87,14 @@ class AccountResource extends Resource
             ])
             ->filters([
                 self::getUserFilter(),
+                SelectFilter::make('account_type')
+                    ->multiple()
+                    ->options(
+                        collect(AccountType::cases())
+                            ->keyBy(fn (AccountType $type) => $type->getLabel())
+                            ->map(fn (AccountType $type) => $type->getLabel())
+                            ->toArray(),
+                    ),
             ])
             ->actions([
                 EditAction::make(),
