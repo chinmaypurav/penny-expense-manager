@@ -98,29 +98,29 @@ it('updates all balances when account initial date is updated', function () {
 
     $this->assertDatabaseHas(Balance::class, [
         'account_id' => $account->id,
-        'balance' => 1000,
+        'balance' => -1000,
         'is_initial_record' => true,
         'recorded_until' => $newInitialDate,
     ]);
     $this->assertDatabaseHas(Balance::class, [
         'account_id' => $account->id,
-        'balance' => 2000,
+        'balance' => 1000,
         'is_initial_record' => false,
         'recorded_until' => $firstMonth,
     ]);
     $this->assertDatabaseHas(Balance::class, [
         'account_id' => $account->id,
-        'balance' => 3000,
+        'balance' => 2000,
         'is_initial_record' => false,
         'recorded_until' => $secondMonth,
     ]);
     $this->assertDatabaseHas(Balance::class, [
         'account_id' => $account->id,
-        'balance' => 4000,
+        'balance' => 3000,
         'is_initial_record' => false,
         'recorded_until' => $thirdMonth,
     ]);
-})->skip();
+});
 
 it('verifies balance changes on account updates', function (
     string $newAccountDate,
