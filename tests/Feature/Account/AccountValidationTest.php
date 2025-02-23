@@ -30,17 +30,11 @@ it('cannot add future date as initial date', function () {
         ]);
 });
 
-it('cannot update future date as initial date', function () {
+it('has initial date disabled', function () {
     $account = Account::factory()->for($this->user)->create();
 
     livewire(AccountResource\Pages\EditAccount::class, [
         'record' => $account->getRouteKey(),
     ])
-        ->fillForm([
-            'initial_date' => today()->addDay(),
-        ])
-        ->call('save')
-        ->assertHasFormErrors([
-            'initial_date',
-        ]);
+        ->assertFormFieldIsDisabled('initial_date');
 });
