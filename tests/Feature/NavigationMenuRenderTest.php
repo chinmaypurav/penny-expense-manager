@@ -30,6 +30,8 @@ it('renders a navigation menu in app panel', function () {
             'Recurring Expenses',
             'Recurring Incomes',
             'Recurring Transfers',
+        ])->assertDontSeeText([
+            'Users',
         ]);
 });
 
@@ -40,6 +42,7 @@ it('renders a navigation menu in family panel', function () {
         ->assertSuccessful()
         ->assertSeeText([
             'Dashboard',
+            'Users',
             'Accounts',
             'Expenses',
             'Incomes',
