@@ -32,10 +32,13 @@ class UserResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255),
 
                 TextInput::make('email')
-                    ->required(),
+                    ->unique(ignoreRecord: true)
+                    ->required()
+                    ->maxLength(255),
 
                 Placeholder::make('created_at')
                     ->label('Created Date')

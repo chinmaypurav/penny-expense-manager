@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use App\Filament\Resources\IncomeResource;
 use App\Models\Account;
