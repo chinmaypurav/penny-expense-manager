@@ -15,6 +15,8 @@ class FamilyPanelProvider extends PanelProvider
         return parent::panel($panel)
             ->path(PanelId::FAMILY->getPath())
             ->resources([
+                Resources\UserResource::class,
+
                 Resources\AccountResource::class,
                 Resources\IncomeResource::class,
                 Resources\ExpenseResource::class,
