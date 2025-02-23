@@ -16,8 +16,8 @@ class CreateUser extends CreateRecord
     {
         $data['password'] = Str::password(symbols: false);
 
-        Mail::to('one@ex.co')->send(
-            new SendUserCreatedMail($data['password'])->afterCommit()
+        Mail::to($data['email'])->send(
+            new SendUserCreatedMail($data['name'], $data['password'])->afterCommit()
         );
 
         return $data;
