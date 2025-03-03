@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.4",
         "filament/filament": "^3.2",
-        "laravel/framework": "^11.0",
+        "laravel/framework": "^v12.0.1",
         "laravel/tinker": "^2.9"
     },
     "require-dev": {
