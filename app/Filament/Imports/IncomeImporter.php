@@ -15,12 +15,9 @@ class IncomeImporter extends Importer
 
     public function resolveRecord(): ?Income
     {
-        // return Income::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
-
-        return new Income;
+        return Income::make([
+            'user_id' => auth()->id(),
+        ]);
     }
 
     public static function getCompletedNotificationBody(Import $import): string

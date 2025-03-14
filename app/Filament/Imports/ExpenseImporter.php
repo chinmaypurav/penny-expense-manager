@@ -15,12 +15,9 @@ class ExpenseImporter extends Importer
 
     public function resolveRecord(): ?Expense
     {
-        // return Expense::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
-
-        return new Expense;
+        return Expense::make([
+            'user_id' => auth()->id(),
+        ]);
     }
 
     public static function getCompletedNotificationBody(Import $import): string

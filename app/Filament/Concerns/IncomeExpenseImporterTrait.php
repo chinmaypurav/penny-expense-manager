@@ -9,10 +9,6 @@ trait IncomeExpenseImporterTrait
     public static function getColumns(): array
     {
         return [
-            ImportColumn::make('user')
-                ->requiredMapping()
-                ->relationship(resolveUsing: 'name')
-                ->rules(['required']),
             ImportColumn::make('person')
                 ->relationship(resolveUsing: 'name'),
             ImportColumn::make('account')
