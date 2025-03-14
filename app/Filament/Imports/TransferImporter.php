@@ -14,10 +14,6 @@ class TransferImporter extends Importer
     public static function getColumns(): array
     {
         return [
-            ImportColumn::make('user')
-                ->requiredMapping()
-                ->relationship(resolveUsing: 'name')
-                ->rules(['required']),
             ImportColumn::make('creditor')
                 ->requiredMapping()
                 ->relationship(resolveUsing: 'name')
@@ -41,12 +37,9 @@ class TransferImporter extends Importer
 
     public function resolveRecord(): ?Transfer
     {
-        // return Transfer::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
-
-        return new Transfer;
+        return Transfer::make([
+            'user_id' => auth()->id(),
+        ]);
     }
 
     public static function getCompletedNotificationBody(Import $import): string

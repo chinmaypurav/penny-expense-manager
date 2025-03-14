@@ -14,10 +14,6 @@ class AccountImporter extends Importer
     public static function getColumns(): array
     {
         return [
-            ImportColumn::make('user')
-                ->requiredMapping()
-                ->relationship(resolveUsing: 'name')
-                ->rules(['required']),
             ImportColumn::make('name')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
@@ -38,12 +34,9 @@ class AccountImporter extends Importer
 
     public function resolveRecord(): ?Account
     {
-        // return Account::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
-
-        return new Account;
+        return Account::make([
+            'user_id' => auth()->id(),
+        ]);
     }
 
     public static function getCompletedNotificationBody(Import $import): string
