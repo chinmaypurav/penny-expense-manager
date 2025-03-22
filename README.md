@@ -1,5 +1,6 @@
 # Penny Expense Manager
 
+[![codecov](https://codecov.io/gh/chinmaypurav/penny-expense-manager/graph/badge.svg?token=BCAIVTA3GY)](https://codecov.io/gh/chinmaypurav/penny-expense-manager)
 [![Project Status: In Development](https://img.shields.io/badge/Project%20Status-In%20Development-yellow.svg)](https://github.com/chinmaypurav/penny-expense-manager)
 ![GitHub Tag](https://img.shields.io/github/v/tag/chinmaypurav/penny-expense-manager)
 ![GitHub License](https://img.shields.io/github/license/chinmaypurav/penny-expense-manager)
