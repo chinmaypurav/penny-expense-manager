@@ -48,4 +48,11 @@ jobs:
         run: cp .env.example .env && php artisan key:generate
 
       - name: Run Tests
-        run: ./vendor/bin/pest
+        run: php artisan test --coverage-clover coverage.xml
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
+          verbose: true
