@@ -1,12 +1,9 @@
 # Penny Expense Manager
 
 [![codecov](https://codecov.io/gh/chinmaypurav/penny-expense-manager/graph/badge.svg?token=BCAIVTA3GY)](https://codecov.io/gh/chinmaypurav/penny-expense-manager)
-[![Project Status: In Development](https://img.shields.io/badge/Project%20Status-In%20Development-yellow.svg)](https://github.com/chinmaypurav/penny-expense-manager)
+[![Project Status: Ready](https://img.shields.io/badge/Project%20Status-Ready-green.svg)](https://github.com/chinmaypurav/penny-expense-manager)
 ![GitHub Tag](https://img.shields.io/github/v/tag/chinmaypurav/penny-expense-manager)
 ![GitHub License](https://img.shields.io/github/license/chinmaypurav/penny-expense-manager)
-
-⚠️ **This project is currently in active development. 
-Things may be unstable and breaking changes can occur frequently.**
 
 Penny Expense Manager is built around the idea of an expense tracker for a family.
 When living as a family,
@@ -19,8 +16,8 @@ The application is using [Filament](https://filamentphp.com/) at its core.
 ## Requirements
 
 - A Web server with PHP ^8.2
-- MariaDB 11.4 or any compatible DB
-- Redis for queue, session and caching (optional-database driver can be used instead)
+- MariaDB 11.4 | MySQL 8.x | Postgres or any compatible DB
+- Redis for queue, session and caching (optional--database driver can be used instead)
 - SMTP Mail server or any mail sending service (optional—if you want email notifications)
 
 ## Installation
