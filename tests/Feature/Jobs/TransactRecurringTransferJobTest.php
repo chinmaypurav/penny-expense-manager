@@ -17,7 +17,7 @@ uses(DatabaseMigrations::class);
 test('it copies recurring transfer into transfer', function () {
     $recurringTransfer = RecurringTransfer::factory()->create();
 
-    (new TransactRecurringTransferJob($recurringTransfer->frequency))->handle();
+    new TransactRecurringTransferJob($recurringTransfer->frequency)->handle();
 
     assertDatabaseHas(Transfer::class, [
         'description' => $recurringTransfer->description,
@@ -35,7 +35,7 @@ test('it copies recurring transfer tags to transfer', function () {
     $recurringTransfer = RecurringTransfer::factory()->create();
     $recurringTransfer->tags()->attach($tags);
 
-    (new TransactRecurringTransferJob($recurringTransfer->frequency))->handle();
+    new TransactRecurringTransferJob($recurringTransfer->frequency)->handle();
 
     $transferTags = Transfer::first()->tags->pluck('id')->toArray();
 

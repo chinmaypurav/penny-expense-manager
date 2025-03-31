@@ -18,7 +18,7 @@ uses(DatabaseMigrations::class);
 test('it copies recurring income into income', function () {
     $recurringIncome = RecurringIncome::factory()->create();
 
-    (new TransactRecurringIncomeJob($recurringIncome->frequency))->handle();
+    new TransactRecurringIncomeJob($recurringIncome->frequency)->handle();
 
     assertDatabaseHas(Income::class, [
         'description' => $recurringIncome->description,
@@ -36,7 +36,7 @@ test('it does not copy recurring income into income when account null', function
         'remaining_recurrences' => 2,
     ]);
 
-    (new TransactRecurringIncomeJob($recurringIncome->frequency))->handle();
+    new TransactRecurringIncomeJob($recurringIncome->frequency)->handle();
 
     assertDatabaseEmpty(Income::class);
 
@@ -51,7 +51,7 @@ test('it copies recurring income tags to income', function () {
     $recurringIncome = RecurringIncome::factory()->create();
     $recurringIncome->tags()->attach($tags);
 
-    (new TransactRecurringIncomeJob($recurringIncome->frequency))->handle();
+    new TransactRecurringIncomeJob($recurringIncome->frequency)->handle();
 
     $incomeTags = Income::first()->tags->pluck('id')->toArray();
 

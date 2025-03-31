@@ -18,7 +18,7 @@ uses(DatabaseMigrations::class);
 test('it copies recurring expense into expense', function () {
     $recurringExpense = RecurringExpense::factory()->create();
 
-    (new TransactRecurringExpenseJob($recurringExpense->frequency))->handle();
+    new TransactRecurringExpenseJob($recurringExpense->frequency)->handle();
 
     assertDatabaseHas(Expense::class, [
         'description' => $recurringExpense->description,
@@ -36,7 +36,7 @@ test('it does not copy recurring expense into expense when account null', functi
         'remaining_recurrences' => 2,
     ]);
 
-    (new TransactRecurringExpenseJob($recurringExpense->frequency))->handle();
+    new TransactRecurringExpenseJob($recurringExpense->frequency)->handle();
 
     assertDatabaseEmpty(Expense::class);
 
@@ -51,7 +51,7 @@ test('it copies recurring expense tags to expense', function () {
     $recurringExpense = RecurringExpense::factory()->create();
     $recurringExpense->tags()->attach($tags);
 
-    (new TransactRecurringExpenseJob($recurringExpense->frequency))->handle();
+    new TransactRecurringExpenseJob($recurringExpense->frequency)->handle();
 
     $expenseTags = Expense::first()->tags->pluck('id')->toArray();
 
