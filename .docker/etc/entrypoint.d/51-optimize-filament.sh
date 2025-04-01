@@ -1,3 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-php artisan filament:cache
+############################################################################
+# artisan filament:cache
+############################################################################
+
+printf "🚀 Caching filament assets\n"
+php "$APP_BASE_DIR/artisan" filament:optimize
