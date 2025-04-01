@@ -52,6 +52,7 @@ ENV PHP_OPCACHE_ENABLE=1
 ENV SHOW_WELCOME_MESSAGE=false
 
 COPY --chown=www-data:www-data . /var/www/html
+COPY --chown=www-data:www-data --chmod=755 .docker/etc/entrypoint.d /etc/entrypoint.d
 
 WORKDIR /var/www/html
 
