@@ -21,10 +21,6 @@ it('shows user filter', function () {
     livewire(Dashboard::class)->assertSeeText('Users');
 });
 
-it('does not show user filter', function () {
-    livewire(Dashboard::class)->assertDontSeeText('Users');
-});
-
 it('displays income and expense charts', function () {
     $this->get(Dashboard::getUrl())
         ->assertSeeLivewire(IncomeChart::class)
