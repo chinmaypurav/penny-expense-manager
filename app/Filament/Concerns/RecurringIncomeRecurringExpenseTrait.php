@@ -16,6 +16,7 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @mixin RecurringIncome|RecurringExpense
@@ -30,8 +31,12 @@ trait RecurringIncomeRecurringExpenseTrait
             ->columns(3)
             ->schema([
                 Select::make('account_id')
-                    ->relationship('account', 'name')
-                    ->preload(),
+                    ->relationship(
+                        'account',
+                        'name',
+                        fn (Builder $query): Builder => $query->where('user_id', auth()->id())
+                    )
+                    ->nullable(),
 
                 Select::make('person_id')
                     ->relationship('person', 'name')
