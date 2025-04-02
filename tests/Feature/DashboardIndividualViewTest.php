@@ -2,6 +2,8 @@
 
 use App\Enums\PanelId;
 use App\Filament\Pages\Dashboard;
+use App\Filament\Widgets\ExpenseChart;
+use App\Filament\Widgets\IncomeChart;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -16,6 +18,11 @@ beforeEach(function () {
 });
 
 it('does not show user filter', function () {
-
     livewire(Dashboard::class)->assertDontSeeText('Users');
+});
+
+it('displays income and expense charts', function () {
+    $this->get(Dashboard::getUrl())
+        ->assertSeeLivewire(IncomeChart::class)
+        ->assertSeeLivewire(ExpenseChart::class);
 });
