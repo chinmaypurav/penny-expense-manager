@@ -97,6 +97,7 @@ class AccountResource extends Resource
                             ->toArray(),
                     ),
             ])
+            ->paginated(false)
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
