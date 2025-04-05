@@ -53,7 +53,10 @@ class AccountResource extends Resource
                     ->options(AccountType::class),
 
                 TextInput::make('current_balance')
-                    ->label('Initial Balance')
+                    ->label(fn (string $operation): string => $operation === 'create'
+                        ? 'Initial Balance'
+                        : 'Current Balance'
+                    )
                     ->required()
                     ->numeric(),
 
