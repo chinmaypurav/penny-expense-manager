@@ -145,11 +145,9 @@ trait IncomeExpenseResourceTrait
             ->defaultSort('transacted_at')
             ->actions([
                 ReplicateAction::make()
-                    ->mutateRecordDataUsing(function (array $data): array {
-                        $data['transacted_at'] = now();
-
-                        return $data;
-                    }),
+                    ->formData([
+                        'transacted_at' => now(),
+                    ]),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
