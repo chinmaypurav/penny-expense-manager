@@ -21,6 +21,7 @@ class TodayIncomes extends BaseWidget
                         PanelId::APP->isCurrentPanel(),
                         fn (Builder $q) => $q->where('user_id', auth()->id())
                     )
+                    ->today()
             )
             ->paginated(false)
             ->columns([
