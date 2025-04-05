@@ -92,7 +92,7 @@ class AccountResource extends Resource
                     ->multiple()
                     ->options(
                         collect(AccountType::cases())
-                            ->keyBy(fn (AccountType $type) => $type->getLabel())
+                            ->keyBy(fn (AccountType $type) => $type->value)
                             ->map(fn (AccountType $type) => $type->getLabel())
                             ->toArray(),
                     ),
