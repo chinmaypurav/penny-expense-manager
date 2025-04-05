@@ -17,6 +17,7 @@ it('renders a navigation menu in app panel', function () {
         ->assertSuccessful()
         ->assertSeeText([
             'Dashboard',
+            'Today Transactions',
             'Accounts',
             'Balances',
             'Categories',
@@ -42,6 +43,7 @@ it('renders a navigation menu in family panel', function () {
         ->assertSuccessful()
         ->assertSeeText([
             'Dashboard',
+            'Today Transactions',
             'Users',
             'Accounts',
             'Expenses',
