@@ -18,6 +18,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
@@ -138,6 +139,10 @@ class TransferResource extends Resource
             ], FiltersLayout::AboveContentCollapsible)
             ->defaultSort('transacted_at')
             ->actions([
+                ReplicateAction::make()
+                    ->formData([
+                        'transacted_at' => now(),
+                    ]),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
