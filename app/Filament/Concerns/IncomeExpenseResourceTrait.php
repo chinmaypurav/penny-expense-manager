@@ -15,6 +15,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
@@ -143,6 +144,12 @@ trait IncomeExpenseResourceTrait
             ], FiltersLayout::AboveContentCollapsible)
             ->defaultSort('transacted_at')
             ->actions([
+                ReplicateAction::make()
+                    ->mutateRecordDataUsing(function (array $data): array {
+                        $data['transacted_at'] = now();
+
+                        return $data;
+                    }),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
