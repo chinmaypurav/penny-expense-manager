@@ -30,10 +30,10 @@ beforeEach(function () {
     ]);
 });
 
-it('sorts transfers list page using transacted_at by default', function () {
+it('sorts transfers list page using transacted_at desc by default', function () {
     Transfer::factory()->for($this->user)->create();
 
     $this->get(TransferResource::getUrl('index'))->assertSeeTextInOrder([
-        'transfer 5', 'transfer 10', 'transfer 15',
+        'transfer 15', 'transfer 10', 'transfer 5',
     ]);
 });
