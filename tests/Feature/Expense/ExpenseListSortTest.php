@@ -30,10 +30,10 @@ beforeEach(function () {
     ]);
 });
 
-it('sorts expenses list page using transacted_at by default', function () {
+it('sorts expenses list page using transacted_at desc by default', function () {
     Expense::factory()->for($this->user)->create();
 
     $this->get(ExpenseResource::getUrl('index'))->assertSeeTextInOrder([
-        'expense 5', 'expense 10', 'expense 15',
+        'expense 15', 'expense 10', 'expense 5',
     ]);
 });

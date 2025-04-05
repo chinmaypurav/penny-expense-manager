@@ -30,10 +30,10 @@ beforeEach(function () {
     ]);
 });
 
-it('sorts incomes list page using transacted_at by default', function () {
+it('sorts incomes list page using transacted_at desc by default', function () {
     Income::factory()->for($this->user)->create();
 
     $this->get(IncomeResource::getUrl('index'))->assertSeeTextInOrder([
-        'income 5', 'income 10', 'income 15',
+        'income 15', 'income 10', 'income 5',
     ]);
 });
