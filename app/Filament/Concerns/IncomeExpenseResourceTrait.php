@@ -145,6 +145,11 @@ trait IncomeExpenseResourceTrait
             ->defaultSort('transacted_at')
             ->actions([
                 ReplicateAction::make()
+                    ->form([
+                        DateTimePicker::make('transacted_at')
+                            ->label('Transacted Date')
+                            ->required(),
+                    ])
                     ->mutateRecordDataUsing(function (array $data): array {
                         $data['transacted_at'] = now();
 
