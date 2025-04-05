@@ -4,6 +4,7 @@ use App\Enums\PanelId;
 use App\Filament\Resources\IncomeResource\Pages\ListIncomes;
 use App\Models\Income;
 use App\Models\User;
+use Filament\Tables\Actions\ReplicateAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Laravel\assertDatabaseCount;
@@ -21,19 +22,25 @@ beforeEach(function () {
 
 it('replicates existing income with current timestamp', function () {
 
+    $this->freezeTime();
+
     $income = Income::factory()->for($this->user)->create([
-        'transacted_at' => now()->subMonth(),
+        'transacted_at' => now()->subDay(),
     ]);
+
+    $this->travel(1)->minute();
 
     assertDatabaseCount(Income::class, 1);
 
     livewire(ListIncomes::class)
-        ->callTableAction('replicate', $income);
+        ->assertCountTableRecords(1)
+        ->callTableAction(ReplicateAction::class, $income)
+        ->assertHasNoActionErrors();
 
     $expected = $income->replicate([
         'id', 'transacted_at',
     ])->withoutRelations()->toArray();
-    $expected['transacted_at'] = now();
+    $expected['transacted_at'] = now()->toDateTimeString();
 
     assertDatabaseCount(Income::class, 2);
     assertDatabaseHas(Income::class, $expected);
