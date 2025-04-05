@@ -32,10 +32,7 @@ it('displays income expense and transfer tables', function (PanelId $panelId) {
         ->assertSeeLivewire(TodayIncomes::class)
         ->assertSeeLivewire(TodayExpenses::class)
         ->assertSeeLivewire(TodayTransfers::class);
-})->with([
-    PanelId::APP,
-    PanelId::FAMILY,
-]);
+})->with('today dashboard panel ids');
 
 it('displays incomes only for today', function (PanelId $panelId) {
     $panelId->setCurrentPanel();
