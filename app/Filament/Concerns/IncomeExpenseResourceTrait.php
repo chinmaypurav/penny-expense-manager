@@ -49,7 +49,8 @@ trait IncomeExpenseResourceTrait
                         'person',
                         'name'
                     )
-                    ->nullable(),
+                    ->nullable()
+                    ->searchable(),
 
                 Select::make('account_id')
                     ->relationship(
@@ -57,10 +58,12 @@ trait IncomeExpenseResourceTrait
                         'name',
                         fn (Builder $query): Builder => $query->where('user_id', auth()->id())
                     )
-                    ->required(),
+                    ->required()
+                    ->searchable(),
 
                 Select::make('category_id')
-                    ->relationship('category', 'name'),
+                    ->relationship('category', 'name')
+                    ->searchable(),
 
                 TextInput::make('description')
                     ->required(),
