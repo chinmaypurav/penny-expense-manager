@@ -96,7 +96,10 @@ class AccountResource extends Resource
                             ->money(config('penny.currency'))
                     ),
 
-                TextColumn::make('initialBalance.balance'),
+                TextColumn::make('initialBalance.balance')
+                    ->label('Initial Balance - Date')
+                    ->money(config('penny.currency'))
+                    ->description(fn (Account $record) => $record->initialBalance?->recorded_until?->toDateString()),
             ])
             ->filters([
                 self::getUserFilter(),
