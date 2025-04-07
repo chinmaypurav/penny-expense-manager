@@ -15,6 +15,8 @@ beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
 
+    $this->account = Account::factory()->for($this->user)->create();
+
     PanelId::APP->setCurrentPanel();
 });
 
@@ -25,8 +27,16 @@ it('loads Initial Balance when creating account', function () {
 });
 
 it('loads Current Balance when editing account', function () {
-    $account = Account::factory()->for($this->user)->create();
-
-    livewire(EditAccount::class, ['record' => $account->getRouteKey()])
+    livewire(EditAccount::class, ['record' => $this->account->getRouteKey()])
         ->assertSeeHtml('Current Balance');
+});
+
+it('cannot display initial balance form field on create', function () {
+    livewire(CreateAccount::class)
+        ->assertFormFieldIsHidden('initialBalance.balance');
+});
+
+it('can display initial balance form field', function () {
+    livewire(EditAccount::class, ['record' => $this->account->getRouteKey()])
+        ->assertFormFieldIsVisible('initialBalance.balance');
 });
