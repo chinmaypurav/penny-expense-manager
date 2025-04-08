@@ -56,6 +56,7 @@ class TransferResource extends Resource
                     ->label('Creditor account')
                     ->helperText('The account where money is going to')
                     ->options($accounts)
+                    ->searchable()
                     ->different('debtor_id')
                     ->disabledOn('edit')
                     ->required(),
@@ -64,6 +65,7 @@ class TransferResource extends Resource
                     ->label('Debtor account')
                     ->helperText('The account where money is coming from')
                     ->options($accounts)
+                    ->searchable()
                     ->different('creditor_id')
                     ->disabledOn('edit')
                     ->required(),
