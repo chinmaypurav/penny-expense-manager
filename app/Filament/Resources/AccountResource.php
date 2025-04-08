@@ -45,7 +45,8 @@ class AccountResource extends Resource
 
                 TextInput::make('name')
                     ->unique(ignorable: $form->getRecord())
-                    ->required(),
+                    ->required()
+                    ->columnSpan(fn (string $operation): int => $operation === 'create' ? 1 : 2),
 
                 Select::make('account_type')
                     ->disabledOn('edit')
@@ -66,6 +67,12 @@ class AccountResource extends Resource
                     ->beforeOrEqual(today())
                     ->disabledOn('edit')
                     ->required(),
+
+                TextInput::make('initialBalance.balance')
+                    ->label('Initial Balance')
+                    ->hiddenOn(['create'])
+                    ->formatStateUsing(fn (?Account $record) => $record?->initialBalance?->balance)
+                    ->readOnly(),
             ]);
     }
 
@@ -88,6 +95,11 @@ class AccountResource extends Resource
                             ->label('Total Available Balance')
                             ->money(config('penny.currency'))
                     ),
+
+                TextColumn::make('initialBalance.balance')
+                    ->label('Initial Balance - Date')
+                    ->money(config('penny.currency'))
+                    ->description(fn (Account $record) => $record->initialBalance?->recorded_until?->toDateString()),
             ])
             ->filters([
                 self::getUserFilter(),
