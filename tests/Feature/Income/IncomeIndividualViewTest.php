@@ -51,12 +51,14 @@ it('can display bulk delete action', function () {
 
 it('displays only current user accounts filter', function () {
     $u1a1 = Account::factory()->for($this->user)->create(['name' => 'u1a1']);
-    $u2a2 = Account::factory()->for(User::factory())->create(['name' => 'u2a2']);
+    Account::factory()->for(User::factory())->create(['name' => 'u2a2']);
 
     livewire(ListIncomes::class)
-        ->assertTableFilterExists('account_id', fn (SelectFilter $filter) => $filter->getLabel() === 'Account')
-        ->assertSeeText($u1a1->name)
-        ->assertDontSeeText($u2a2->name);
+        ->assertTableFilterExists(
+            'account_id',
+            fn (SelectFilter $filter) => $filter->getLabel() === 'Account'
+             && $filter->getOptions() === [$u1a1->id => $u1a1->name]
+        );
 });
 
 it('displays category filter', function () {

@@ -136,11 +136,13 @@ trait IncomeExpenseResourceTrait
                 SelectFilter::make('category_id')
                     ->label('Category')
                     ->options(TableFilterService::getCategoryFilter())
+                    ->preload()
                     ->searchable(),
 
                 SelectFilter::make('account_id')
                     ->label('Account')
                     ->options(TableFilterService::getAccountFilter(Auth::id()))
+                    ->preload()
                     ->searchable(),
 
                 SelectFilter::make('tags')
