@@ -36,15 +36,19 @@ trait RecurringIncomeRecurringExpenseTrait
                         'name',
                         fn (Builder $query): Builder => $query->where('user_id', auth()->id())
                     )
-                    ->nullable(),
+                    ->nullable()
+                    ->preload()
+                    ->searchable(),
 
                 Select::make('person_id')
                     ->relationship('person', 'name')
-                    ->preload(),
+                    ->preload()
+                    ->searchable(),
 
                 Select::make('category_id')
                     ->relationship('category', 'name')
-                    ->preload(),
+                    ->preload()
+                    ->searchable(),
 
                 TextInput::make('description')
                     ->required(),
