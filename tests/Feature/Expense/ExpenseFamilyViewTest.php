@@ -17,9 +17,14 @@ beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
 
-    $this->expense = Expense::factory()->for($this->user)->today()->create([
-        'description' => 'User 1 Expense',
-    ]);
+    $this->u1a1 = Account::factory()->for($this->user)->create(['name' => 'u1a1']);
+    $this->expense = Expense::factory()
+        ->for($this->user)
+        ->today()
+        ->for($this->u1a1)
+        ->create([
+            'description' => 'User 1 Expense',
+        ]);
 
     PanelId::FAMILY->setCurrentPanel();
 });
@@ -70,13 +75,17 @@ it('cannot perform delete expense action', function () {
 });
 
 it('displays only current user accounts filter', function () {
-    $u1a1 = Account::factory()->for($this->user)->create(['name' => 'u1a1']);
     $u2a2 = Account::factory()->for(User::factory())->create(['name' => 'u2a2']);
 
     livewire(ListExpenses::class)
-        ->assertTableFilterExists('account_id', fn (SelectFilter $filter) => $filter->getLabel() === 'Account')
-        ->assertSeeText($u1a1->name)
-        ->assertSeeText($u2a2->name);
+        ->assertTableFilterExists(
+            'account_id',
+            fn (SelectFilter $filter) => $filter->getLabel() === 'Account'
+                && $filter->getOptions() === [
+                    $this->u1a1->id => $this->u1a1->name,
+                    $u2a2->id => $u2a2->name,
+                ]
+        );
 });
 
 it('displays category filter', function () {
