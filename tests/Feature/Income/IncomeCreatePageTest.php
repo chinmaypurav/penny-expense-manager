@@ -20,7 +20,7 @@ beforeEach(function () {
 
 it('displays only current user accounts filter', function () {
     $u1a1 = Account::factory()->for($this->user)->create(['name' => 'u1a1']);
-    $u2a2 = Account::factory()->for(User::factory())->create(['name' => 'u2a2']);
+    Account::factory()->for(User::factory())->create(['name' => 'u2a2']);
 
     livewire(CreateIncome::class)
         ->assertFormFieldExists(
