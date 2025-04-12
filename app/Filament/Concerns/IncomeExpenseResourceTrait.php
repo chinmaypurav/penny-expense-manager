@@ -59,6 +59,7 @@ trait IncomeExpenseResourceTrait
                         fn (Builder $query): Builder => $query->where('user_id', auth()->id())
                     )
                     ->required()
+                    ->preload()
                     ->searchable(),
 
                 Select::make('category_id')

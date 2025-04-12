@@ -4,6 +4,7 @@ use App\Enums\PanelId;
 use App\Filament\Resources\IncomeResource\Pages\CreateIncome;
 use App\Models\Account;
 use App\Models\User;
+use Filament\Forms\Components\Select;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Livewire\livewire;
@@ -22,6 +23,8 @@ it('displays only current user accounts filter', function () {
     $u2a2 = Account::factory()->for(User::factory())->create(['name' => 'u2a2']);
 
     livewire(CreateIncome::class)
-        ->assertSeeText($u1a1->name)
-        ->assertDontSeeText($u2a2->name);
+        ->assertFormFieldExists(
+            'account_id',
+            checkFieldUsing: fn (Select $field) => $field->getOptions() === [$u1a1->id => $u1a1->name]
+        );
 });
