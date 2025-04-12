@@ -74,7 +74,7 @@ it('cannot perform delete expense action', function () {
         ->assertForbidden();
 });
 
-it('displays only current user accounts filter', function () {
+it('displays all user accounts in filter', function () {
     $u2a2 = Account::factory()->for(User::factory())->create(['name' => 'u2a2']);
 
     livewire(ListExpenses::class)
