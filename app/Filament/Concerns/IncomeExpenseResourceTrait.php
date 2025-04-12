@@ -50,6 +50,7 @@ trait IncomeExpenseResourceTrait
                         'name'
                     )
                     ->nullable()
+                    ->preload()
                     ->searchable(),
 
                 Select::make('account_id')
