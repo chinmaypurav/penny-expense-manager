@@ -37,6 +37,7 @@ trait RecurringIncomeRecurringExpenseTrait
                         fn (Builder $query): Builder => $query->where('user_id', auth()->id())
                     )
                     ->nullable()
+                    ->preload()
                     ->searchable(),
 
                 Select::make('person_id')
