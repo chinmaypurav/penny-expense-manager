@@ -65,6 +65,7 @@ trait IncomeExpenseResourceTrait
 
                 Select::make('category_id')
                     ->relationship('category', 'name')
+                    ->preload()
                     ->searchable(),
 
                 TextInput::make('description')
