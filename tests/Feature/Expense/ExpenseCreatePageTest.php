@@ -4,6 +4,7 @@ use App\Enums\PanelId;
 use App\Filament\Resources\ExpenseResource\Pages\CreateExpense;
 use App\Models\Account;
 use App\Models\Person;
+use App\Models\Tag;
 use App\Models\User;
 use Filament\Forms\Components\Select;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -38,5 +39,16 @@ it('displays people filter', function () {
         ->assertFormFieldExists(
             'person_id',
             checkFieldUsing: fn (Select $field) => $field->getOptions() === [$person->id => $person->name]
+        );
+});
+
+it('displays tags filter', function () {
+    $tag = Tag::factory()
+        ->create();
+
+    livewire(CreateExpense::class)
+        ->assertFormFieldExists(
+            'tags',
+            checkFieldUsing: fn (Select $field) => $field->getOptions() === [$tag->id => $tag->name]
         );
 });
