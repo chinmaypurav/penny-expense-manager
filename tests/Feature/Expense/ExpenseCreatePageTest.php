@@ -3,6 +3,7 @@
 use App\Enums\PanelId;
 use App\Filament\Resources\ExpenseResource\Pages\CreateExpense;
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Person;
 use App\Models\Tag;
 use App\Models\User;
@@ -39,6 +40,17 @@ it('displays people filter', function () {
         ->assertFormFieldExists(
             'person_id',
             checkFieldUsing: fn (Select $field) => $field->getOptions() === [$person->id => $person->name]
+        );
+});
+
+it('displays category filter', function () {
+    $category = Category::factory()
+        ->create();
+
+    livewire(CreateExpense::class)
+        ->assertFormFieldExists(
+            'category_id',
+            checkFieldUsing: fn (Select $field) => $field->getOptions() === [$category->id => $category->name]
         );
 });
 

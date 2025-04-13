@@ -1,9 +1,9 @@
 <?php
 
 use App\Enums\PanelId;
-use App\Filament\Resources\ExpenseResource\Pages\CreateExpense;
 use App\Filament\Resources\IncomeResource\Pages\CreateIncome;
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Person;
 use App\Models\Tag;
 use App\Models\User;
@@ -43,11 +43,22 @@ it('displays people filter', function () {
         );
 });
 
+it('displays category filter', function () {
+    $category = Category::factory()
+        ->create();
+
+    livewire(CreateIncome::class)
+        ->assertFormFieldExists(
+            'category_id',
+            checkFieldUsing: fn (Select $field) => $field->getOptions() === [$category->id => $category->name]
+        );
+});
+
 it('displays tags filter', function () {
     $tag = Tag::factory()
         ->create();
 
-    livewire(CreateExpense::class)
+    livewire(CreateIncome::class)
         ->assertFormFieldExists(
             'tags',
             checkFieldUsing: fn (Select $field) => $field->getOptions() === [$tag->id => $tag->name]
