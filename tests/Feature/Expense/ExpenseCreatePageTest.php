@@ -3,6 +3,7 @@
 use App\Enums\PanelId;
 use App\Filament\Resources\ExpenseResource\Pages\CreateExpense;
 use App\Models\Account;
+use App\Models\Person;
 use App\Models\User;
 use Filament\Forms\Components\Select;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,5 +27,16 @@ it('displays only current user accounts filter', function () {
         ->assertFormFieldExists(
             'account_id',
             checkFieldUsing: fn (Select $field) => $field->getOptions() === [$u1a1->id => $u1a1->name]
+        );
+});
+
+it('displays people filter', function () {
+    $person = Person::factory()
+        ->create();
+
+    livewire(CreateExpense::class)
+        ->assertFormFieldExists(
+            'person_id',
+            checkFieldUsing: fn (Select $field) => $field->getOptions() === [$person->id => $person->name]
         );
 });
