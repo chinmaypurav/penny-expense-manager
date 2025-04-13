@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\PanelId;
-use App\Filament\Resources\ExpenseResource\Pages\CreateExpense;
 use App\Filament\Resources\IncomeResource\Pages\CreateIncome;
 use App\Models\Account;
 use App\Models\Category;
@@ -59,7 +58,7 @@ it('displays tags filter', function () {
     $tag = Tag::factory()
         ->create();
 
-    livewire(CreateExpense::class)
+    livewire(CreateIncome::class)
         ->assertFormFieldExists(
             'tags',
             checkFieldUsing: fn (Select $field) => $field->getOptions() === [$tag->id => $tag->name]
