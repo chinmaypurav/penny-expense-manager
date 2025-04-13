@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\PanelId;
-use App\Models\Account;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Transfer;
@@ -17,11 +16,6 @@ beforeEach(function () {
     $user1 = User::factory()->create();
     $this->actingAs($user1);
     $user2 = User::factory()->create();
-
-    Account::factory()->for($user1)->create(['name' => 'u1a1']);
-    Account::factory()->for($user1)->create(['name' => 'u1a2']);
-    Account::factory()->for($user2)->create(['name' => 'u2a1']);
-    Account::factory()->for($user2)->create(['name' => 'u2a2']);
 
     Income::factory()->for($user1)->create(['description' => 'u1i1']);
     Income::factory()->for($user1)->create(['description' => 'u1i2']);
