@@ -16,11 +16,6 @@ class RecurringExpensePolicy
         return true;
     }
 
-    public function view(User $user, RecurringExpense $recurringExpense): bool
-    {
-        return $recurringExpense->user_id === $user->id;
-    }
-
     public function create(User $user): bool
     {
         return PanelId::APP->isCurrentPanel();
