@@ -16,11 +16,6 @@ class RecurringIncomePolicy
         return true;
     }
 
-    public function view(User $user, RecurringIncome $recurringIncome): bool
-    {
-        return $recurringIncome->user_id === $user->id;
-    }
-
     public function create(User $user): bool
     {
         return PanelId::APP->isCurrentPanel();
