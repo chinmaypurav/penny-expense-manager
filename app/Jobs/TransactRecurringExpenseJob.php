@@ -12,7 +12,7 @@ class TransactRecurringExpenseJob implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(private readonly RecurringExpense $recurringExpense) {}
+    public function __construct(public RecurringExpense $recurringExpense) {}
 
     public function handle(): void
     {

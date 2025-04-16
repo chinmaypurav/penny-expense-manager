@@ -12,7 +12,7 @@ class TransactRecurringTransferJob implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(private readonly RecurringTransfer $recurringTransfer) {}
+    public function __construct(public RecurringTransfer $recurringTransfer) {}
 
     public function handle(): void
     {

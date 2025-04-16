@@ -13,7 +13,7 @@ class TransactRecurringIncomeJob implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(private readonly RecurringIncome $recurringIncome) {}
+    public function __construct(public RecurringIncome $recurringIncome) {}
 
     /**
      * @throws Throwable
