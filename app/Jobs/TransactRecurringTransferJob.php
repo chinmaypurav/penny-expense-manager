@@ -2,41 +2,35 @@
 
 namespace App\Jobs;
 
-use App\Enums\Frequency;
 use App\Models\RecurringTransfer;
 use App\Models\Transfer;
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
 
 class TransactRecurringTransferJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Queueable;
 
-    public function __construct(private readonly Frequency $frequency) {}
+    public function __construct(private readonly RecurringTransfer $recurringTransfer) {}
 
     public function handle(): void
     {
         DB::transaction(function () {
-            $fillable = (new Transfer)->getFillable();
+            $this->processRecurringTransferState($this->recurringTransfer);
 
-            RecurringTransfer::query()
-                ->where('frequency', $this->frequency)
-                ->get()
-                ->map(function (RecurringTransfer $recurringTransfer) use ($fillable) {
-                    $data = $recurringTransfer->only($fillable);
+            $data = $this->recurringTransfer->only($this->getFillable());
 
-                    $data['transacted_at'] = $recurringTransfer->next_transaction_at;
-                    $income = Transfer::create($data);
+            $data['transacted_at'] = $this->recurringTransfer->next_transaction_at;
+            $transfer = Transfer::create($data);
 
-                    $income->tags()->attach($recurringTransfer->tags);
-
-                    $this->processRecurringTransferState($recurringTransfer);
-                });
+            $transfer->tags()->attach($this->recurringTransfer->tags);
         });
+    }
+
+    protected function getFillable(): array
+    {
+        return (new Transfer)->getFillable();
     }
 
     private function processRecurringTransferState(RecurringTransfer $recurringTransfer): void
