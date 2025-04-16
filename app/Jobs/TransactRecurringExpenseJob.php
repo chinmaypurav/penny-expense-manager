@@ -2,46 +2,39 @@
 
 namespace App\Jobs;
 
-use App\Enums\Frequency;
 use App\Models\Expense;
 use App\Models\RecurringExpense;
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
 
 class TransactRecurringExpenseJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Queueable;
 
-    public function __construct(private readonly Frequency $frequency) {}
+    public function __construct(private readonly RecurringExpense $recurringExpense) {}
 
     public function handle(): void
     {
         DB::transaction(function () {
-            $fillable = (new Expense)->getFillable();
+            $this->processRecurringExpenseState($this->recurringExpense);
 
-            RecurringExpense::query()
-                ->where('frequency', $this->frequency)
-                ->get()
-                ->map(function (RecurringExpense $recurringExpense) use ($fillable) {
-                    $this->processRecurringExpenseState($recurringExpense);
+            if (is_null($this->recurringExpense->account_id)) {
+                return;
+            }
 
-                    if (is_null($recurringExpense->account_id)) {
-                        return;
-                    }
+            $data = $this->recurringExpense->only($this->getFillable());
 
-                    $data = $recurringExpense->only($fillable);
+            $data['transacted_at'] = $this->recurringExpense->next_transaction_at;
+            $expense = Expense::create($data);
 
-                    $data['transacted_at'] = $recurringExpense->next_transaction_at;
-                    $expense = Expense::create($data);
-
-                    $expense->tags()->attach($recurringExpense->tags);
-
-                });
+            $expense->tags()->attach($this->recurringExpense->tags);
         });
+    }
+
+    protected function getFillable(): array
+    {
+        return (new Expense)->getFillable();
     }
 
     private function processRecurringExpenseState(RecurringExpense $recurringExpense): void
