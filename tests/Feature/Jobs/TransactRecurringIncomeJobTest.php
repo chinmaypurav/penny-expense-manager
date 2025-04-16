@@ -18,7 +18,7 @@ uses(DatabaseMigrations::class);
 test('it copies recurring income into income', function () {
     $recurringIncome = RecurringIncome::factory()->create();
 
-    new TransactRecurringIncomeJob($recurringIncome->frequency)->handle();
+    new TransactRecurringIncomeJob($recurringIncome)->handle();
 
     assertDatabaseHas(Income::class, [
         'description' => $recurringIncome->description,
@@ -36,7 +36,7 @@ test('it does not copy recurring income into income when account null', function
         'remaining_recurrences' => 2,
     ]);
 
-    new TransactRecurringIncomeJob($recurringIncome->frequency)->handle();
+    new TransactRecurringIncomeJob($recurringIncome)->handle();
 
     assertDatabaseEmpty(Income::class);
 
@@ -51,7 +51,7 @@ test('it copies recurring income tags to income', function () {
     $recurringIncome = RecurringIncome::factory()->create();
     $recurringIncome->tags()->attach($tags);
 
-    new TransactRecurringIncomeJob($recurringIncome->frequency)->handle();
+    new TransactRecurringIncomeJob($recurringIncome)->handle();
 
     $incomeTags = Income::first()->tags->pluck('id')->toArray();
 
@@ -64,7 +64,7 @@ test('it decrements remaining_recurrences by 1', function () {
         'remaining_recurrences' => fake()->numberBetween(2, 10),
     ]);
 
-    $job = new TransactRecurringIncomeJob($recurringIncome->frequency);
+    $job = new TransactRecurringIncomeJob($recurringIncome);
 
     $job->handle();
 
@@ -80,7 +80,7 @@ test('it keeps remaining_recurrences null when null remaining_recurrences', func
         'remaining_recurrences' => null,
     ]);
 
-    $job = new TransactRecurringIncomeJob($recurringIncome->frequency);
+    $job = new TransactRecurringIncomeJob($recurringIncome);
 
     $job->handle();
 
@@ -96,7 +96,7 @@ test('it deletes remaining_recurrences remaining_recurrences is 1', function () 
         'remaining_recurrences' => 1,
     ]);
 
-    $job = new TransactRecurringIncomeJob($recurringIncome->frequency);
+    $job = new TransactRecurringIncomeJob($recurringIncome);
 
     $job->handle();
 

@@ -2,46 +2,43 @@
 
 namespace App\Jobs;
 
-use App\Enums\Frequency;
 use App\Models\Income;
 use App\Models\RecurringIncome;
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class TransactRecurringIncomeJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Queueable;
 
-    public function __construct(private readonly Frequency $frequency) {}
+    public function __construct(private readonly RecurringIncome $recurringIncome) {}
 
+    /**
+     * @throws Throwable
+     */
     public function handle(): void
     {
         DB::transaction(function () {
-            $fillable = (new Income)->getFillable();
+            $this->processRecurringIncomeState($this->recurringIncome);
 
-            RecurringIncome::query()
-                ->where('frequency', $this->frequency)
-                ->get()
-                ->map(function (RecurringIncome $recurringIncome) use ($fillable) {
-                    $this->processRecurringIncomeState($recurringIncome);
+            if (is_null($this->recurringIncome->account_id)) {
+                return;
+            }
 
-                    if (is_null($recurringIncome->account_id)) {
-                        return;
-                    }
+            $data = $this->recurringIncome->only($this->getFillable());
 
-                    $data = $recurringIncome->only($fillable);
+            $data['transacted_at'] = $this->recurringIncome->next_transaction_at;
+            $income = Income::create($data);
 
-                    $data['transacted_at'] = $recurringIncome->next_transaction_at;
-                    $income = Income::create($data);
-
-                    $income->tags()->attach($recurringIncome->tags);
-
-                });
+            $income->tags()->attach($this->recurringIncome->tags);
         });
+    }
+
+    protected function getFillable(): array
+    {
+        return (new Income)->getFillable();
     }
 
     private function processRecurringIncomeState(RecurringIncome $recurringIncome): void
