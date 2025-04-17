@@ -2,60 +2,35 @@
 
 namespace App\Jobs;
 
-use App\Enums\Frequency;
 use App\Models\Income;
 use App\Models\RecurringIncome;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
-class TransactRecurringIncomeJob implements ShouldQueue
+class TransactRecurringIncomeJob extends AbstractTransactRecurringJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    public function __construct(public RecurringIncome $recurringIncome) {}
 
-    public function __construct(private readonly Frequency $frequency) {}
-
+    /**
+     * @throws Throwable
+     */
     public function handle(): void
     {
         DB::transaction(function () {
-            $fillable = (new Income)->getFillable();
+            $this->processRecurringTransactionState($this->recurringIncome);
 
-            RecurringIncome::query()
-                ->where('frequency', $this->frequency)
-                ->get()
-                ->map(function (RecurringIncome $recurringIncome) use ($fillable) {
-                    $this->processRecurringIncomeState($recurringIncome);
+            if (is_null($this->recurringIncome->account_id)) {
+                return;
+            }
 
-                    if (is_null($recurringIncome->account_id)) {
-                        return;
-                    }
+            $income = Income::create($this->getTransactionData($this->recurringIncome));
 
-                    $data = $recurringIncome->only($fillable);
-
-                    $data['transacted_at'] = $recurringIncome->next_transaction_at;
-                    $income = Income::create($data);
-
-                    $income->tags()->attach($recurringIncome->tags);
-
-                });
+            $this->attachTags($income, $this->recurringIncome->tags);
         });
     }
 
-    private function processRecurringIncomeState(RecurringIncome $recurringIncome): void
+    protected function getFillable(): array
     {
-        if ($recurringIncome->remaining_recurrences === null) {
-            return;
-        }
-
-        if ($recurringIncome->remaining_recurrences === 1) {
-            $recurringIncome->delete();
-
-            return;
-        }
-
-        $recurringIncome->decrement('remaining_recurrences');
+        return (new Income)->getFillable();
     }
 }

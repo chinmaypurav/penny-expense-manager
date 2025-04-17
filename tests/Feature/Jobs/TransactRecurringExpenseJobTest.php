@@ -18,7 +18,7 @@ uses(DatabaseMigrations::class);
 test('it copies recurring expense into expense', function () {
     $recurringExpense = RecurringExpense::factory()->create();
 
-    new TransactRecurringExpenseJob($recurringExpense->frequency)->handle();
+    new TransactRecurringExpenseJob($recurringExpense)->handle();
 
     assertDatabaseHas(Expense::class, [
         'description' => $recurringExpense->description,
@@ -36,7 +36,7 @@ test('it does not copy recurring expense into expense when account null', functi
         'remaining_recurrences' => 2,
     ]);
 
-    new TransactRecurringExpenseJob($recurringExpense->frequency)->handle();
+    new TransactRecurringExpenseJob($recurringExpense)->handle();
 
     assertDatabaseEmpty(Expense::class);
 
@@ -51,7 +51,7 @@ test('it copies recurring expense tags to expense', function () {
     $recurringExpense = RecurringExpense::factory()->create();
     $recurringExpense->tags()->attach($tags);
 
-    new TransactRecurringExpenseJob($recurringExpense->frequency)->handle();
+    new TransactRecurringExpenseJob($recurringExpense)->handle();
 
     $expenseTags = Expense::first()->tags->pluck('id')->toArray();
 
@@ -61,16 +61,16 @@ test('it copies recurring expense tags to expense', function () {
 
 test('it decrements remaining_recurrences by 1', function () {
     $recurringExpense = RecurringExpense::factory()->create([
-        'remaining_recurrences' => fake()->numberBetween(2, 10),
+        'remaining_recurrences' => $count = fake()->numberBetween(2, 10),
     ]);
 
-    $job = new TransactRecurringExpenseJob($recurringExpense->frequency);
+    $job = new TransactRecurringExpenseJob($recurringExpense);
 
     $job->handle();
 
     assertDatabaseHas(RecurringExpense::class, [
         'id' => $recurringExpense->id,
-        'remaining_recurrences' => $recurringExpense->remaining_recurrences - 1,
+        'remaining_recurrences' => $count - 1,
     ]);
 
 });
@@ -80,7 +80,7 @@ test('it keeps remaining_recurrences null when null remaining_recurrences', func
         'remaining_recurrences' => null,
     ]);
 
-    $job = new TransactRecurringExpenseJob($recurringExpense->frequency);
+    $job = new TransactRecurringExpenseJob($recurringExpense);
 
     $job->handle();
 
@@ -96,7 +96,7 @@ test('it deletes remaining_recurrences remaining_recurrences is 1', function () 
         'remaining_recurrences' => 1,
     ]);
 
-    $job = new TransactRecurringExpenseJob($recurringExpense->frequency);
+    $job = new TransactRecurringExpenseJob($recurringExpense);
 
     $job->handle();
 

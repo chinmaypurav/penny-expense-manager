@@ -17,7 +17,7 @@ uses(DatabaseMigrations::class);
 test('it copies recurring transfer into transfer', function () {
     $recurringTransfer = RecurringTransfer::factory()->create();
 
-    new TransactRecurringTransferJob($recurringTransfer->frequency)->handle();
+    new TransactRecurringTransferJob($recurringTransfer)->handle();
 
     assertDatabaseHas(Transfer::class, [
         'description' => $recurringTransfer->description,
@@ -35,7 +35,7 @@ test('it copies recurring transfer tags to transfer', function () {
     $recurringTransfer = RecurringTransfer::factory()->create();
     $recurringTransfer->tags()->attach($tags);
 
-    new TransactRecurringTransferJob($recurringTransfer->frequency)->handle();
+    new TransactRecurringTransferJob($recurringTransfer)->handle();
 
     $transferTags = Transfer::first()->tags->pluck('id')->toArray();
 
@@ -45,16 +45,16 @@ test('it copies recurring transfer tags to transfer', function () {
 
 test('it decrements remaining_recurrences by 1', function () {
     $recurringTransfer = RecurringTransfer::factory()->create([
-        'remaining_recurrences' => fake()->numberBetween(2, 10),
+        'remaining_recurrences' => $count = fake()->numberBetween(2, 10),
     ]);
 
-    $job = new TransactRecurringTransferJob($recurringTransfer->frequency);
+    $job = new TransactRecurringTransferJob($recurringTransfer);
 
     $job->handle();
 
     assertDatabaseHas(RecurringTransfer::class, [
         'id' => $recurringTransfer->id,
-        'remaining_recurrences' => $recurringTransfer->remaining_recurrences - 1,
+        'remaining_recurrences' => $count - 1,
     ]);
 
 });
@@ -64,7 +64,7 @@ test('it keeps remaining_recurrences null when null remaining_recurrences', func
         'remaining_recurrences' => null,
     ]);
 
-    $job = new TransactRecurringTransferJob($recurringTransfer->frequency);
+    $job = new TransactRecurringTransferJob($recurringTransfer);
 
     $job->handle();
 
@@ -80,7 +80,7 @@ test('it deletes remaining_recurrences when remaining_recurrences is 1', functio
         'remaining_recurrences' => 1,
     ]);
 
-    $job = new TransactRecurringTransferJob($recurringTransfer->frequency);
+    $job = new TransactRecurringTransferJob($recurringTransfer);
 
     $job->handle();
 

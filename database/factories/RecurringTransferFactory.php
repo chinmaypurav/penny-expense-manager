@@ -30,6 +30,13 @@ class RecurringTransferFactory extends Factory
         ];
     }
 
+    public function today(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'next_transaction_at' => Carbon::today(),
+        ]);
+    }
+
     public function lifetime(): static
     {
         return $this->state(fn (array $attributes) => [
