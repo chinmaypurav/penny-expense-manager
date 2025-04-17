@@ -61,7 +61,7 @@ test('it copies recurring income tags to income', function () {
 
 test('it decrements remaining_recurrences by 1', function () {
     $recurringIncome = RecurringIncome::factory()->create([
-        'remaining_recurrences' => fake()->numberBetween(2, 10),
+        'remaining_recurrences' => $count = fake()->numberBetween(2, 10),
     ]);
 
     $job = new TransactRecurringIncomeJob($recurringIncome);
@@ -70,7 +70,7 @@ test('it decrements remaining_recurrences by 1', function () {
 
     assertDatabaseHas(RecurringIncome::class, [
         'id' => $recurringIncome->id,
-        'remaining_recurrences' => $recurringIncome->remaining_recurrences - 1,
+        'remaining_recurrences' => $count - 1,
     ]);
 
 });

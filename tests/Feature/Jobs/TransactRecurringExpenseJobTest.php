@@ -61,7 +61,7 @@ test('it copies recurring expense tags to expense', function () {
 
 test('it decrements remaining_recurrences by 1', function () {
     $recurringExpense = RecurringExpense::factory()->create([
-        'remaining_recurrences' => fake()->numberBetween(2, 10),
+        'remaining_recurrences' => $count = fake()->numberBetween(2, 10),
     ]);
 
     $job = new TransactRecurringExpenseJob($recurringExpense);
@@ -70,7 +70,7 @@ test('it decrements remaining_recurrences by 1', function () {
 
     assertDatabaseHas(RecurringExpense::class, [
         'id' => $recurringExpense->id,
-        'remaining_recurrences' => $recurringExpense->remaining_recurrences - 1,
+        'remaining_recurrences' => $count - 1,
     ]);
 
 });

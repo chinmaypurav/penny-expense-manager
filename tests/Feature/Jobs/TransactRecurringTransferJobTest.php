@@ -45,7 +45,7 @@ test('it copies recurring transfer tags to transfer', function () {
 
 test('it decrements remaining_recurrences by 1', function () {
     $recurringTransfer = RecurringTransfer::factory()->create([
-        'remaining_recurrences' => fake()->numberBetween(2, 10),
+        'remaining_recurrences' => $count = fake()->numberBetween(2, 10),
     ]);
 
     $job = new TransactRecurringTransferJob($recurringTransfer);
@@ -54,7 +54,7 @@ test('it decrements remaining_recurrences by 1', function () {
 
     assertDatabaseHas(RecurringTransfer::class, [
         'id' => $recurringTransfer->id,
-        'remaining_recurrences' => $recurringTransfer->remaining_recurrences - 1,
+        'remaining_recurrences' => $count - 1,
     ]);
 
 });
