@@ -11,4 +11,4 @@ Schedule::job(new CreatePeriodicalBalanceEntryJob(RecordType::MONTHLY, today()))
 Schedule::job(new CreatePeriodicalBalanceEntryJob(RecordType::YEARLY, today()))
     ->yearly();
 
-Schedule::job(new TriggerRecurringTransactionsJob(today()));
+Schedule::job(new TriggerRecurringTransactionsJob(today()))->daily();;
