@@ -87,7 +87,6 @@ it('returns the next transaction date', function (Frequency $frequency, Carbon $
     $this->assertTrue(
         $frequency->getNextTransactionAt(Carbon::today())->is($nextTransactionDate)
     );
-
 })->with([
     [Frequency::DAILY, Carbon::today()->addDay()],
     [Frequency::WEEKLY, Carbon::today()->addWeek()],
