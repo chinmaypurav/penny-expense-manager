@@ -29,7 +29,10 @@ abstract class AbstractTransactRecurringJob implements ShouldQueue
             return;
         }
 
-        $transaction->decrement('remaining_recurrences');
+        $transaction->update([
+            'remaining_recurrences' => $transaction->remaining_recurrences - 1,
+            'next_transaction_at' => $transaction->frequency->getNextTransactionDate($transaction->next_transaction_at),
+        ]);
     }
 
     protected function getTransactionData(RecurringIncome|RecurringExpense|RecurringTransfer $recurringTransaction): array

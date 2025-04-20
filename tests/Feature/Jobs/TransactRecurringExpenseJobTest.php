@@ -2,6 +2,7 @@
 
 namespace Tests\Jobs;
 
+use App\Enums\Frequency;
 use App\Jobs\TransactRecurringExpenseJob;
 use App\Models\Expense;
 use App\Models\RecurringExpense;
@@ -104,4 +105,22 @@ test('it deletes remaining_recurrences remaining_recurrences is 1', function () 
         'id' => $recurringExpense->id,
     ]);
 
+});
+
+it('updates next_transaction_at when transacting', function () {
+    $recurringExpense = RecurringExpense::factory()->create([
+        'remaining_recurrences' => fake()->numberBetween(2, 10),
+        'frequency' => Frequency::MONTHLY,
+    ]);
+
+    $nextTransactionAt = $recurringExpense->next_transaction_at->copy();
+
+    $job = new TransactRecurringExpenseJob($recurringExpense);
+
+    $job->handle();
+
+    assertDatabaseHas(RecurringExpense::class, [
+        'id' => $recurringExpense->id,
+        'next_transaction_at' => $nextTransactionAt->addMonth(),
+    ]);
 });
