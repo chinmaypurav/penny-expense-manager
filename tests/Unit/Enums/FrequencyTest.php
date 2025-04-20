@@ -85,7 +85,7 @@ it('returns the iterations within the date range when remaining recurrences is n
 
 it('returns the next transaction date', function (Frequency $frequency, Carbon $nextTransactionDate) {
     $this->assertTrue(
-        $frequency->getNextTransactionDate(Carbon::today())->is($nextTransactionDate)
+        $frequency->getNextTransactionAt(Carbon::today())->is($nextTransactionDate)
     );
 
 })->with([

@@ -31,7 +31,7 @@ abstract class AbstractTransactRecurringJob implements ShouldQueue
 
         $transaction->update([
             'remaining_recurrences' => $transaction->remaining_recurrences - 1,
-            'next_transaction_at' => $transaction->frequency->getNextTransactionDate($transaction->next_transaction_at),
+            'next_transaction_at' => $transaction->frequency->getNextTransactionAt($transaction->next_transaction_at),
         ]);
     }
 
