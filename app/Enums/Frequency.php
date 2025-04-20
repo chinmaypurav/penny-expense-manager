@@ -40,4 +40,16 @@ enum Frequency: string implements HasLabel
 
         return min($iterationsLeft, $diff);
     }
+
+    public function getNextTransactionAt(Carbon $nextTransactionAt): Carbon
+    {
+        return match ($this->value) {
+            self::DAILY->value => $nextTransactionAt->addDay(),
+            self::WEEKLY->value => $nextTransactionAt->addWeek(),
+            self::MONTHLY->value => $nextTransactionAt->addMonth(),
+            self::QUARTERLY->value => $nextTransactionAt->addQuarter(),
+            self::YEARLY->value => $nextTransactionAt->addYear(),
+            default => $nextTransactionAt,
+        };
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Jobs;
 
+use App\Enums\Frequency;
 use App\Jobs\TransactRecurringTransferJob;
 use App\Models\RecurringTransfer;
 use App\Models\Tag;
@@ -88,4 +89,22 @@ test('it deletes remaining_recurrences when remaining_recurrences is 1', functio
         'id' => $recurringTransfer->id,
     ]);
 
+});
+
+it('updates next_transaction_at when transacting', function () {
+    $recurringTransfer = RecurringTransfer::factory()->create([
+        'remaining_recurrences' => fake()->numberBetween(2, 10),
+        'frequency' => Frequency::MONTHLY,
+    ]);
+
+    $nextTransactionAt = $recurringTransfer->next_transaction_at->copy();
+
+    $job = new TransactRecurringTransferJob($recurringTransfer);
+
+    $job->handle();
+
+    assertDatabaseHas(RecurringTransfer::class, [
+        'id' => $recurringTransfer->id,
+        'next_transaction_at' => $nextTransactionAt->addMonth(),
+    ]);
 });

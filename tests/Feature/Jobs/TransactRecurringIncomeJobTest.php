@@ -2,6 +2,7 @@
 
 namespace Tests\Jobs;
 
+use App\Enums\Frequency;
 use App\Jobs\TransactRecurringIncomeJob;
 use App\Models\Income;
 use App\Models\RecurringIncome;
@@ -104,4 +105,22 @@ test('it deletes remaining_recurrences remaining_recurrences is 1', function () 
         'id' => $recurringIncome->id,
     ]);
 
+});
+
+it('updates next_transaction_at when transacting', function () {
+    $recurringIncome = RecurringIncome::factory()->create([
+        'remaining_recurrences' => fake()->numberBetween(2, 10),
+        'frequency' => Frequency::MONTHLY,
+    ]);
+
+    $nextTransactionAt = $recurringIncome->next_transaction_at->copy();
+
+    $job = new TransactRecurringIncomeJob($recurringIncome);
+
+    $job->handle();
+
+    assertDatabaseHas(RecurringIncome::class, [
+        'id' => $recurringIncome->id,
+        'next_transaction_at' => $nextTransactionAt->addMonth(),
+    ]);
 });
