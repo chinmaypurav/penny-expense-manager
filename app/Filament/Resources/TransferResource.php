@@ -142,6 +142,7 @@ class TransferResource extends Resource
             ->defaultSort('transacted_at', 'desc')
             ->actions([
                 ReplicateAction::make()
+                    ->visible(PanelId::APP->isCurrentPanel())
                     ->formData([
                         'transacted_at' => now(),
                     ]),

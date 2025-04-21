@@ -28,6 +28,11 @@ it('can display create action', function () {
         ->assertActionVisible('create');
 });
 
+it('can display replicate action', function () {
+    livewire(ListExpenses::class)
+        ->assertTableActionVisible('replicate', $this->expense->id);
+});
+
 it('can display edit action', function () {
     livewire(ListExpenses::class)
         ->assertTableActionVisible('edit', $this->expense->id);

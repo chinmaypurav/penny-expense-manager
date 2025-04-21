@@ -26,6 +26,11 @@ it('can display create action', function () {
         ->assertActionVisible('create');
 });
 
+it('can display replicate action', function () {
+    livewire(ListTransfers::class)
+        ->assertTableActionVisible('replicate', $this->transfer->id);
+});
+
 it('can display edit action', function () {
     livewire(ListTransfers::class)
         ->assertTableActionVisible('edit', $this->transfer->id);

@@ -34,6 +34,11 @@ it('cannot display create action', function () {
         ->assertActionHidden('create');
 });
 
+it('cannot display replicate action', function () {
+    livewire(ListIncomes::class)
+        ->assertTableActionHidden('replicate', $this->income->id);
+});
+
 it('cannot display edit action', function () {
     livewire(ListIncomes::class)
         ->assertTableActionHidden('edit', $this->income->id);
