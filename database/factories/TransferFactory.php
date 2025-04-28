@@ -19,7 +19,7 @@ class TransferFactory extends Factory
             'updated_at' => Carbon::now(),
             'description' => fake()->text(),
             'amount' => fake()->randomFloat(2),
-            'transacted_at' => fake()->dateTime(),
+            'transacted_at' => fake()->dateTimeBetween('-1 years', 'now'),
 
             'user_id' => User::factory(),
             'creditor_id' => Account::factory(),
