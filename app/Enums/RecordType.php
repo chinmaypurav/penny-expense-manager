@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use Carbon\CarbonImmutable;
+use Carbon\CarbonImmutable as Carbon;
 use Filament\Support\Contracts\HasLabel;
 
 enum RecordType: string implements HasLabel
@@ -16,7 +16,7 @@ enum RecordType: string implements HasLabel
         return $this->name;
     }
 
-    public function getStartDate(CarbonImmutable $date): CarbonImmutable
+    public function getStartDate(Carbon $date): Carbon
     {
         return match ($this->value) {
             self::INITIAL->value => $date->startOfDay(),
@@ -25,7 +25,7 @@ enum RecordType: string implements HasLabel
         };
     }
 
-    public function getEndDate(CarbonImmutable $date): CarbonImmutable
+    public function getEndDate(Carbon $date): Carbon
     {
         return match ($this->value) {
             self::INITIAL->value => $date->endOfDay(),
