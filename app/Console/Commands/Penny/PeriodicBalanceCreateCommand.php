@@ -6,9 +6,9 @@ use App\Enums\RecordType;
 use App\Jobs\CreatePeriodicalBalanceEntryJob;
 use App\Models\Account;
 use App\Models\Balance;
+use Carbon\CarbonImmutable as Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Carbon;
 
 class PeriodicBalanceCreateCommand extends Command
 {
@@ -38,19 +38,30 @@ class PeriodicBalanceCreateCommand extends Command
             'yearly' => RecordType::YEARLY,
         };
 
-        $today = today()->subDay();
-        $choices = [];
+        $today = today();
+        $months = [];
         for ($d = $oldestDate; $d->lte($today); $d->addMonth()) {
-            $d->startOfMonth();
-            $choices[$d->toDateString()] = $d->format('M-y');
+            $end = $recordType->getEndDate($d);
+
+            if ($end->gte($today)) {
+                break;
+            }
+
+            $months[$d->toDateString()] = $d->format('M-y');
         }
 
-        $choice = $this->choice('Select month: ', $choices);
+        if (empty($months)) {
+            $this->warn('No account is old enough to create historical balance entries.');
+
+            return;
+        }
+
+        $month = $this->choice('Select month: ', $months);
 
         if (
             $balance = Balance::query()
                 ->where('record_type', $recordType)
-                ->whereDate('recorded_until', $choice)
+                ->whereDate('recorded_until', $month)
                 ->first()
         ) {
             if (! $this->confirm('Balance already exists for the selected month. Overwrite?')) {
@@ -61,7 +72,7 @@ class PeriodicBalanceCreateCommand extends Command
             $balance->delete();
         }
 
-        CreatePeriodicalBalanceEntryJob::dispatchSync($recordType, Carbon::parse($choice));
+        CreatePeriodicalBalanceEntryJob::dispatchSync($recordType, Carbon::parse($month));
         $this->info('Balance entry created successfully.');
     }
 }
