@@ -4,12 +4,12 @@ namespace App\Jobs;
 
 use App\Enums\RecordType;
 use App\Models\Account;
+use Carbon\CarbonInterface as Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Carbon;
 
 class CreatePeriodicalBalanceEntryJob implements ShouldQueue
 {
@@ -19,22 +19,43 @@ class CreatePeriodicalBalanceEntryJob implements ShouldQueue
 
     public function handle(): void
     {
+        $today = $this->today->toImmutable();
+        $startDate = $this->recordType->getStartDate($today);
+        $endDate = $this->recordType->getEndDate($today);
+
         $accounts = Account::all();
 
         foreach ($accounts as $account) {
             $account->balances()->create([
-                'balance' => $this->getBalanceForYesterday($account),
+                'balance' => $this->getBalanceForYesterday($account, $startDate, $endDate),
                 'record_type' => $this->recordType,
-                'recorded_until' => $this->today->subDay(),
+                'recorded_until' => $today,
             ]);
         }
     }
 
-    private function getBalanceForYesterday(Account $account): float
+    private function getBalanceForYesterday(Account $account, Carbon $startDate, Carbon $endDate): float
     {
-        $incomeTotal = $account->incomes()->where('transacted_at', $this->today->subDay())->sum('amount');
-        $expenseTotal = $account->expenses()->where('transacted_at', $this->today)->sum('amount');
+        $incomeTotal = $account->incomes()
+            ->transactionBetween($startDate, $endDate)
+            ->sum('amount');
 
-        return $account->current_balance - $incomeTotal + $expenseTotal;
+        $expenseTotal = $account->expenses()
+            ->transactionBetween($startDate, $endDate)
+            ->sum('amount');
+
+        $debitTransfers = $account->debitTransfers()
+            ->transactionBetween($startDate, $endDate)
+            ->sum('amount');
+
+        $creditTransfers = $account->creditTransfers()
+            ->transactionBetween($startDate, $endDate)
+            ->sum('amount');
+
+        return $account->current_balance
+            + $incomeTotal
+            - $expenseTotal
+            - $debitTransfers
+            + $creditTransfers;
     }
 }
