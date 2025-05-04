@@ -47,9 +47,11 @@ class PeriodicBalanceCreateCommand extends Command
 
         $choice = $this->choice('Select month: ', $choices);
 
-        if ($balance = Balance::query()
-            ->where('record_type', $recordType)
-            ->whereDate('recorded_until', $choice)->first()
+        if (
+            $balance = Balance::query()
+                ->where('record_type', $recordType)
+                ->whereDate('recorded_until', $choice)
+                ->first()
         ) {
             if (! $this->confirm('Balance already exists for the selected month. Overwrite?')) {
                 $this->info('Balance entry creation cancelled.');
