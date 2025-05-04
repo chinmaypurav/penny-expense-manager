@@ -21,7 +21,7 @@ class AccountFactory extends Factory
             'identifier' => fake()->numerify(),
             'account_type' => fake()->randomElement(AccountType::cases()),
             'current_balance' => fake()->randomFloat(2),
-            'initial_date' => fake()->date(),
+            'initial_date' => fake()->dateTimeBetween('-1 years'),
 
             'user_id' => User::factory(),
         ];
