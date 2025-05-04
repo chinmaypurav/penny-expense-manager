@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
+    $this->travelTo('2025-04-01');
     Queue::fake();
 });
 
@@ -22,7 +23,6 @@ it('returns early when project not initialized', function () {
 });
 
 it('dispatches job for given date when no existing entry exists', function (RecordType $recordType) {
-    $this->travelTo('2025-04-01');
     Account::factory()->create(['initial_date' => '2025-01-01']);
 
     $this->artisan(PeriodicBalanceCreateCommand::class)
@@ -40,12 +40,13 @@ it('dispatches job for given date when no existing entry exists', function (Reco
 ]);
 
 it('dispatches job for given date when existing entry exists', function (RecordType $recordType) {
-    $this->travelTo('2025-04-01');
-    $account = Account::factory()->create(['initial_date' => '2025-01-01']);
+    $account = Account::factory()->createQuietly(['initial_date' => '2025-01-01']);
     Balance::factory()->for($account)->create([
-        'recorded_until' => '2025-01-31',
+        'recorded_until' => $recordedUntil = '2025-01-31',
         'record_type' => $recordType,
     ]);
+
+    $this->assertDatabaseCount(Balance::class, 1);
 
     $this->artisan(PeriodicBalanceCreateCommand::class)
         ->expectsQuestion('Record Type: ', $recordType->value)
@@ -53,6 +54,8 @@ it('dispatches job for given date when existing entry exists', function (RecordT
         ->expectsConfirmation('Balance already exists for the selected month. Overwrite?', 'yes')
         ->expectsOutput('Balance entry created successfully.')
         ->assertSuccessful();
+
+    $this->assertDatabaseCount(Balance::class, 0);
 
     Queue::assertPushed(fn (CreatePeriodicalBalanceEntryJob $job) => $job->recordType === $recordType
         && $job->today->is($today)
@@ -63,7 +66,6 @@ it('dispatches job for given date when existing entry exists', function (RecordT
 ]);
 
 it('does not dispatches job for given date when existing entry exists', function (RecordType $recordType) {
-    $this->travelTo('2025-04-01');
     $account = Account::factory()->create(['initial_date' => '2025-01-01']);
     Balance::factory()->for($account)->create([
         'recorded_until' => '2025-01-31',
