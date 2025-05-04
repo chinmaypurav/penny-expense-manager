@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use Carbon\CarbonImmutable as Carbon;
+use Carbon\CarbonInterface as Carbon;
 use Filament\Support\Contracts\HasLabel;
 
 enum RecordType: string implements HasLabel
