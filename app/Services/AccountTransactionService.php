@@ -23,7 +23,7 @@ class AccountTransactionService
         $data = $this->getTransactions($balance);
 
         Excel::queue(new AccountTransactionsExport($data), $path = $this->getFileName($balance))->chain([
-            new SendAccountTransactionMailJob($user, $path),
+            new SendAccountTransactionMailJob($user, $balance, $path),
             new CleanupFileJob($path),
         ]);
     }
