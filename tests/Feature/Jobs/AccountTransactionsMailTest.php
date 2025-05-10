@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\RecordType;
 use App\Jobs\SendAccountTransactionMailJob;
 use App\Mail\AccountTransactionsMail;
 use App\Models\Account;
