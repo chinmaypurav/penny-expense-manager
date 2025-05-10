@@ -34,6 +34,13 @@ class BalanceFactory extends Factory
         ]);
     }
 
+    public function periodicalRecord(): static
+    {
+        return $this->state(fn () => [
+            'record_type' => fake()->randomElement(RecordType::getPeriodicalTypes()),
+        ]);
+    }
+
     public function monthly(): static
     {
         return $this->state(fn () => [

@@ -92,8 +92,8 @@ it('dispatches export job', function () {
     partialMock(AccountTransactionService::class, function (MockInterface $mock) {
         $mock->shouldReceive('getTransactions')->once()->andReturn(collect());
     });
-    $account = Account::factory()->for($this->user)->create();
-    $balance = Balance::factory()->for($account)->create();
+    $account = Account::factory()->for($this->user)->createQuietly();
+    $balance = Balance::factory()->for($account)->periodicalRecord()->createQuietly();
 
     $service = app(AccountTransactionService::class);
     $service->sendTransactionsOverEmail($balance, $this->user);
