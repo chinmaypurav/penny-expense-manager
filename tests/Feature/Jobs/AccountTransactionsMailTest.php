@@ -1,7 +1,9 @@
 <?php
 
+use App\Enums\RecordType;
 use App\Jobs\SendAccountTransactionMailJob;
 use App\Mail\AccountTransactionsMail;
+use App\Models\Account;
 use App\Models\Balance;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,9 +12,16 @@ uses(RefreshDatabase::class);
 
 test('it dispatches mail', function () {
     Mail::fake();
+
+    $user = User::factory()->createQuietly();
+    $account = Account::factory()->for($user)->createQuietly();
+    $balance = Balance::factory()->for($account)->createQuietly([
+        'record_type' => fake()->randomElement([RecordType::MONTHLY, RecordType::YEARLY]),
+    ]);
+
     SendAccountTransactionMailJob::dispatch(
-        $user = User::factory()->create(),
-        $balance = Balance::factory()->create(),
+        $user,
+        $balance,
         $filePath = 'test.csv',
     );
 
