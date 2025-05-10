@@ -8,7 +8,7 @@ FROM serversideup/php:8.4-fpm-nginx AS base
 
 # Switch to root before installing our PHP extensions
 USER root
-RUN install-php-extensions intl
+RUN install-php-extensions intl gd
 USER www-data
 
 ############################################
