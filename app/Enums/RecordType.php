@@ -26,6 +26,14 @@ enum RecordType: string implements HasLabel
         return $this !== self::INITIAL;
     }
 
+    public static function getPeriodicalTypes(): array
+    {
+        return [
+            self::YEARLY,
+            self::MONTHLY,
+        ];
+    }
+
     public function getStartDate(Carbon $date): Carbon
     {
         return match ($this->value) {
