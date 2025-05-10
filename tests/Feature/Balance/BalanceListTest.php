@@ -4,8 +4,11 @@ use App\Filament\Resources\BalanceResource;
 use App\Models\Account;
 use App\Models\Balance;
 use App\Models\User;
+use App\Services\AccountTransactionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery\MockInterface;
 
+use function Pest\Laravel\mock;
 use function Pest\Livewire\livewire;
 
 uses(RefreshDatabase::class);
@@ -29,4 +32,16 @@ it('can display transactions action only for monthly and yearly record types', f
         ->assertTableActionVisible('transactions', $monthly)
         ->assertTableActionVisible('transactions', $yearly)
         ->assertTableActionHidden('transactions', $initial);
+});
+
+it('sends transactions over email', function () {
+    $account = Account::factory()->for($this->user)->create();
+    $balance = Balance::factory()->for($account)->monthly()->create();
+
+    mock(AccountTransactionService::class, function (MockInterface $mock) {
+        $mock->shouldReceive('sendTransactionsOverEmail')->once();
+    });
+
+    livewire(BalanceResource\Pages\ListBalances::class)
+        ->callTableAction('transactions', $balance);
 });
