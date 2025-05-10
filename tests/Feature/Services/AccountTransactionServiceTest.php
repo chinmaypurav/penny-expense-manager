@@ -1,6 +1,8 @@
 <?php
 
 use App\Enums\RecordType;
+use App\Jobs\CleanupFileJob;
+use App\Jobs\SendAccountTransactionMailJob;
 use App\Models\Account;
 use App\Models\Balance;
 use App\Models\Expense;
@@ -10,6 +12,10 @@ use App\Models\User;
 use App\Services\AccountTransactionService;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Maatwebsite\Excel\Facades\Excel;
+use Mockery\MockInterface;
+
+use function Pest\Laravel\partialMock;
 
 uses(RefreshDatabase::class);
 
@@ -79,3 +85,23 @@ it('returns transactions data sorted', function (RecordType $recordType, int $of
     'monthly' => [RecordType::MONTHLY, 1, '2025-04-01', '2025-03-31'],
     'yearly' => [RecordType::YEARLY, 12, '2025-04-01', '2024-03-31'],
 ]);
+
+it('dispatches export job', function () {
+    Excel::fake();
+
+    partialMock(AccountTransactionService::class, function (MockInterface $mock) {
+        $mock->shouldReceive('getTransactions')->once()->andReturn(collect());
+    });
+    $account = Account::factory()->for($this->user)->create();
+    $balance = Balance::factory()->for($account)->create();
+
+    $service = app(AccountTransactionService::class);
+    $service->sendTransactionsOverEmail($balance, $this->user);
+    $filePath = $service->getFileName($balance);
+
+    Excel::assertQueued($filePath);
+    Excel::assertQueuedWithChain([
+        SendAccountTransactionMailJob::class,
+        CleanupFileJob::class,
+    ]);
+});

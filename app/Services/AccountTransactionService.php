@@ -86,7 +86,7 @@ class AccountTransactionService
         });
     }
 
-    private function getFileName(Balance $balance): string
+    public function getFileName(Balance $balance): string
     {
         $account = $balance->account;
 
