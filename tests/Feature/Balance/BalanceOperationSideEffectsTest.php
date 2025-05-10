@@ -11,7 +11,7 @@ use function Pest\Laravel\mock;
 
 uses(RefreshDatabase::class);
 
-test('it sends transactions over email', function () {
+it('sends transactions over email', function () {
     mock(AccountTransactionService::class, function (MockInterface $mock) {
         $mock->shouldReceive('sendTransactionsOverEmail')->once();
     });
