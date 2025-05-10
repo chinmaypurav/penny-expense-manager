@@ -28,7 +28,7 @@ class BalanceFactory extends Factory
 
     public function initialRecord(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn () => [
             'record_type' => RecordType::INITIAL,
             'is_initial_record' => true,
         ]);
@@ -36,8 +36,15 @@ class BalanceFactory extends Factory
 
     public function monthly(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn () => [
             'record_type' => RecordType::MONTHLY,
+        ]);
+    }
+
+    public function yearly(): static
+    {
+        return $this->state(fn () => [
+            'record_type' => RecordType::YEARLY,
         ]);
     }
 }
