@@ -5,7 +5,9 @@ namespace App\Filament\Resources;
 use App\Enums\RecordType;
 use App\Filament\Resources\BalanceResource\Pages;
 use App\Models\Balance;
+use App\Services\AccountTransactionService;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -40,6 +42,14 @@ class BalanceResource extends Resource
                     ->boolean(),
 
                 TextColumn::make('record_type'),
+            ])
+            ->actions([
+                Action::make('transactions')
+                    ->label('Transactions')
+                    ->hidden(fn (Balance $record) => $record->record_type === RecordType::INITIAL)
+                    ->requiresConfirmation()
+                    ->action(fn (AccountTransactionService $service, Balance $record) => $service->sendTransactionsOverEmail($record, auth()->user())
+                    ),
             ])
             ->filters([
                 SelectFilter::make('account_id')

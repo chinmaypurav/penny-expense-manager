@@ -16,6 +16,16 @@ enum RecordType: string implements HasLabel
         return $this->name;
     }
 
+    public function isInitial(): bool
+    {
+        return $this === self::INITIAL;
+    }
+
+    public function isNotInitial(): bool
+    {
+        return $this !== self::INITIAL;
+    }
+
     public function getStartDate(Carbon $date): Carbon
     {
         return match ($this->value) {
