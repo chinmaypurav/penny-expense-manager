@@ -3,6 +3,22 @@
 use App\Enums\RecordType;
 use Carbon\CarbonImmutable as Carbon;
 
+it('tests isInitial method', function (RecordType $recordType, bool $expected) {
+    $this->assertEquals($expected, $recordType->isInitial());
+})->with([
+    [RecordType::INITIAL, true],
+    [RecordType::MONTHLY, false],
+    [RecordType::YEARLY, false],
+]);
+
+it('tests isNotInitial method', function (RecordType $recordType, bool $expected) {
+    $this->assertEquals($expected, $recordType->isNotInitial());
+})->with([
+    [RecordType::INITIAL, false],
+    [RecordType::MONTHLY, true],
+    [RecordType::YEARLY, true],
+]);
+
 it('returns start date', function (RecordType $recordType, Carbon $inputDate, Carbon $expectedStartDate) {
     $this->assertTrue($recordType->getStartDate($inputDate)->eq($expectedStartDate));
 })->with([
