@@ -8,7 +8,10 @@ FROM serversideup/php:8.4-fpm-nginx AS base
 
 # Switch to root before installing our PHP extensions
 USER root
-RUN install-php-extensions intl gd
+RUN apt update && apt install -y \
+    postgresql-client \
+    && install-php-extensions intl gd \
+    && rm -rf /var/lib/apt/lists/*
 USER www-data
 
 ############################################
