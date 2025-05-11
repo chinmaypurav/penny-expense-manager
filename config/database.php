@@ -94,7 +94,7 @@ return [
             'sslmode' => 'prefer',
             'dump' => [
                 'add_extra_option' => '--format=c', // and any other pg_dump flags
-            ]
+            ],
         ],
 
         'sqlsrv' => [
