@@ -9,7 +9,15 @@ FROM serversideup/php:8.4-fpm-nginx AS base
 # Switch to root before installing our PHP extensions
 USER root
 RUN apt update && apt install -y \
-    postgresql-client \
+    ca-certificates \
+    gnupg  \
+    lsb-release  \
+    && curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
+    gpg --dearmor -o /usr/share/keyrings/postgresql.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/postgresql.gpg] \
+    http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | \
+    tee /etc/apt/sources.list.d/pgdg.list \
+    && postgresql-client \
     && install-php-extensions intl gd \
     && rm -rf /var/lib/apt/lists/*
 USER www-data
@@ -29,6 +37,9 @@ ARG GROUP_ID
 USER root
 RUN docker-php-serversideup-set-id www-data $USER_ID:$GROUP_ID  && \
     docker-php-serversideup-set-file-permissions --owner $USER_ID:$GROUP_ID --service nginx
+
+
+
 
 # Switch back to the unprivileged www-data user
 USER www-data
