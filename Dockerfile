@@ -17,7 +17,8 @@ RUN apt update && apt install -y \
     && echo "deb [signed-by=/usr/share/keyrings/postgresql.gpg] \
     http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | \
     tee /etc/apt/sources.list.d/pgdg.list \
-    && postgresql-client \
+    && apt update && apt install -y \
+    postgresql-client \
     && install-php-extensions intl gd \
     && rm -rf /var/lib/apt/lists/*
 USER www-data
