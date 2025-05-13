@@ -65,3 +65,9 @@ it('has balances', function () {
         ->toHaveCount(2)
         ->each->toBeInstanceOf(Balance::class);
 });
+
+it('has a label attribute', function () {
+    $account = Account::factory()->create();
+
+    expect($account->label)->toBe("{$account->account_type->getShortCode()} | {$account->name} {$account->identifier}");
+});

@@ -17,4 +17,16 @@ enum AccountType: string implements HasLabel
     {
         return $this->name;
     }
+
+    public function getShortCode(): string
+    {
+        return match ($this->value) {
+            self::SAVINGS->value => 'SB',
+            self::CURRENT->value => 'CC',
+            self::CREDIT->value => 'CR',
+            self::LOAN->value => 'LN',
+            self::TRADING->value => 'TR',
+            self::CASH->value => 'CA',
+        };
+    }
 }
