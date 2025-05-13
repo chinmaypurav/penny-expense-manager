@@ -109,6 +109,7 @@ trait IncomeExpenseResourceTrait
                 TextColumn::make('transacted_at')
                     ->label('Transacted Date')
                     ->date()
+                    ->dateTooltip('D')
                     ->sortable(),
 
                 TextColumn::make('amount')
