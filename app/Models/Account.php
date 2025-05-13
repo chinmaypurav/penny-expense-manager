@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\AccountType;
 use App\Observers\AccountObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,6 +35,11 @@ class Account extends Model
             'initial_date' => 'date:Y-m-d',
             'data' => 'array',
         ];
+    }
+
+    protected function label(): Attribute
+    {
+        return Attribute::get(fn () => "{$this->account_type->getShortCode()} | {$this->name} {$this->identifier}");
     }
 
     public function user(): BelongsTo
