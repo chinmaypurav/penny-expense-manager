@@ -28,7 +28,7 @@ it('displays only current user accounts filter', function () {
     livewire(CreateIncome::class)
         ->assertFormFieldExists(
             'account_id',
-            checkFieldUsing: fn (Select $field) => $field->getOptions() === [$u1a1->id => $u1a1->name]
+            checkFieldUsing: fn (Select $field) => $field->getOptions() === [$u1a1->id => $u1a1->label]
         );
 });
 
