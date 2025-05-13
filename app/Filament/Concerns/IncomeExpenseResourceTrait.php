@@ -3,6 +3,7 @@
 namespace App\Filament\Concerns;
 
 use App\Enums\PanelId;
+use App\Models\Account;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Services\TableFilterService;
@@ -59,6 +60,7 @@ trait IncomeExpenseResourceTrait
                         'name',
                         fn (Builder $query): Builder => $query->where('user_id', auth()->id())
                     )
+                    ->getOptionLabelFromRecordUsing(fn (Account $record): string => $record->label)
                     ->required()
                     ->preload()
                     ->searchable(),
