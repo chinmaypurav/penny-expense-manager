@@ -9,6 +9,7 @@ use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Transfer;
 use App\Models\User;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Livewire\livewire;
@@ -19,6 +20,14 @@ beforeEach(function () {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);
     PanelId::FAMILY->setCurrentPanel();
+});
+
+it('sets the default form value to today', function () {
+    livewire(Today::class)
+        ->assertFormFieldExists(
+            'transacted_at',
+            checkFieldUsing: fn (DatePicker $field) => $field->getState() === today()->toDateString()
+        );
 });
 
 it('displays income expense and transfer tables', function (PanelId $panelId) {
