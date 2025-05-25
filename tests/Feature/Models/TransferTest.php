@@ -35,3 +35,13 @@ it('has many tags', function () {
         ->toHaveCount(2)
         ->each->toBeInstanceOf(Tag::class);
 });
+
+it('has today transfers', function () {
+    $transfer = Transfer::factory()->today()->create();
+    Transfer::factory()->yesterday()->create();
+
+    $transfers = Transfer::today()->get();
+
+    expect($transfers)->toHaveCount(1)
+        ->and($transfers->value('id'))->toBe($transfer->id);
+});

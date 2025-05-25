@@ -43,3 +43,13 @@ it('has many tags', function () {
         ->toHaveCount(2)
         ->each->toBeInstanceOf(Tag::class);
 });
+
+it('has today expenses', function () {
+    $expense = Expense::factory()->today()->create();
+    Expense::factory()->yesterday()->create();
+
+    $expenses = Expense::today()->get();
+
+    expect($expenses)->toHaveCount(1)
+        ->and($expenses->value('id'))->toBe($expense->id);
+});
