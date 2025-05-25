@@ -43,3 +43,23 @@ it('has many tags', function () {
         ->toHaveCount(2)
         ->each->toBeInstanceOf(Tag::class);
 });
+
+it('has today incomes', function () {
+    $income = Income::factory()->today()->create();
+    Income::factory()->yesterday()->create();
+
+    $incomes = Income::today()->get();
+
+    expect($incomes)->toHaveCount(1)
+        ->and($incomes->value('id'))->toBe($income->id);
+});
+
+it('has transacted on incomes', function () {
+    Income::factory()->today()->create();
+    $income = Income::factory()->yesterday()->create();
+
+    $incomes = Income::transactionOn(today()->subDay())->get();
+
+    expect($incomes)->toHaveCount(1)
+        ->and($incomes->value('id'))->toBe($income->id);
+});

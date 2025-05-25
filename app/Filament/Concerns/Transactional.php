@@ -14,7 +14,8 @@ use Illuminate\Database\Eloquent\Builder;
  */
 trait Transactional
 {
-    public static function scopeToday(Builder $q): void
+    #[Scope]
+    protected function scopeToday(Builder $q): void
     {
         $q->whereDate('transacted_at', today());
     }
@@ -25,5 +26,12 @@ trait Transactional
         $builder
             ->where('transacted_at', '>=', $startDate)
             ->where('transacted_at', '<=', $endDate);
+    }
+
+    #[Scope]
+    protected function transactionOn(Builder $builder, Carbon $transactedAt): void
+    {
+        $builder
+            ->whereDate('transacted_at', $transactedAt);
     }
 }
