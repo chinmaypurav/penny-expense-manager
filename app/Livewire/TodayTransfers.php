@@ -7,11 +7,15 @@ use App\Models\Transfer;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 class TodayTransfers extends BaseWidget
 {
+    use InteractsWithPageFilters;
+
     public function table(Table $table): Table
     {
         return $table
@@ -21,7 +25,11 @@ class TodayTransfers extends BaseWidget
                         PanelId::APP->isCurrentPanel(),
                         fn (Builder $q) => $q->where('user_id', auth()->id())
                     )
-                    ->today()
+                    ->when(
+                        Arr::get($this->filters, 'transacted_at'),
+                        fn (Builder $q, string $transactedAt) => $q->whereDate('transacted_at', $transactedAt),
+                        fn (Builder $q) => $q->whereDate('transacted_at', today())
+                    )
             )
             ->paginated(false)
             ->columns([
