@@ -45,3 +45,13 @@ it('has today transfers', function () {
     expect($transfers)->toHaveCount(1)
         ->and($transfers->value('id'))->toBe($transfer->id);
 });
+
+it('has transacted on transfers', function () {
+    Transfer::factory()->today()->create();
+    $transfer = Transfer::factory()->yesterday()->create();
+
+    $transfers = Transfer::transactionOn(today()->subDay())->get();
+
+    expect($transfers)->toHaveCount(1)
+        ->and($transfers->value('id'))->toBe($transfer->id);
+});

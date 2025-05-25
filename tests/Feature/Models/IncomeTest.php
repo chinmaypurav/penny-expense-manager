@@ -53,3 +53,13 @@ it('has today incomes', function () {
     expect($incomes)->toHaveCount(1)
         ->and($incomes->value('id'))->toBe($income->id);
 });
+
+it('has transacted on incomes', function () {
+    Income::factory()->today()->create();
+    $income = Income::factory()->yesterday()->create();
+
+    $incomes = Income::transactionOn(today()->subDay())->get();
+
+    expect($incomes)->toHaveCount(1)
+        ->and($incomes->value('id'))->toBe($income->id);
+});

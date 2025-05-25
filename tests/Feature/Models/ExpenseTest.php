@@ -53,3 +53,13 @@ it('has today expenses', function () {
     expect($expenses)->toHaveCount(1)
         ->and($expenses->value('id'))->toBe($expense->id);
 });
+
+it('has transacted on expenses', function () {
+    Expense::factory()->today()->create();
+    $expense = Expense::factory()->yesterday()->create();
+
+    $expenses = Expense::transactionOn(today()->subDay())->get();
+
+    expect($expenses)->toHaveCount(1)
+        ->and($expenses->value('id'))->toBe($expense->id);
+});
