@@ -27,4 +27,11 @@ trait Transactional
             ->where('transacted_at', '>=', $startDate)
             ->where('transacted_at', '<=', $endDate);
     }
+
+    #[Scope]
+    protected function transactionOn(Builder $builder, Carbon $transactedAt): void
+    {
+        $builder
+            ->whereDate('transacted_at', $transactedAt);
+    }
 }
