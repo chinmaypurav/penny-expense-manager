@@ -1,5 +1,6 @@
 <x-filament-panels::page>
-    @livewire(\App\Livewire\TodayIncomes::class)
-    @livewire(\App\Livewire\TodayExpenses::class)
-    @livewire(\App\Livewire\TodayTransfers::class)
+    {{ $this->form }}
+    <livewire:today-incomes :$filters />
+    <livewire:today-expenses :$filters />
+    <livewire:today-transfers :$filters />
 </x-filament-panels::page>
