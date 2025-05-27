@@ -49,7 +49,7 @@ it('displays income expense and transfer tables', function (PanelId $panelId) {
         ->assertSeeLivewire(TodayIncomes::class)
         ->assertSeeLivewire(TodayExpenses::class)
         ->assertSeeLivewire(TodayTransfers::class);
-})->with('today dashboard panel ids');
+})->with('date and panel id dataset for data filter');
 
 it('displays incomes only for passed date', function (PanelId $panelId, array $keys, ?string $transactedAt = null) {
     $this->travelTo('2025-02-04');
@@ -70,7 +70,7 @@ it('displays incomes only for passed date', function (PanelId $panelId, array $k
     livewire(TodayIncomes::class, ['filters' => ['transacted_at' => $transactedAt]])
         ->assertCountTableRecords($records->count())
         ->assertCanSeeTableRecords($records);
-})->with('today dashboard panel ids');
+})->with('date and panel id dataset for data filter');
 
 it('displays expenses only passed date', function (PanelId $panelId, array $keys, ?string $transactedAt = null) {
     $this->travelTo('2025-02-04');
@@ -91,7 +91,7 @@ it('displays expenses only passed date', function (PanelId $panelId, array $keys
     livewire(TodayExpenses::class, ['filters' => ['transacted_at' => $transactedAt]])
         ->assertCountTableRecords($records->count())
         ->assertCanSeeTableRecords($records);
-})->with('today dashboard panel ids');
+})->with('date and panel id dataset for data filter');
 
 it('displays transfers only for passed date', function (PanelId $panelId, array $keys, ?string $transactedAt = null) {
     $this->travelTo('2025-02-04');
@@ -112,9 +112,9 @@ it('displays transfers only for passed date', function (PanelId $panelId, array 
     livewire(TodayTransfers::class, ['filters' => ['transacted_at' => $transactedAt]])
         ->assertCountTableRecords($records->count())
         ->assertCanSeeTableRecords($records);
-})->with('today dashboard panel ids');
+})->with('date and panel id dataset for data filter');
 
-dataset('today dashboard panel ids', [
+dataset('date and panel id dataset for data filter', [
     'app panel with date' => [PanelId::APP, [2], '2025-02-02'],
     'app panel without date' => [PanelId::APP, [5]],
     'family panel with date' => [PanelId::FAMILY, [2, 3], '2025-02-02'],
