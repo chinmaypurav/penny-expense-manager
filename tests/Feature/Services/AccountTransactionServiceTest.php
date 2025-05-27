@@ -74,7 +74,10 @@ it('returns transactions data sorted', function (RecordType $recordType, int $of
         'transacted_at' => $recordedUntil->addDays($offsetDays),
     ]);
 
-    $transactions = app(AccountTransactionService::class)->getTransactions($balance);
+    $recordType = $balance->record_type;
+    $startDate = $recordType->getStartDate($balance->recorded_until->copy());
+    $endDate = $balance->recorded_until;
+    $transactions = app(AccountTransactionService::class)->getTransactions($account, $startDate, $endDate);
 
     $this->assertCount(4, $transactions);
 
@@ -96,7 +99,7 @@ it('dispatches export job', function () {
     $balance = Balance::factory()->for($account)->periodicalRecord()->createQuietly();
 
     $service = app(AccountTransactionService::class);
-    $service->sendTransactionsOverEmail($balance, $this->user);
+    $service->sendTransactionsForBalancePeriod($balance, $this->user);
     $filePath = $service->getFileName($balance);
 
     Excel::assertQueued($filePath);

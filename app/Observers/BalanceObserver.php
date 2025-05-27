@@ -13,6 +13,6 @@ class BalanceObserver
             return;
         }
 
-        app(AccountTransactionService::class)->sendTransactionsOverEmail($balance, $balance->account->user);
+        app(AccountTransactionService::class)->sendTransactionsForBalancePeriod($balance, $balance->account->user);
     }
 }

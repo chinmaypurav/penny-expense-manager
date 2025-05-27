@@ -39,7 +39,7 @@ it('sends transactions over email', function () {
     $balance = Balance::factory()->for($account)->monthly()->create();
 
     mock(AccountTransactionService::class, function (MockInterface $mock) {
-        $mock->shouldReceive('sendTransactionsOverEmail')->once();
+        $mock->shouldReceive('sendTransactionsForBalancePeriod')->once();
     });
 
     livewire(BalanceResource\Pages\ListBalances::class)

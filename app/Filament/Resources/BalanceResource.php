@@ -48,7 +48,7 @@ class BalanceResource extends Resource
                     ->label('Transactions')
                     ->hidden(fn (Balance $record) => $record->record_type === RecordType::INITIAL)
                     ->requiresConfirmation()
-                    ->action(fn (AccountTransactionService $service, Balance $record) => $service->sendTransactionsOverEmail($record, auth()->user())
+                    ->action(fn (AccountTransactionService $service, Balance $record) => $service->sendTransactionsForBalancePeriod($record, auth()->user())
                     ),
             ])
             ->defaultSort('recorded_until', 'desc')
