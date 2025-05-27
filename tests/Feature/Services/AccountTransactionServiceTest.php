@@ -108,3 +108,23 @@ it('dispatches export job for balance period', function () {
         CleanupFileJob::class,
     ]);
 });
+
+it('dispatches export job for unaccounted period', function () {
+    Excel::fake();
+
+    partialMock(AccountTransactionService::class, function (MockInterface $mock) {
+        $mock->shouldReceive('getTransactions')->once()->andReturn(collect());
+    });
+    $account = Account::factory()->for($this->user)->createQuietly();
+    $balance = Balance::factory()->for($account)->periodicalRecord()->createQuietly();
+
+    $service = app(AccountTransactionService::class);
+    $service->sendTransactionsForUnaccountedPeriod($account, $this->user);
+    $filePath = $service->getFileName($balance, true);
+
+    Excel::assertQueued($filePath);
+    Excel::assertQueuedWithChain([
+        SendAccountTransactionMailJob::class,
+        CleanupFileJob::class,
+    ]);
+});
