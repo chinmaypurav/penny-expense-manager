@@ -77,4 +77,10 @@ class Account extends Model
         return $this->hasOne(Balance::class, 'account_id')
             ->where('is_initial_record', true);
     }
+
+    public function previousBalance(): HasOne
+    {
+        return $this->hasOne(Balance::class, 'account_id')
+            ->orderByDesc('recorded_until');
+    }
 }
