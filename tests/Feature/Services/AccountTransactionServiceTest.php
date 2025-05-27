@@ -89,7 +89,7 @@ it('returns transactions data sorted', function (RecordType $recordType, int $of
     'yearly' => [RecordType::YEARLY, 12, '2025-04-01', '2024-03-31'],
 ]);
 
-it('dispatches export job', function () {
+it('dispatches export job for balance period', function () {
     Excel::fake();
 
     partialMock(AccountTransactionService::class, function (MockInterface $mock) {
