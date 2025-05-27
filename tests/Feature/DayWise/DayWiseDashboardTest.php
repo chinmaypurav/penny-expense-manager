@@ -1,10 +1,10 @@
 <?php
 
 use App\Enums\PanelId;
-use App\Filament\Pages\Today;
-use App\Livewire\TodayExpenses;
-use App\Livewire\TodayIncomes;
-use App\Livewire\TodayTransfers;
+use App\Filament\Pages\DayWise;
+use App\Livewire\DayWiseExpenses;
+use App\Livewire\DayWiseIncomes;
+use App\Livewire\DayWiseTransfers;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Transfer;
@@ -24,7 +24,7 @@ beforeEach(function () {
 });
 
 it('sets the default form value to today', function () {
-    livewire(Today::class)
+    livewire(DayWise::class)
         ->assertFormFieldExists(
             'transacted_at',
             checkFieldUsing: fn (DatePicker $field) => $field->getState() === today()->toDateString()
@@ -32,7 +32,7 @@ it('sets the default form value to today', function () {
 });
 
 it('changes the filters property value when form updated', function () {
-    livewire(Today::class)
+    livewire(DayWise::class)
         ->assertSet('filters.transacted_at', today()->toDateString())
         ->fillForm(['transacted_at' => $newTransactedAt = today()->subDay()->toDateString()])
         ->assertSet('filters.transacted_at', $newTransactedAt);
@@ -45,10 +45,10 @@ it('displays income expense and transfer tables', function (PanelId $panelId) {
     Expense::factory()->for($this->user)->today()->create();
     Transfer::factory()->for($this->user)->today()->create();
 
-    $this->get(Today::getUrl())
-        ->assertSeeLivewire(TodayIncomes::class)
-        ->assertSeeLivewire(TodayExpenses::class)
-        ->assertSeeLivewire(TodayTransfers::class);
+    $this->get(DayWise::getUrl())
+        ->assertSeeLivewire(DayWiseIncomes::class)
+        ->assertSeeLivewire(DayWiseExpenses::class)
+        ->assertSeeLivewire(DayWiseTransfers::class);
 })->with('date and panel id dataset for data filter');
 
 it('displays incomes only for passed date', function (PanelId $panelId, array $keys, ?string $transactedAt = null) {
@@ -67,7 +67,7 @@ it('displays incomes only for passed date', function (PanelId $panelId, array $k
 
     $records = Income::whereKey($keys)->get();
 
-    livewire(TodayIncomes::class, ['filters' => ['transacted_at' => $transactedAt]])
+    livewire(DayWiseIncomes::class, ['filters' => ['transacted_at' => $transactedAt]])
         ->assertCountTableRecords($records->count())
         ->assertCanSeeTableRecords($records);
 })->with('date and panel id dataset for data filter');
@@ -88,7 +88,7 @@ it('displays expenses only passed date', function (PanelId $panelId, array $keys
 
     $records = Expense::whereKey($keys)->get();
 
-    livewire(TodayExpenses::class, ['filters' => ['transacted_at' => $transactedAt]])
+    livewire(DayWiseExpenses::class, ['filters' => ['transacted_at' => $transactedAt]])
         ->assertCountTableRecords($records->count())
         ->assertCanSeeTableRecords($records);
 })->with('date and panel id dataset for data filter');
@@ -109,7 +109,7 @@ it('displays transfers only for passed date', function (PanelId $panelId, array 
 
     $records = Transfer::whereKey($keys)->get();
 
-    livewire(TodayTransfers::class, ['filters' => ['transacted_at' => $transactedAt]])
+    livewire(DayWiseTransfers::class, ['filters' => ['transacted_at' => $transactedAt]])
         ->assertCountTableRecords($records->count())
         ->assertCanSeeTableRecords($records);
 })->with('date and panel id dataset for data filter');

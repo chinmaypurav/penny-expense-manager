@@ -12,7 +12,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
-class TodayExpenses extends BaseWidget
+class DayWiseExpenses extends BaseWidget
 {
     use InteractsWithPageFilters;
 

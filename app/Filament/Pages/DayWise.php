@@ -8,17 +8,17 @@ use Filament\Forms\Form;
 use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
 use Filament\Pages\Page;
 
-class Today extends Page implements HasForms
+class DayWise extends Page implements HasForms
 {
     use HasFiltersForm;
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar';
 
-    protected static string $view = 'filament.pages.today';
+    protected static string $view = 'filament.pages.day-wise';
 
-    protected static ?string $navigationLabel = 'Today Transactions';
+    protected static ?string $navigationLabel = 'Day Wise Transactions';
 
-    protected static ?string $title = 'Today Transactions';
+    protected static ?string $title = 'Day Wise Transactions';
 
     public function mount(): void
     {

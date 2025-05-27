@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Enums\PanelId;
-use App\Models\Transfer;
+use App\Models\Income;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -12,7 +12,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
-class TodayTransfers extends BaseWidget
+class DayWiseIncomes extends BaseWidget
 {
     use InteractsWithPageFilters;
 
@@ -20,7 +20,7 @@ class TodayTransfers extends BaseWidget
     {
         return $table
             ->query(
-                Transfer::query()
+                Income::query()
                     ->when(
                         PanelId::APP->isCurrentPanel(),
                         fn (Builder $q) => $q->where('user_id', auth()->id())
@@ -33,8 +33,8 @@ class TodayTransfers extends BaseWidget
             )
             ->paginated(false)
             ->columns([
-                TextColumn::make('creditor.name')->label('Creditor'),
-                TextColumn::make('debtor.name')->label('Debtor'),
+                TextColumn::make('account.name')->label('Account'),
+                TextColumn::make('person.name')->label('Person'),
                 TextColumn::make('description'),
                 TextColumn::make('amount')
                     ->money(config('penny.currency'))
