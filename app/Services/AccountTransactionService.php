@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\RecordType;
 use App\Exports\AccountTransactionsExport;
 use App\Jobs\CleanupFileJob;
 use App\Jobs\SendAccountTransactionMailJob;
@@ -15,10 +16,26 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AccountTransactionService
 {
+    public function sendTransactionsForUnaccountedPeriod(Account $account, User $user): void
+    {
+        $recordType = RecordType::MONTHLY;
+        $balance = $account->previousBalance;
+        $startDate = $recordType->getStartDate(today());
+        $endDate = $balance->recorded_until;
+
+        $data = $this->getTransactions($balance->account, $startDate, $endDate);
+
+        Excel::queue(new AccountTransactionsExport($data), $path = $this->getFileName($balance, true))->chain([
+            new SendAccountTransactionMailJob($user, $balance, $path),
+            new CleanupFileJob($path),
+        ]);
+    }
+
     public function sendTransactionsForBalancePeriod(Balance $balance, User $user): void
     {
         $recordType = $balance->record_type;
@@ -87,13 +104,17 @@ class AccountTransactionService
         });
     }
 
-    public function getFileName(Balance $balance): string
+    public function getFileName(Balance $balance, bool $unaccounted = false): string
     {
         $account = $balance->account;
 
         return Str::of($account->name)
             ->append('-')
-            ->append($balance->recorded_until->format('d-M-Y'))
+            ->when(
+                $unaccounted,
+                fn (Stringable $str) => $str->append(today()->format('d-M-Y')),
+                fn (Stringable $str) => $str->append($balance->recorded_until->format('d-M-Y'))
+            )
             ->append('.csv')
             ->toString();
     }
