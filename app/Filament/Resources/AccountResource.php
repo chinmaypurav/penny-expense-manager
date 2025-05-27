@@ -7,12 +7,14 @@ use App\Filament\Concerns\BulkDeleter;
 use App\Filament\Concerns\UserFilterable;
 use App\Filament\Resources\AccountResource\Pages;
 use App\Models\Account;
+use App\Services\AccountTransactionService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -114,6 +116,11 @@ class AccountResource extends Resource
             ])
             ->paginated(false)
             ->actions([
+                Action::make('transactions')
+                    ->label('Transactions')
+                    ->requiresConfirmation()
+                    ->action(fn (AccountTransactionService $service, Account $record) => $service->sendTransactionsForUnaccountedPeriod($record, auth()->user())
+                    ),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
