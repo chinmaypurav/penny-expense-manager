@@ -30,6 +30,13 @@ it('sets the default form value to today', function () {
         );
 });
 
+it('changes the filters property value when form updated', function () {
+    livewire(Today::class)
+        ->assertSet('filters.transacted_at', today()->toDateString())
+        ->fillForm(['transacted_at' => $newTransactedAt = today()->subDay()->toDateString()])
+        ->assertSet('filters.transacted_at', $newTransactedAt);
+});
+
 it('displays income expense and transfer tables', function (PanelId $panelId) {
     $panelId->setCurrentPanel();
 
