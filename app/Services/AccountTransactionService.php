@@ -12,15 +12,20 @@ use App\Models\Income;
 use App\Models\Transfer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AccountTransactionService
 {
-    public function sendTransactionsOverEmail(Balance $balance, User $user): void
+    public function sendTransactionsForBalancePeriod(Balance $balance, User $user): void
     {
-        $data = $this->getTransactions($balance);
+        $recordType = $balance->record_type;
+        $startDate = $recordType->getStartDate($balance->recorded_until->copy());
+        $endDate = $balance->recorded_until;
+
+        $data = $this->getTransactions($balance->account, $startDate, $endDate);
 
         Excel::queue(new AccountTransactionsExport($data), $path = $this->getFileName($balance))->chain([
             new SendAccountTransactionMailJob($user, $balance, $path),
@@ -28,27 +33,23 @@ class AccountTransactionService
         ]);
     }
 
-    public function getTransactions(Balance $balance): Collection
+    public function getTransactions(Account $account, Carbon $startDate, Carbon $endDate): Collection
     {
-        $recordType = $balance->record_type;
-        $startDate = $recordType->getStartDate($balance->recorded_until->copy());
-        $endDate = $balance->recorded_until;
-
         $incomes = Income::query()
             ->transactionBetween($startDate, $endDate)
-            ->where('account_id', $balance->account_id)
+            ->where('account_id', $account->id)
             ->get();
 
         $expenses = Expense::query()
             ->transactionBetween($startDate, $endDate)
-            ->where('account_id', $balance->account_id)
+            ->where('account_id', $account->id)
             ->get();
 
         $transfers = Transfer::query()
             ->transactionBetween($startDate, $endDate)
             ->where(fn (Builder $q) => $q
-                ->where('creditor_id', $balance->account_id)
-                ->orWhere('debtor_id', $balance->account_id)
+                ->where('creditor_id', $account->id)
+                ->orWhere('debtor_id', $account->id)
             )->get();
 
         $transactions = Collection::make()
@@ -57,7 +58,7 @@ class AccountTransactionService
             ->concat($transfers)
             ->sortBy(fn (Income|Expense|Transfer $transaction) => $transaction->transacted_at);
 
-        return $this->formatData($transactions, $balance->account);
+        return $this->formatData($transactions, $account);
     }
 
     private function formatData(Collection $transactions, Account $account): Collection

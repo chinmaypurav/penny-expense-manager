@@ -14,7 +14,7 @@ uses(RefreshDatabase::class);
 
 it('sends transactions over email for record types other than initial', function (RecordType $recordType) {
     mock(AccountTransactionService::class, function (MockInterface $mock) {
-        $mock->shouldReceive('sendTransactionsOverEmail')->once();
+        $mock->shouldReceive('sendTransactionsForBalancePeriod')->once();
     });
 
     $user = User::factory()->create();
@@ -29,7 +29,7 @@ it('sends transactions over email for record types other than initial', function
 
 it('sends transactions over email for initial record type', function () {
     mock(AccountTransactionService::class, function (MockInterface $mock) {
-        $mock->shouldNotReceive('sendTransactionsOverEmail');
+        $mock->shouldNotReceive('sendTransactionsForBalancePeriod');
     });
 
     $user = User::factory()->create();
