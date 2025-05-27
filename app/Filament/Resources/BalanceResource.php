@@ -51,6 +51,7 @@ class BalanceResource extends Resource
                     ->action(fn (AccountTransactionService $service, Balance $record) => $service->sendTransactionsOverEmail($record, auth()->user())
                     ),
             ])
+            ->defaultSort('recorded_until', 'desc')
             ->filters([
                 SelectFilter::make('account_id')
                     ->label('Account')
