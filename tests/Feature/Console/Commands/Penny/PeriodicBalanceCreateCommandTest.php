@@ -1,6 +1,6 @@
 <?php
 
-use App\Console\Commands\Penny\PeriodicBalanceCreateCommand;
+use App\Console\Commands\Coinager\PeriodicBalanceCreateCommand;
 use App\Enums\RecordType;
 use App\Jobs\CreatePeriodicalBalanceEntryJob;
 use App\Models\Account;
