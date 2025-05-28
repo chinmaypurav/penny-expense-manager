@@ -1,4 +1,4 @@
-# Penny Expense Manager
+# Coinager
 
 [![codecov](https://codecov.io/gh/coinager/coinager/graph/badge.svg?token=BCAIVTA3GY)](https://codecov.io/gh/coinager/coinager)
 [![Project Status: Ready](https://img.shields.io/badge/Project%20Status-Ready-green.svg)](https://github.com/coinager/coinager)
