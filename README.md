@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/coinager/coinager/graph/badge.svg?token=BCAIVTA3GY)](https://codecov.io/gh/coinager/coinager)
 [![Project Status: Ready](https://img.shields.io/badge/Project%20Status-Ready-green.svg)](https://github.com/coinager/coinager)
 ![GitHub Tag](https://img.shields.io/github/v/tag/coinager/coinager)
-![GitHub License](https://img.shields.io/github/license/ccoinager/coinager)
+![GitHub License](https://img.shields.io/github/license/coinager/coinager)
 
 Coinager is built around the idea of an expense tracker for a family.
 When living as a family,
