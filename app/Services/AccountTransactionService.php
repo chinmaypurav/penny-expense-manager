@@ -6,7 +6,7 @@ use App\Enums\RecordType;
 use App\Exports\AccountTransactionsExport;
 use App\Jobs\CleanupFileJob;
 use App\Jobs\SendAccountTransactionMailJob;
-use App\Jobs\SendProvisionalTransactionsMailJob;
+use App\Jobs\SendProvisionalAccountTransactionsMailJob;
 use App\Models\Account;
 use App\Models\Balance;
 use App\Models\Expense;
@@ -32,7 +32,7 @@ class AccountTransactionService
         $data = $this->getTransactions($balance->account, $startDate, $endDate);
 
         Excel::queue(new AccountTransactionsExport($data), $path = $this->getFileName($balance, true))->chain([
-            new SendProvisionalTransactionsMailJob($user, $account, $path),
+            new SendProvisionalAccountTransactionsMailJob($user, $account, $path),
             new CleanupFileJob($path),
         ]);
     }

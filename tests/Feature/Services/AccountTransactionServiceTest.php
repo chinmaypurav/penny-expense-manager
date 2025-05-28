@@ -3,7 +3,7 @@
 use App\Enums\RecordType;
 use App\Jobs\CleanupFileJob;
 use App\Jobs\SendAccountTransactionMailJob;
-use App\Jobs\SendProvisionalTransactionsMailJob;
+use App\Jobs\SendProvisionalAccountTransactionsMailJob;
 use App\Models\Account;
 use App\Models\Balance;
 use App\Models\Expense;
@@ -125,7 +125,7 @@ it('dispatches export job for unaccounted period', function () {
 
     Excel::assertQueued($filePath);
     Excel::assertQueuedWithChain([
-        SendProvisionalTransactionsMailJob::class,
+        SendProvisionalAccountTransactionsMailJob::class,
         CleanupFileJob::class,
     ]);
 });
