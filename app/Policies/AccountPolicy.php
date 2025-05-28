@@ -16,11 +16,6 @@ class AccountPolicy
         return true;
     }
 
-    public function view(User $user, Account $account): bool
-    {
-        return $user->id === $account->user_id;
-    }
-
     public function create(User $user): bool
     {
         return PanelId::APP->isCurrentPanel();
