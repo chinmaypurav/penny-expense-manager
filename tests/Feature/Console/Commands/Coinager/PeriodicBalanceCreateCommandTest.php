@@ -45,7 +45,7 @@ it('returns early when project not initialized', function () {
     $this->assertDatabaseEmpty(Account::class);
 
     $this->artisan(PeriodicBalanceCreateCommand::class)
-        ->expectsOutput('No accounts found. Please initialize Penny Project first.')
+        ->expectsOutput('No accounts found. Please initialize Coinager Project first.')
         ->assertSuccessful();
 });
 
