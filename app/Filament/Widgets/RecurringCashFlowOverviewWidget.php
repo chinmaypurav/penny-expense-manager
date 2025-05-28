@@ -27,7 +27,7 @@ class RecurringCashFlowOverviewWidget extends BaseWidget
 
         $disposableIncome = $totalIncomes - $totalExpenses;
 
-        $symbol = config('penny.currency_symbol');
+        $symbol = config('coinager.currency_symbol');
 
         return [
             Stat::make('Total Estimated Incomes', $symbol.' '.number_format($totalIncomes)),

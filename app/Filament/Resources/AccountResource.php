@@ -91,16 +91,16 @@ class AccountResource extends Resource
                 TextColumn::make('account_type'),
 
                 TextColumn::make('current_balance')
-                    ->money(config('penny.currency'))
+                    ->money(config('coinager.currency'))
                     ->summarize(
                         Sum::make('sum')
                             ->label('Total Available Balance')
-                            ->money(config('penny.currency'))
+                            ->money(config('coinager.currency'))
                     ),
 
                 TextColumn::make('initialBalance.balance')
                     ->label('Initial Balance - Date')
-                    ->money(config('penny.currency'))
+                    ->money(config('coinager.currency'))
                     ->description(fn (Account $record) => $record->initialBalance?->recorded_until?->toDateString()),
             ])
             ->filters([
