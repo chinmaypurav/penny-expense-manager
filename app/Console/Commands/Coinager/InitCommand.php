@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Penny;
+namespace App\Console\Commands\Coinager;
 
 use App\Models\User;
 use Database\Seeders\ProductionSeeder;
@@ -9,9 +9,9 @@ use Illuminate\Support\Str;
 
 class InitCommand extends Command
 {
-    protected $signature = 'penny:init';
+    protected $signature = 'coinager:init';
 
-    protected $description = 'Initialize Penny Project';
+    protected $description = 'Initialize Coinager Project';
 
     public function handle(): void
     {

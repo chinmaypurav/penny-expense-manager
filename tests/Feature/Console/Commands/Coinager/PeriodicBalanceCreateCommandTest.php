@@ -1,6 +1,6 @@
 <?php
 
-use App\Console\Commands\Penny\PeriodicBalanceCreateCommand;
+use App\Console\Commands\Coinager\PeriodicBalanceCreateCommand;
 use App\Enums\RecordType;
 use App\Jobs\CreatePeriodicalBalanceEntryJob;
 use App\Models\Account;
@@ -45,7 +45,7 @@ it('returns early when project not initialized', function () {
     $this->assertDatabaseEmpty(Account::class);
 
     $this->artisan(PeriodicBalanceCreateCommand::class)
-        ->expectsOutput('No accounts found. Please initialize Penny Project first.')
+        ->expectsOutput('No accounts found. Please initialize Coinager Project first.')
         ->assertSuccessful();
 });
 

@@ -37,8 +37,8 @@ class DayWiseTransfers extends BaseWidget
                 TextColumn::make('debtor.name')->label('Debtor'),
                 TextColumn::make('description'),
                 TextColumn::make('amount')
-                    ->money(config('penny.currency'))
-                    ->summarize(Sum::make('sum')->label('Total Amount')->money(config('penny.currency'))),
+                    ->money(config('coinager.currency'))
+                    ->summarize(Sum::make('sum')->label('Total Amount')->money(config('coinager.currency'))),
             ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Console\Commands\Penny\InitCommand;
+use App\Console\Commands\Coinager\InitCommand;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

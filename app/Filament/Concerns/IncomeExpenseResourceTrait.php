@@ -113,7 +113,7 @@ trait IncomeExpenseResourceTrait
                     ->sortable(),
 
                 TextColumn::make('amount')
-                    ->money(config('penny.currency'))
+                    ->money(config('coinager.currency'))
                     ->alignRight()
                     ->sortable(),
             ])

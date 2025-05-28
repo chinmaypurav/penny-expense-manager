@@ -113,7 +113,7 @@ class TransferResource extends Resource
                     ->sortable(),
 
                 TextColumn::make('amount')
-                    ->money(config('penny.currency'))
+                    ->money(config('coinager.currency'))
                     ->sortable(),
             ])
             ->filters([

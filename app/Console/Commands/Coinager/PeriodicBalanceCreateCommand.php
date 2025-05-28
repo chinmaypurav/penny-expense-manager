@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Penny;
+namespace App\Console\Commands\Coinager;
 
 use App\Enums\RecordType;
 use App\Jobs\CreatePeriodicalBalanceEntryJob;
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PeriodicBalanceCreateCommand extends Command
 {
-    protected $signature = 'penny:periodic-balance:create';
+    protected $signature = 'coinager:periodic-balance:create';
 
     protected $description = 'Create periodic balance records for accounts starting from the oldest initial date';
 
@@ -24,7 +24,7 @@ class PeriodicBalanceCreateCommand extends Command
              */
             $oldestDate = Account::oldest('initial_date')->valueOrFail('initial_date');
         } catch (ModelNotFoundException) {
-            $this->warn('No accounts found. Please initialize Penny Project first.');
+            $this->warn('No accounts found. Please initialize Coinager Project first.');
 
             return;
         }
