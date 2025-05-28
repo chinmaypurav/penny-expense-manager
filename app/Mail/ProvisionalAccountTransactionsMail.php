@@ -15,7 +15,7 @@ class ProvisionalAccountTransactionsMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "Provisional Account Transactions - {$this->account->name}}",
+            subject: "Provisional Account Transactions - {$this->account->name}",
         );
     }
 
