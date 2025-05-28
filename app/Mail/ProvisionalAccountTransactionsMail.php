@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
-class AccountProvisionalTransactionsMail extends Mailable
+class ProvisionalAccountTransactionsMail extends Mailable
 {
     public function __construct(public Account $account, public string $filePath) {}
 

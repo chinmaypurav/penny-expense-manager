@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\AccountProvisionalTransactionsMail;
+use App\Mail\ProvisionalAccountTransactionsMail;
 use App\Models\Account;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,6 +18,6 @@ class SendProvisionalAccountTransactionsMailJob implements ShouldQueue
     public function handle(): void
     {
         Mail::to($this->user->email)
-            ->send(new AccountProvisionalTransactionsMail($this->account, $this->filePath));
+            ->send(new ProvisionalAccountTransactionsMail($this->account, $this->filePath));
     }
 }
