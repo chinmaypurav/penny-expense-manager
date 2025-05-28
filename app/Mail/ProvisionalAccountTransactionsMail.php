@@ -15,14 +15,14 @@ class ProvisionalAccountTransactionsMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "Account Provisional Transactions - {$this->account->name}}",
+            subject: "Provisional Account Transactions - {$this->account->name}}",
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.account-provisional-transactions',
+            markdown: 'emails.provisional-account-transactions',
         );
     }
 
