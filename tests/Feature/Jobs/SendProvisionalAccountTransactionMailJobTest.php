@@ -3,7 +3,6 @@
 use App\Jobs\SendProvisionalAccountTransactionsMailJob;
 use App\Mail\ProvisionalAccountTransactionsMail;
 use App\Models\Account;
-use App\Models\Balance;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -14,7 +13,6 @@ test('it dispatches mail', function () {
 
     $user = User::factory()->createQuietly();
     $account = Account::factory()->for($user)->createQuietly();
-    $balance = Balance::factory()->for($account)->periodicalRecord()->createQuietly();
 
     SendProvisionalAccountTransactionsMailJob::dispatch(
         $user,
