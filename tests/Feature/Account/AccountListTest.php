@@ -28,7 +28,7 @@ it('sends transactions over email', function () {
     $account = Account::factory()->for($this->user)->create();
 
     mock(AccountTransactionService::class, function (MockInterface $mock) {
-        $mock->shouldReceive('sendTransactionsForUnaccountedPeriod')->once();
+        $mock->shouldReceive('sendProvisionalTransactions')->once();
     });
 
     livewire(AccountResource\Pages\ListAccounts::class)

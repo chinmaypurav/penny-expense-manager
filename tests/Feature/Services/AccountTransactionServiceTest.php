@@ -3,6 +3,7 @@
 use App\Enums\RecordType;
 use App\Jobs\CleanupFileJob;
 use App\Jobs\SendAccountTransactionMailJob;
+use App\Jobs\SendProvisionalTransactionsMailJob;
 use App\Models\Account;
 use App\Models\Balance;
 use App\Models\Expense;
@@ -119,12 +120,12 @@ it('dispatches export job for unaccounted period', function () {
     $balance = Balance::factory()->for($account)->periodicalRecord()->createQuietly();
 
     $service = app(AccountTransactionService::class);
-    $service->sendTransactionsForUnaccountedPeriod($account, $this->user);
+    $service->sendProvisionalTransactions($account, $this->user);
     $filePath = $service->getFileName($balance, true);
 
     Excel::assertQueued($filePath);
     Excel::assertQueuedWithChain([
-        SendAccountTransactionMailJob::class,
+        SendProvisionalTransactionsMailJob::class,
         CleanupFileJob::class,
     ]);
 });

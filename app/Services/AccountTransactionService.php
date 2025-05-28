@@ -6,6 +6,7 @@ use App\Enums\RecordType;
 use App\Exports\AccountTransactionsExport;
 use App\Jobs\CleanupFileJob;
 use App\Jobs\SendAccountTransactionMailJob;
+use App\Jobs\SendProvisionalTransactionsMailJob;
 use App\Models\Account;
 use App\Models\Balance;
 use App\Models\Expense;
@@ -21,7 +22,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AccountTransactionService
 {
-    public function sendTransactionsForUnaccountedPeriod(Account $account, User $user): void
+    public function sendProvisionalTransactions(Account $account, User $user): void
     {
         $recordType = RecordType::MONTHLY;
         $balance = $account->previousBalance;
@@ -31,7 +32,7 @@ class AccountTransactionService
         $data = $this->getTransactions($balance->account, $startDate, $endDate);
 
         Excel::queue(new AccountTransactionsExport($data), $path = $this->getFileName($balance, true))->chain([
-            new SendAccountTransactionMailJob($user, $balance, $path),
+            new SendProvisionalTransactionsMailJob($user, $account, $path),
             new CleanupFileJob($path),
         ]);
     }

@@ -119,7 +119,7 @@ class AccountResource extends Resource
                 Action::make('transactions')
                     ->label('Transactions')
                     ->requiresConfirmation()
-                    ->action(fn (AccountTransactionService $service, Account $record) => $service->sendTransactionsForUnaccountedPeriod($record, auth()->user())
+                    ->action(fn (AccountTransactionService $service, Account $record) => $service->sendProvisionalTransactions($record, auth()->user())
                     ),
                 EditAction::make(),
                 DeleteAction::make(),
