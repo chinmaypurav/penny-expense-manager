@@ -5,11 +5,14 @@ namespace Database\Factories;
 use App\Models\Account;
 use App\Models\Transfer;
 use App\Models\User;
+use Database\Factories\Concerns\Timeable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
 class TransferFactory extends Factory
 {
+    use Timeable;
+
     protected $model = Transfer::class;
 
     public function definition(): array
@@ -25,26 +28,5 @@ class TransferFactory extends Factory
             'creditor_id' => Account::factory(),
             'debtor_id' => Account::factory(),
         ];
-    }
-
-    public function today(): self
-    {
-        return $this->state(fn (array $attributes) => [
-            'transacted_at' => Carbon::now(),
-        ]);
-    }
-
-    public function tomorrow(): self
-    {
-        return $this->state(fn (array $attributes) => [
-            'transacted_at' => Carbon::now()->addDay(),
-        ]);
-    }
-
-    public function yesterday(): self
-    {
-        return $this->state(fn (array $attributes) => [
-            'transacted_at' => Carbon::now()->subDay(),
-        ]);
     }
 }
