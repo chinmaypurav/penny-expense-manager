@@ -54,4 +54,11 @@ class BalanceFactory extends Factory
             'record_type' => RecordType::YEARLY,
         ]);
     }
+
+    public function today(): static
+    {
+        return $this->state(fn () => [
+            'recorded_until' => Carbon::today(),
+        ]);
+    }
 }

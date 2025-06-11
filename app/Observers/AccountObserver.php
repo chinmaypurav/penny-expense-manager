@@ -16,4 +16,13 @@ class AccountObserver
             'record_type' => RecordType::INITIAL,
         ]);
     }
+
+    public function updated(Account $account): void
+    {
+        if ($account->wasChanged('initial_date')) {
+            $account->initialBalance()->update([
+                'recorded_until' => $account->initial_date,
+            ]);
+        }
+    }
 }
