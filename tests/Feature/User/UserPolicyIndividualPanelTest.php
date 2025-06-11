@@ -24,7 +24,7 @@ it('cannot render user create', function () {
         ->assertForbidden();
 });
 
-it('can render any user edit page', function () {
+it('cannot render any user edit page', function () {
     $this->get(UserResource::getUrl('edit', ['record' => User::factory()->create()]))
         ->assertForbidden();
 });
