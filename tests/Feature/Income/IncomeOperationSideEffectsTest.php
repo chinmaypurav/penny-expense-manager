@@ -104,3 +104,37 @@ it('subtracts account current_balance when removed', function () {
         'current_balance' => -2000,
     ]);
 });
+
+it('doesnt affect account balances when amount and transacted at clean on income update', function () {
+    $account = Account::factory()->createQuietly([
+        'current_balance' => 1000,
+    ]);
+
+    $income = Income::factory()
+        ->for($this->user)
+        ->for($account)
+        ->createQuietly([
+            'amount' => 3000,
+        ]);
+
+    $newData = Income::factory()->make([
+        'amount' => 3000,
+    ]);
+
+    livewire(IncomeResource\Pages\EditIncome::class, [
+        'record' => $income->getRouteKey(),
+    ])
+        ->fillForm([
+            'description' => $newData->description,
+            'person_id' => $newData->person_id,
+            'account_id' => $newData->account_id,
+            'category_id' => $newData->category_id,
+        ])
+        ->call('save')
+        ->assertSuccessful();
+
+    $this->assertDatabaseHas(Account::class, [
+        'id' => $account->id,
+        'current_balance' => 1000,
+    ]);
+});

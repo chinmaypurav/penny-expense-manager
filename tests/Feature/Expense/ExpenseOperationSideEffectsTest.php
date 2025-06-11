@@ -106,3 +106,37 @@ it('adds account current_balance when removed', function () {
         'current_balance' => 4000,
     ]);
 });
+
+it('doesnt affect account balances when amount and transacted at clean on expense update', function () {
+    $account = Account::factory()->createQuietly([
+        'current_balance' => 1000,
+    ]);
+
+    $expense = Expense::factory()
+        ->for($this->user)
+        ->for($account)
+        ->createQuietly([
+            'amount' => 3000,
+        ]);
+
+    $newData = Expense::factory()->make([
+        'amount' => 3000,
+    ]);
+
+    livewire(ExpenseResource\Pages\EditExpense::class, [
+        'record' => $expense->getRouteKey(),
+    ])
+        ->fillForm([
+            'description' => $newData->description,
+            'person_id' => $newData->person_id,
+            'account_id' => $newData->account_id,
+            'category_id' => $newData->category_id,
+        ])
+        ->call('save')
+        ->assertHasNoFormErrors();
+
+    $this->assertDatabaseHas(Account::class, [
+        'id' => $account->id,
+        'current_balance' => 1000,
+    ]);
+});
