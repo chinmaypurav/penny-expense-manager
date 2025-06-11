@@ -8,13 +8,13 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 uses(DatabaseMigrations::class);
 
 beforeEach(function () {
-    $this->user = User::factory()->create();
+    $this->user = User::factory()->createQuietly();
     $this->actingAs($this->user);
 });
 
 it('changes account balances on transfer created', function () {
-    $ca = Account::factory()->for($this->user)->create(['current_balance' => 1000]);
-    $da = Account::factory()->for($this->user)->create(['current_balance' => 2000]);
+    $ca = Account::factory()->for($this->user)->createQuietly(['current_balance' => 1000]);
+    $da = Account::factory()->for($this->user)->createQuietly(['current_balance' => 2000]);
 
     Transfer::factory()
         ->for($this->user)
@@ -35,8 +35,8 @@ it('changes account balances on transfer created', function () {
 });
 
 it('changes account balances on transfer updated', function () {
-    $ca = Account::factory()->for($this->user)->create(['current_balance' => 1000]);
-    $da = Account::factory()->for($this->user)->create(['current_balance' => 2000]);
+    $ca = Account::factory()->for($this->user)->createQuietly(['current_balance' => 1000]);
+    $da = Account::factory()->for($this->user)->createQuietly(['current_balance' => 2000]);
 
     $transfer = Transfer::factory()
         ->for($this->user)
@@ -62,8 +62,8 @@ it('changes account balances on transfer updated', function () {
 });
 
 it('changes account balances on transfer deleted', function () {
-    $ca = Account::factory()->for($this->user)->create(['current_balance' => 1000]);
-    $da = Account::factory()->for($this->user)->create(['current_balance' => 2000]);
+    $ca = Account::factory()->for($this->user)->createQuietly(['current_balance' => 1000]);
+    $da = Account::factory()->for($this->user)->createQuietly(['current_balance' => 2000]);
 
     $transfer = Transfer::factory()
         ->for($this->user)
