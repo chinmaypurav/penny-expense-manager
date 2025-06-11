@@ -33,6 +33,18 @@ it('cannot render user list page when user id not 1', function () {
         ->assertForbidden();
 });
 
+it('can render user create page when user id 1', function () {
+    $this->actingAs($this->user1)
+        ->get(UserResource::getUrl('create'))
+        ->assertSuccessful();
+});
+
+it('cannot render user create page when user id not 1', function () {
+    $this->actingAs($this->user2)
+        ->get(UserResource::getUrl('create'))
+        ->assertForbidden();
+});
+
 it('can render user edit page when user id 1', function () {
     $this->actingAs($this->user1)
         ->get(UserResource::getUrl('edit', ['record' => $this->user2->id]))

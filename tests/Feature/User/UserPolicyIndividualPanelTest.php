@@ -19,6 +19,11 @@ it('cannot render user list', function () {
         ->assertForbidden();
 });
 
+it('cannot render user create', function () {
+    $this->get(UserResource::getUrl('create'))
+        ->assertForbidden();
+});
+
 it('can render any user edit page', function () {
     $this->get(UserResource::getUrl('edit', ['record' => User::factory()->create()]))
         ->assertForbidden();
