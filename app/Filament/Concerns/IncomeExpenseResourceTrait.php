@@ -76,7 +76,7 @@ trait IncomeExpenseResourceTrait
                 DateTimePicker::make('transacted_at')
                     ->label('Transacted Date')
                     ->default(now())
-                    ->beforeOrEqual(now())
+                    ->maxDate(now())
                     ->required(),
 
                 TextInput::make('amount')

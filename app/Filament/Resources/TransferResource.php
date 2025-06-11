@@ -78,7 +78,7 @@ class TransferResource extends Resource
                 DateTimePicker::make('transacted_at')
                     ->label('Transacted Date')
                     ->default(now())
-                    ->beforeOrEqual(now())
+                    ->maxDate(now())
                     ->required(),
 
                 TextInput::make('amount')
