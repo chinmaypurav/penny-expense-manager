@@ -26,4 +26,11 @@ trait Timeable
             'transacted_at' => Carbon::now()->subDay(),
         ]);
     }
+
+    public function dayBeforeYesterday(): self
+    {
+        return $this->state(fn (array $attributes) => [
+            'transacted_at' => Carbon::now()->subDays(2),
+        ]);
+    }
 }
