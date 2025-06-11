@@ -29,12 +29,3 @@ it('cannot add future date as initial date', function () {
             'initial_date',
         ]);
 });
-
-it('has initial date disabled', function () {
-    $account = Account::factory()->for($this->user)->create();
-
-    livewire(AccountResource\Pages\EditAccount::class, [
-        'record' => $account->getRouteKey(),
-    ])
-        ->assertFormFieldIsDisabled('initial_date');
-});

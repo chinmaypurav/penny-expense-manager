@@ -67,7 +67,6 @@ class AccountResource extends Resource
                     ->label('Initial Balance Date')
                     ->default(today())
                     ->beforeOrEqual(today())
-                    ->disabledOn('edit')
                     ->required(),
 
                 TextInput::make('initialBalance.balance')
