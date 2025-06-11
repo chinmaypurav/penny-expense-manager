@@ -1,9 +1,12 @@
 <?php
 
+use App\Filament\Resources\TransferResource;
 use App\Models\Account;
 use App\Models\Transfer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+
+use function Pest\Livewire\livewire;
 
 uses(DatabaseMigrations::class);
 
@@ -83,5 +86,39 @@ it('changes account balances on transfer deleted', function () {
     $this->assertDatabaseHas(Account::class, [
         'id' => $da->id,
         'current_balance' => 5000,
+    ]);
+});
+
+it('doesnt affect account balances when amount and transacted at clean on transfer update', function () {
+    $ca = Account::factory()->for($this->user)->createQuietly(['current_balance' => 1000]);
+    $da = Account::factory()->for($this->user)->createQuietly(['current_balance' => 2000]);
+
+    $transfer = Transfer::factory()
+        ->for($this->user)
+        ->for($da, 'debtor')
+        ->for($ca, 'creditor')
+        ->today()
+        ->createQuietly([
+            'amount' => 3000,
+        ])->refresh();
+
+    $newData = Transfer::factory()->make();
+
+    livewire(TransferResource\Pages\EditTransfer::class, [
+        'record' => $transfer->getRouteKey(),
+    ])
+        ->fillForm([
+            'description' => $newData->description,
+        ])
+        ->call('save')
+        ->assertSuccessful();
+
+    $this->assertDatabaseHas(Account::class, [
+        'id' => $ca->id,
+        'current_balance' => 1000,
+    ]);
+    $this->assertDatabaseHas(Account::class, [
+        'id' => $da->id,
+        'current_balance' => 2000,
     ]);
 });
