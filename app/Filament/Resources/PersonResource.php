@@ -23,7 +23,7 @@ class PersonResource extends Resource
 
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-user-circle';
 
-    public static function form(Form $schema): Schema
+    public static function form(Schema $schema): Schema
     {
         return $schema
             ->schema([

@@ -15,7 +15,7 @@ class Dashboard extends BaseDashboard
 {
     use HasFiltersForm, UserFilterable;
 
-    public function filtersForm(Form $schema): Schema
+    public function filtersForm(Schema $schema): Schema
     {
         return $schema
             ->schema([

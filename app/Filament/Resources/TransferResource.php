@@ -37,7 +37,7 @@ class TransferResource extends Resource
 
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-arrows-right-left';
 
-    public static function form(Form $schema): Schema
+    public static function form(Schema $schema): Schema
     {
         $accounts = Account::query()
             ->get()

@@ -31,7 +31,7 @@ class RecurringTransferResource extends Resource
 
     protected static ?string $navigationGroup = 'Recurring Transactions';
 
-    public static function form(Form $schema): Schema
+    public static function form(Schema $schema): Schema
     {
         $accounts = Account::query()
             ->pluck('name', 'id');

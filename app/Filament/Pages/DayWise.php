@@ -27,7 +27,7 @@ class DayWise extends Page implements HasForms
         ]);
     }
 
-    public function form(Form $schema): Schema
+    public function form(Schema $schema): Schema
     {
         return $schema->schema([
             DatePicker::make('transacted_at')->live(),

@@ -32,7 +32,7 @@ class TagResource extends Resource
 
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-tag';
 
-    public static function form(Form $schema): Schema
+    public static function form(Schema $schema): Schema
     {
         return $schema
             ->schema([

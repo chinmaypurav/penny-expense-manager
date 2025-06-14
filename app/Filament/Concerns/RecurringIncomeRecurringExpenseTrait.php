@@ -25,7 +25,7 @@ trait RecurringIncomeRecurringExpenseTrait
 {
     use BulkDeleter, UserFilterable;
 
-    public static function form(Form $schema): Schema
+    public static function form(Schema $schema): Schema
     {
         return $schema
             ->columns(3)

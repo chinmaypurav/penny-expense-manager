@@ -27,7 +27,7 @@ class UserResource extends Resource
         return PanelId::FAMILY->isCurrentPanel();
     }
 
-    public static function form(Form $schema): Schema
+    public static function form(Schema $schema): Schema
     {
         return $schema
             ->schema([
