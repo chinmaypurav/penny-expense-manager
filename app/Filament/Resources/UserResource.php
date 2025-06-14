@@ -20,7 +20,7 @@ class UserResource extends Resource
 
     protected static ?string $slug = 'users';
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-user-group';
 
     public static function shouldRegisterNavigation(): bool
     {

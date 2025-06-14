@@ -15,7 +15,7 @@ class ExpenseResource extends Resource
 
     protected static ?string $slug = 'expenses';
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-trending-down';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-arrow-trending-down';
 
     public static function getPages(): array
     {

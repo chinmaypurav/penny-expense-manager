@@ -21,7 +21,7 @@ class BalanceResource extends Resource
 
     protected static ?string $slug = 'balances';
 
-    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-archive-box';
 
     public static function table(Table $table): Table
     {

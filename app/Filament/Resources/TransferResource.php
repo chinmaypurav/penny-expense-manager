@@ -35,7 +35,7 @@ class TransferResource extends Resource
 
     protected static ?string $slug = 'transfers';
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-arrows-right-left';
 
     public static function form(Form $form): Form
     {

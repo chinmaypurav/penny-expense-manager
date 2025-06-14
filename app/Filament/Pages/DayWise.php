@@ -12,7 +12,7 @@ class DayWise extends Page implements HasForms
 {
     use HasFiltersForm;
 
-    protected static ?string $navigationIcon = 'heroicon-o-calendar';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-calendar';
 
     protected static string $view = 'filament.pages.day-wise';
 

@@ -21,7 +21,7 @@ class PersonResource extends Resource
 
     protected static ?string $slug = 'people';
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-user-circle';
 
     public static function form(Form $form): Form
     {

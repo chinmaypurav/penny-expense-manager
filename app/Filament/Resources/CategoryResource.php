@@ -28,7 +28,7 @@ class CategoryResource extends Resource
 
     protected static ?string $slug = 'categories';
 
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-tag';
 
     public static function form(Form $form): Form
     {

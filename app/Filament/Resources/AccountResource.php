@@ -31,7 +31,7 @@ class AccountResource extends Resource
 
     protected static ?string $slug = 'accounts';
 
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-banknotes';
 
     public static function form(Form $form): Form
     {
