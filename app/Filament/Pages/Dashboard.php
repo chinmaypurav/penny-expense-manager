@@ -6,9 +6,9 @@ use App\Enums\PanelId;
 use App\Filament\Concerns\UserFilterable;
 use App\Filament\Widgets;
 use Filament\Forms\Components\DatePicker;
-use Filament\Schemas\Components\Section;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class Dashboard extends BaseDashboard
