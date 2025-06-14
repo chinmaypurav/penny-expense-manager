@@ -7,17 +7,17 @@ use App\Filament\Concerns\UserFilterable;
 use App\Filament\Widgets;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Form;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
+use Filament\Schemas\Schema;
 
 class Dashboard extends BaseDashboard
 {
     use HasFiltersForm, UserFilterable;
 
-    public function filtersForm(Form $form): Form
+    public function filtersForm(Form $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Section::make()
                     ->schema([

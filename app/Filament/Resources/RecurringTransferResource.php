@@ -12,8 +12,8 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -31,12 +31,12 @@ class RecurringTransferResource extends Resource
 
     protected static ?string $navigationGroup = 'Recurring Transactions';
 
-    public static function form(Form $form): Form
+    public static function form(Form $schema): Schema
     {
         $accounts = Account::query()
             ->pluck('name', 'id');
 
-        return $form
+        return $schema
             ->schema([
                 Select::make('creditor_id')
                     ->label('Creditor account')

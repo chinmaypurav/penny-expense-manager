@@ -9,7 +9,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -25,9 +25,9 @@ trait RecurringIncomeRecurringExpenseTrait
 {
     use BulkDeleter, UserFilterable;
 
-    public static function form(Form $form): Form
+    public static function form(Form $schema): Schema
     {
-        return $form
+        return $schema
             ->columns(3)
             ->schema([
                 Select::make('account_id')

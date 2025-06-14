@@ -4,9 +4,9 @@ namespace App\Filament\Pages;
 
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
 use Filament\Pages\Page;
+use Filament\Schemas\Schema;
 
 class DayWise extends Page implements HasForms
 {
@@ -27,9 +27,9 @@ class DayWise extends Page implements HasForms
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Form $schema): Schema
     {
-        return $form->schema([
+        return $schema->schema([
             DatePicker::make('transacted_at')->live(),
         ])->statePath('filters');
     }

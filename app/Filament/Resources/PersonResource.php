@@ -6,8 +6,8 @@ use App\Filament\Resources\PersonResource\Pages;
 use App\Models\Person;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -23,9 +23,9 @@ class PersonResource extends Resource
 
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-user-circle';
 
-    public static function form(Form $form): Form
+    public static function form(Form $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Placeholder::make('created_at')
                     ->label('Created Date')

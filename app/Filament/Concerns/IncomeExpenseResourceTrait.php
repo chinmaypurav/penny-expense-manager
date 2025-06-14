@@ -12,7 +12,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -33,9 +33,9 @@ trait IncomeExpenseResourceTrait
 {
     use BulkDeleter, UserFilterable;
 
-    public static function form(Form $form): Form
+    public static function form(Form $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Placeholder::make('created_at')
                     ->label('Created Date')
