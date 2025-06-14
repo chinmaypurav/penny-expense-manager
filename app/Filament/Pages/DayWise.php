@@ -14,7 +14,7 @@ class DayWise extends Page implements HasForms
 
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-calendar';
 
-    protected static string $view = 'filament.pages.day-wise';
+    protected string $view = 'filament.pages.day-wise';
 
     protected static ?string $navigationLabel = 'Day Wise Transactions';
 
