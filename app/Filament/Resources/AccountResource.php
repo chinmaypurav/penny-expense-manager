@@ -46,7 +46,7 @@ class AccountResource extends Resource
                     ->content(fn (?Account $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
                 TextInput::make('name')
-                    ->unique(ignorable: $form->getRecord())
+                    ->unique(ignorable: $schema->getRecord())
                     ->required()
                     ->columnSpan(fn (string $operation): int => $operation === 'create' ? 1 : 2),
 
