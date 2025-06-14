@@ -14,9 +14,9 @@ class IncomeChart extends ChartWidget
 {
     use CashFlowChartTrait, InteractsWithPageFilters;
 
-    protected static ?string $heading = 'Incomes';
+    protected ?string $heading = 'Incomes';
 
-    protected static ?string $pollingInterval = null;
+    protected ?string $pollingInterval = null;
 
     protected function getData(): array
     {

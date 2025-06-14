@@ -14,9 +14,9 @@ class ExpenseChart extends ChartWidget
 {
     use CashFlowChartTrait, InteractsWithPageFilters;
 
-    protected static ?string $heading = 'Expenses';
+    protected ?string $heading = 'Expenses';
 
-    protected static ?string $pollingInterval = null;
+    protected ?string $pollingInterval = null;
 
     protected function getData(): array
     {
