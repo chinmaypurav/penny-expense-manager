@@ -7,7 +7,7 @@ use Filament\Pages\Dashboard as BaseDashboard;
 
 class RecurringCashFlowOverviewDashboard extends BaseDashboard
 {
-    protected static ?string $navigationGroup = 'Recurring Transactions';
+    protected static string|null|\UnitEnum $navigationGroup = 'Recurring Transactions';
 
     protected static string $routePath = 'recurring-overview';
 

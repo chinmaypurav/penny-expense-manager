@@ -29,7 +29,7 @@ class RecurringTransferResource extends Resource
 
     protected static ?string $slug = 'recurring-transfers';
 
-    protected static ?string $navigationGroup = 'Recurring Transactions';
+    protected static string|null|\UnitEnum $navigationGroup = 'Recurring Transactions';
 
     public static function form(Schema $schema): Schema
     {
