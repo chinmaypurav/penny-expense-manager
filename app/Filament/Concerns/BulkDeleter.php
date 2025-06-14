@@ -3,7 +3,7 @@
 namespace App\Filament\Concerns;
 
 use App\Enums\PanelId;
-use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Actions\DeleteBulkAction;
 
 trait BulkDeleter
 {
