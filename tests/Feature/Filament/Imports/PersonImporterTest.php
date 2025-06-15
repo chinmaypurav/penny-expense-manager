@@ -13,10 +13,12 @@ use function Pest\Livewire\livewire;
 
 uses(RefreshDatabase::class);
 
-it('imports people', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    $this->actingAs($this->user);
+});
 
+it('imports people', function () {
     $csv = UploadedFile::fake()->createWithContent(
         'people.csv',
         Str::of('name')->newLine()
@@ -34,9 +36,6 @@ it('imports people', function () {
 });
 
 it('records failed import of people', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
     $csv = UploadedFile::fake()->createWithContent(
         'people.csv',
         Str::of('name')->newLine()
