@@ -4,6 +4,7 @@ use App\Filament\Resources\CategoryResource\Pages\ListCategories;
 use App\Models\Category;
 use App\Models\User;
 use Filament\Actions\ImportAction;
+use Filament\Actions\Imports\Models\FailedImportRow;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -30,4 +31,24 @@ it('imports categories', function () {
     $this->assertDatabaseHas(Category::class, [
         'name' => 'Category 1',
     ]);
+});
+
+it('records failed import of categories', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    $csv = UploadedFile::fake()->createWithContent(
+        'categories.csv',
+        Str::of('name')->newLine()
+            ->append(Str::random(256))->toString()
+    );
+
+    livewire(ListCategories::class)
+        ->callAction(ImportAction::class, [
+            'file' => $csv,
+        ]);
+
+    $this->assertDatabaseCount(FailedImportRow::class, 1);
+
+    $this->assertDatabaseEmpty(Category::class);
 });
