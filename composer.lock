@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f1dec54b090955b0635e759492a5247",
+    "content-hash": "2d9c00152afe81d8961e3719db1af3b2",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3357,53 +3357,6 @@
                 "source": "https://github.com/thephpleague/flysystem-local/tree/3.29.0"
             },
             "time": "2024-08-09T21:24:39+00:00"
-        },
-        {
-            "name": "league/flysystem-read-only",
-            "version": "3.28.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/flysystem-read-only.git",
-                "reference": "94f3f6d80c12ade1274996e665f4b963f53d6a11"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-read-only/zipball/94f3f6d80c12ade1274996e665f4b963f53d6a11",
-                "reference": "94f3f6d80c12ade1274996e665f4b963f53d6a11",
-                "shasum": ""
-            },
-            "require": {
-                "league/flysystem": "^3.10.0",
-                "php": "^8.0.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "League\\Flysystem\\ReadOnly\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Frank de Jonge",
-                    "email": "info@frankdejonge.nl"
-                }
-            ],
-            "description": "Read-only filesystem adapter for Flysystem.",
-            "keywords": [
-                "Flysystem",
-                "Read-Only",
-                "filesystem",
-                "only",
-                "read"
-            ],
-            "support": {
-                "source": "https://github.com/thephpleague/flysystem-read-only/tree/3.28.0"
-            },
-            "time": "2024-05-06T20:05:52+00:00"
         },
         {
             "name": "league/mime-type-detection",
