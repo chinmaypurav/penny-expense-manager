@@ -159,9 +159,9 @@ trait IncomeExpenseResourceTrait
             ->recordActions([
                 ReplicateAction::make()
                     ->visible(PanelId::APP->isCurrentPanel())
-                    ->formData([
-                        'transacted_at' => now(),
-                    ]),
+                    ->beforeReplicaSaved(function (Expense|Income $replica) {
+                        $replica->setAttribute('transacted_at', now());
+                    }),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
