@@ -57,10 +57,10 @@ class AccountResource extends Resource
                     ->required()
                     ->options(AccountType::class),
 
-                TextInput::make('initial_balance')
-                    ->label('Initial Balance')
-                    ->required()
-                    ->numeric(),
+                TextInput::make('current_balance')
+                    ->label('Current Balance')
+                    ->hiddenOn(['create'])
+                    ->readOnly(),
 
                 DatePicker::make('initial_date')
                     ->label('Initial Balance Date')
@@ -68,10 +68,10 @@ class AccountResource extends Resource
                     ->beforeOrEqual(today())
                     ->required(),
 
-                TextInput::make('current_balance')
-                    ->label('Current Balance')
-                    ->hiddenOn(['create'])
-                    ->readOnly(),
+                TextInput::make('initial_balance')
+                    ->label('Initial Balance')
+                    ->required()
+                    ->numeric(),
             ]);
     }
 
