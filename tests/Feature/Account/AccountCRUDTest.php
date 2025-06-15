@@ -28,7 +28,7 @@ it('can create account', function () {
         ->fillForm([
             'name' => $newData->name,
             'account_type' => $newData->account_type,
-            'current_balance' => $newData->current_balance,
+            'initial_balance' => $newData->initial_balance,
             'initial_date' => $newData->initial_date,
         ])
         ->call('create')
@@ -54,6 +54,7 @@ it('can retrieve account data', function () {
     ])
         ->assertFormSet([
             'name' => $account->name,
+            'initial_balance' => $account->initial_balance,
             'current_balance' => $account->current_balance,
             'initial_date' => $account->initial_date->toDateString(),
         ]);
@@ -69,6 +70,7 @@ it('can update account', function () {
         ->fillForm([
             'name' => $newData->name,
             'current_balance' => $newData->current_balance,
+            'initial_balance' => $newData->initial_balance,
             'initial_date' => $newData->initial_date,
         ])
         ->call('save')
