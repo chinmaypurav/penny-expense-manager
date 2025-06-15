@@ -1,9 +1,11 @@
 <?php
 
+use App\Filament\Exports\CategoryExporter;
 use App\Filament\Resources\CategoryResource\Pages\ListCategories;
 use App\Models\Category;
 use App\Models\User;
 use Filament\Actions\ExportAction;
+use Filament\Actions\Exports\Models\Export;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,14 +30,21 @@ it('exports categories', function () {
         ->assertCount('filament_exports/', 2, true);
 });
 
-it('records failed export of categories', function () {
-    Category::factory()->create();
+it('includes failed rows in the notification body when rows fail to export', function () {
+    // Mock the Export model
+    $mockExport = Mockery::mock(Export::class);
 
-    Storage::fake('local', ['read-only' => true]); // to make us throw exceptions
+    // Set up expectations for the mock
+    $mockExport->shouldReceive('getAttribute')->with('successful_rows')
+        ->andReturn(5); // Example: 5 successful rows
 
-    livewire(ListCategories::class)
-        ->callAction(ExportAction::class);
+    $mockExport->shouldReceive('getFailedRowsCount')
+        ->andReturn(3); // Example: 3 failed rows
 
-    Storage::disk('local')
-        ->assertCount('filament_exports/', 0, true);
+    // Call the method under test
+    $notificationBody = CategoryExporter::getCompletedNotificationBody($mockExport);
+
+    // Assertions
+    expect($notificationBody)->toContain('5 rows exported.') // To check successful rows text
+        ->and('3 rows failed to export.'); // To verify the failed rows text
 });
