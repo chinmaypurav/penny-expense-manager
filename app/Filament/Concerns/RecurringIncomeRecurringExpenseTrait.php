@@ -5,14 +5,14 @@ namespace App\Filament\Concerns;
 use App\Enums\Frequency;
 use App\Models\RecurringExpense;
 use App\Models\RecurringIncome;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -25,11 +25,11 @@ trait RecurringIncomeRecurringExpenseTrait
 {
     use BulkDeleter, UserFilterable;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->columns(3)
-            ->schema([
+            ->components([
                 Select::make('account_id')
                     ->relationship(
                         'account',
@@ -120,11 +120,11 @@ trait RecurringIncomeRecurringExpenseTrait
                     ->options(Frequency::class),
             ])
             ->defaultSort('next_transaction_at')
-            ->actions([
+            ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     self::deleteBulkAction(),
                 ]),

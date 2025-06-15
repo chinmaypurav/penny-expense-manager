@@ -2,6 +2,7 @@
 
 use App\Enums\PanelId;
 use App\Filament\Resources\AccountResource;
+use App\Filament\Resources\AccountResource\Pages\EditAccount;
 use App\Filament\Resources\AccountResource\Pages\ListAccounts;
 use App\Models\Account;
 use App\Models\User;
@@ -60,14 +61,14 @@ it('cannot render create account page', function () {
 });
 
 it('cannot perform account update action', function () {
-    livewire(AccountResource\Pages\EditAccount::class, [
+    livewire(EditAccount::class, [
         'record' => $this->account->getRouteKey(),
     ])
         ->assertForbidden();
 });
 
 it('cannot perform delete account action', function () {
-    livewire(AccountResource\Pages\EditAccount::class, [
+    livewire(EditAccount::class, [
         'record' => $this->account->getRouteKey(),
     ])
         ->assertForbidden();

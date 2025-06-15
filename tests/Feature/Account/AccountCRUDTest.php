@@ -1,6 +1,8 @@
 <?php
 
 use App\Filament\Resources\AccountResource;
+use App\Filament\Resources\AccountResource\Pages\CreateAccount;
+use App\Filament\Resources\AccountResource\Pages\EditAccount;
 use App\Models\Account;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
@@ -22,7 +24,7 @@ it('can render accounts list page', function () {
 it('can create account', function () {
     $newData = Account::factory()->make();
 
-    livewire(AccountResource\Pages\CreateAccount::class)
+    livewire(CreateAccount::class)
         ->fillForm([
             'name' => $newData->name,
             'account_type' => $newData->account_type,
@@ -47,7 +49,7 @@ it('can render account edit page', function () {
 it('can retrieve account data', function () {
     $account = Account::factory()->for($this->user)->create();
 
-    livewire(AccountResource\Pages\EditAccount::class, [
+    livewire(EditAccount::class, [
         'record' => $account->getRouteKey(),
     ])
         ->assertFormSet([
@@ -61,7 +63,7 @@ it('can update account', function () {
     $account = Account::factory()->for($this->user)->create();
     $newData = Account::factory()->make();
 
-    livewire(AccountResource\Pages\EditAccount::class, [
+    livewire(EditAccount::class, [
         'record' => $account->getRouteKey(),
     ])
         ->fillForm([
@@ -81,7 +83,7 @@ it('can update account', function () {
 it('can soft delete account', function () {
     $account = Account::factory()->for($this->user)->create();
 
-    livewire(AccountResource\Pages\EditAccount::class, [
+    livewire(EditAccount::class, [
         'record' => $account->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);

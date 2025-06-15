@@ -3,7 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Concerns\IncomeExpenseResourceTrait;
-use App\Filament\Resources\IncomeResource\Pages;
+use App\Filament\Resources\IncomeResource\Pages\CreateIncome;
+use App\Filament\Resources\IncomeResource\Pages\EditIncome;
+use App\Filament\Resources\IncomeResource\Pages\ListIncomes;
 use App\Models\Income;
 use Filament\Resources\Resource;
 
@@ -15,14 +17,14 @@ class IncomeResource extends Resource
 
     protected static ?string $slug = 'incomes';
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-trending-up';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-trending-up';
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListIncomes::route('/'),
-            'create' => Pages\CreateIncome::route('/create'),
-            'edit' => Pages\EditIncome::route('/{record}/edit'),
+            'index' => ListIncomes::route('/'),
+            'create' => CreateIncome::route('/create'),
+            'edit' => EditIncome::route('/{record}/edit'),
         ];
     }
 }

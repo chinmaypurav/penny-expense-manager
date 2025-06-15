@@ -1,6 +1,6 @@
 <?php
 
-use App\Filament\Resources\TransferResource;
+use App\Filament\Resources\TransferResource\Pages\EditTransfer;
 use App\Models\Account;
 use App\Models\Transfer;
 use App\Models\User;
@@ -105,7 +105,7 @@ it('doesnt affect account balances when amount and transacted at clean on transf
 
     $newData = Transfer::factory()->make();
 
-    livewire(TransferResource\Pages\EditTransfer::class, [
+    livewire(EditTransfer::class, [
         'record' => $transfer->getRouteKey(),
     ])
         ->fillForm([

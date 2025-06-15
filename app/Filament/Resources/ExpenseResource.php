@@ -3,7 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Concerns\IncomeExpenseResourceTrait;
-use App\Filament\Resources\ExpenseResource\Pages;
+use App\Filament\Resources\ExpenseResource\Pages\CreateExpense;
+use App\Filament\Resources\ExpenseResource\Pages\EditExpense;
+use App\Filament\Resources\ExpenseResource\Pages\ListExpenses;
 use App\Models\Expense;
 use Filament\Resources\Resource;
 
@@ -15,14 +17,14 @@ class ExpenseResource extends Resource
 
     protected static ?string $slug = 'expenses';
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrow-trending-down';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-trending-down';
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListExpenses::route('/'),
-            'create' => Pages\CreateExpense::route('/create'),
-            'edit' => Pages\EditExpense::route('/{record}/edit'),
+            'index' => ListExpenses::route('/'),
+            'create' => CreateExpense::route('/create'),
+            'edit' => EditExpense::route('/{record}/edit'),
         ];
     }
 }

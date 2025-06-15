@@ -4,7 +4,7 @@ use App\Enums\PanelId;
 use App\Filament\Resources\ExpenseResource\Pages\ListExpenses;
 use App\Models\Expense;
 use App\Models\User;
-use Filament\Tables\Actions\ReplicateAction;
+use Filament\Actions\ReplicateAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Livewire\livewire;

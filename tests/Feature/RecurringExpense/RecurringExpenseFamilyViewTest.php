@@ -2,6 +2,7 @@
 
 use App\Enums\PanelId;
 use App\Filament\Resources\RecurringExpenseResource;
+use App\Filament\Resources\RecurringExpenseResource\Pages\EditRecurringExpense;
 use App\Filament\Resources\RecurringExpenseResource\Pages\ListRecurringExpenses;
 use App\Models\RecurringExpense;
 use App\Models\User;
@@ -49,14 +50,14 @@ it('cannot render create recurringExpense page', function () {
 });
 
 it('cannot perform recurringExpense update action', function () {
-    livewire(RecurringExpenseResource\Pages\EditRecurringExpense::class, [
+    livewire(EditRecurringExpense::class, [
         'record' => $this->recurringExpense->getRouteKey(),
     ])
         ->assertForbidden();
 });
 
 it('cannot perform delete recurringExpense action', function () {
-    livewire(RecurringExpenseResource\Pages\EditRecurringExpense::class, [
+    livewire(EditRecurringExpense::class, [
         'record' => $this->recurringExpense->getRouteKey(),
     ])
         ->assertForbidden();

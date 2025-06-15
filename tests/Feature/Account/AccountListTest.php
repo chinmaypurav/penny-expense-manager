@@ -1,6 +1,6 @@
 <?php
 
-use App\Filament\Resources\AccountResource;
+use App\Filament\Resources\AccountResource\Pages\ListAccounts;
 use App\Models\Account;
 use App\Models\User;
 use App\Services\AccountTransactionService;
@@ -20,7 +20,7 @@ beforeEach(function () {
 it('can display transactions action ', function () {
     $account = Account::factory()->for($this->user)->create();
 
-    livewire(AccountResource\Pages\ListAccounts::class)
+    livewire(ListAccounts::class)
         ->assertTableActionVisible('transactions', $account);
 });
 
@@ -31,6 +31,6 @@ it('sends transactions over email', function () {
         $mock->shouldReceive('sendProvisionalTransactions')->once();
     });
 
-    livewire(AccountResource\Pages\ListAccounts::class)
+    livewire(ListAccounts::class)
         ->callTableAction('transactions', $account);
 });

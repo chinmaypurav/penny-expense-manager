@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\RecurringExpenseResource;
+use App\Filament\Resources\RecurringExpenseResource\Pages\EditRecurringExpense;
 use App\Models\RecurringExpense;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -39,7 +40,7 @@ it('cannot render recurring expense edit page for another user', function () {
 it('cannot retrieve recurring expense data for another user', function () {
     $recurringExpense = RecurringExpense::factory()->create();
 
-    livewire(RecurringExpenseResource\Pages\EditRecurringExpense::class, [
+    livewire(EditRecurringExpense::class, [
         'record' => $recurringExpense->getRouteKey(),
     ])
         ->assertForbidden();
