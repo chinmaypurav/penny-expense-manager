@@ -29,7 +29,7 @@ it('can render recurring recurring expenses list page', function () {
 it('can create recurring expense', function () {
 
     $newData = RecurringExpense::factory()->make();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
@@ -78,7 +78,7 @@ it('can retrieve recurring expense data', function () {
             'amount' => $recurringExpense->amount,
             'next_transaction_at' => $recurringExpense->next_transaction_at->toDateString(),
             'remaining_recurrences' => $recurringExpense->remaining_recurrences,
-            'frequency' => $recurringExpense->frequency->value,
+            'frequency' => $recurringExpense->frequency,
         ]);
 });
 
@@ -87,7 +87,7 @@ it('can update recurring expense', function () {
     $recurringExpense = RecurringExpense::factory()->for($this->user)->create();
 
     $person = Person::factory()->create();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $category = Category::factory()->create();
     $newData = RecurringExpense::factory()->make();
 

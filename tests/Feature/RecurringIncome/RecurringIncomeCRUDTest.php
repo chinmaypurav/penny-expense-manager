@@ -29,7 +29,7 @@ it('can render recurring recurring incomes list page', function () {
 it('can create recurring income', function () {
 
     $newData = RecurringIncome::factory()->make();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
@@ -78,7 +78,7 @@ it('can retrieve recurring income data', function () {
             'amount' => $recurringIncome->amount,
             'next_transaction_at' => $recurringIncome->next_transaction_at->toDateString(),
             'remaining_recurrences' => $recurringIncome->remaining_recurrences,
-            'frequency' => $recurringIncome->frequency->value,
+            'frequency' => $recurringIncome->frequency,
         ]);
 });
 
@@ -87,7 +87,7 @@ it('can update recurring income', function () {
     $recurringIncome = RecurringIncome::factory()->for($this->user)->create();
 
     $person = Person::factory()->create();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $category = Category::factory()->create();
     $newData = RecurringIncome::factory()->make();
 
