@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use App\Models\Expense;
 use App\Models\Income;
-use Carbon\Carbon;
+use Carbon\CarbonInterface as Carbon;
 
 abstract class TransactionObserver
 {
@@ -74,7 +74,7 @@ abstract class TransactionObserver
     {
         $transactedAt = $this->getTransactedAt($transaction);
 
-        if (Carbon::today()->lessThan($transactedAt)) {
+        if (today()->lessThan($transactedAt)) {
             return null;
         }
 

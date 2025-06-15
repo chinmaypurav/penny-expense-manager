@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Transfer;
-use Carbon\Carbon;
+use Carbon\CarbonInterface as Carbon;
 
 readonly class TransferObserver
 {
@@ -79,7 +79,7 @@ readonly class TransferObserver
     {
         $transactedAt = $this->getTransactedAt($transfer);
 
-        if (Carbon::today()->lessThan($transactedAt)) {
+        if (today()->lessThan($transactedAt)) {
             return null;
         }
 
@@ -94,7 +94,7 @@ readonly class TransferObserver
     {
         $transactedAt = $this->getTransactedAt($transfer);
 
-        if (Carbon::today()->lessThan($transactedAt)) {
+        if (today()->lessThan($transactedAt)) {
             return null;
         }
 
