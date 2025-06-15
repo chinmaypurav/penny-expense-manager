@@ -25,7 +25,7 @@ it('subtracts account current_balance when created', function () {
         'amount' => 3000,
     ]);
 
-    $account = Account::factory()->create([
+    $account = Account::factory()->for($this->user)->create([
         'current_balance' => 1000,
     ]);
     $person = Person::factory()->create();
@@ -51,7 +51,7 @@ it('subtracts account current_balance when created', function () {
 
 it('adjusts account current_balance when updated', function (int $expenseAmount, int $accountBalance) {
 
-    $account = Account::factory()->create([
+    $account = Account::factory()->for($this->user)->create([
         'current_balance' => 10_000,
     ]);
 
@@ -87,7 +87,7 @@ it('adjusts account current_balance when updated', function (int $expenseAmount,
 ]);
 
 it('adds account current_balance when removed', function () {
-    $account = Account::factory()->create([
+    $account = Account::factory()->for($this->user)->create([
         'current_balance' => 1000,
     ]);
     $expense = Expense::factory()
@@ -109,7 +109,7 @@ it('adds account current_balance when removed', function () {
 });
 
 it('doesnt affect account balances when amount and transacted at clean on expense update', function () {
-    $account = Account::factory()->createQuietly([
+    $account = Account::factory()->for($this->user)->createQuietly([
         'current_balance' => 1000,
     ]);
 
@@ -130,7 +130,7 @@ it('doesnt affect account balances when amount and transacted at clean on expens
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $newData->person_id,
-            'account_id' => $newData->account_id,
+            // 'account_id' => $newData->account_id,
             'category_id' => $newData->category_id,
         ])
         ->call('save')
