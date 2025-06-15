@@ -13,10 +13,12 @@ use function Pest\Livewire\livewire;
 
 uses(RefreshDatabase::class);
 
-it('imports tags', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    $this->actingAs($this->user);
+});
 
+it('imports tags', function () {
     $csv = UploadedFile::fake()->createWithContent(
         'accounts.csv',
         Str::of('name')->newLine()
@@ -34,9 +36,6 @@ it('imports tags', function () {
 });
 
 it('records failed import of tags', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
-
     $csv = UploadedFile::fake()->createWithContent(
         'tags.csv',
         Str::of('name')->newLine()
