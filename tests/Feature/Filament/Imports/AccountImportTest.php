@@ -14,14 +14,20 @@ use function Pest\Livewire\livewire;
 
 uses(RefreshDatabase::class);
 
-it('imports accounts', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    $this->actingAs($this->user);
+});
 
+it('imports accounts', function () {
     $csv = UploadedFile::fake()->createWithContent(
         'accounts.csv',
         Str::of('name,account_type,initial_balance,initial_date')->newLine()
-            ->append('Account 1,savings,1000,2025-04-01')->toString()
+            ->append('Account 1', ',')
+            ->append(AccountType::SAVINGS->value, ',')
+            ->append('1000', ',')
+            ->append('2025-04-01', ',')
+            ->toString()
     );
 
     livewire(ListAccounts::class)
@@ -30,7 +36,7 @@ it('imports accounts', function () {
         ]);
 
     $this->assertDatabaseHas(Account::class, [
-        'user_id' => 1,
+        'user_id' => $this->user->id,
         'name' => 'Account 1',
         'account_type' => AccountType::SAVINGS,
         'initial_balance' => 1000,
@@ -45,7 +51,11 @@ it('records failed import of accounts', function () {
     $csv = UploadedFile::fake()->createWithContent(
         'accounts.csv',
         Str::of('name,account_type,initial_balance,initial_date')->newLine()
-            ->append('Account 1,invalid_type,1000,2025-04-01')->toString()
+            ->append(Str::random(256), ',')
+            ->append(AccountType::SAVINGS->value, ',')
+            ->append('1000', ',')
+            ->append('2025-04-01', ',')
+            ->toString()
     );
 
     livewire(ListAccounts::class)
