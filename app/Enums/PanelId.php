@@ -55,6 +55,14 @@ enum PanelId: string
         return Filament::getPanel($this->value);
     }
 
+    public function getMenuItemActionName(): string
+    {
+        return match ($this) {
+            self::APP => 'app-menu-item-action',
+            self::FAMILY => 'family-menu-item-action',
+        };
+    }
+
     public function setCurrentPanel(): void
     {
         Filament::setCurrentPanel($this->getPanel());

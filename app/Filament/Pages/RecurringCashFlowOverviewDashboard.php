@@ -2,12 +2,12 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Widgets;
+use App\Filament\Widgets\RecurringCashFlowOverviewWidget;
 use Filament\Pages\Dashboard as BaseDashboard;
 
 class RecurringCashFlowOverviewDashboard extends BaseDashboard
 {
-    protected static ?string $navigationGroup = 'Recurring Transactions';
+    protected static string|\UnitEnum|null $navigationGroup = 'Recurring Transactions';
 
     protected static string $routePath = 'recurring-overview';
 
@@ -16,7 +16,7 @@ class RecurringCashFlowOverviewDashboard extends BaseDashboard
     public function getWidgets(): array
     {
         return [
-            Widgets\RecurringCashFlowOverviewWidget::class,
+            RecurringCashFlowOverviewWidget::class,
         ];
     }
 }

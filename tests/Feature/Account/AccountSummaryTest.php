@@ -1,6 +1,6 @@
 <?php
 
-use App\Filament\Resources\AccountResource;
+use App\Filament\Resources\AccountResource\Pages\ListAccounts;
 use App\Models\Account;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,9 +15,9 @@ beforeEach(function () {
 });
 
 it('can summarize account balance total', function () {
-    Account::factory()->for($this->user)->create(['current_balance' => 1000]);
-    Account::factory()->for($this->user)->create(['current_balance' => 2000]);
+    Account::factory()->for($this->user)->createQuietly(['current_balance' => 1000]);
+    Account::factory()->for($this->user)->createQuietly(['current_balance' => 2000]);
 
-    livewire(AccountResource\Pages\ListAccounts::class)
+    livewire(ListAccounts::class)
         ->assertTableColumnSummarySet('current_balance', 'sum', 3000);
 });

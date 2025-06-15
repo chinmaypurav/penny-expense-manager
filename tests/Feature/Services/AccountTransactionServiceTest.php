@@ -97,7 +97,7 @@ it('dispatches export job for balance period', function () {
         $mock->shouldReceive('getTransactions')->once()->andReturn(collect());
     });
     $account = Account::factory()->for($this->user)->createQuietly();
-    $balance = Balance::factory()->for($account)->periodicalRecord()->createQuietly();
+    $balance = Balance::factory()->for($account)->createQuietly();
 
     $service = app(AccountTransactionService::class);
     $service->sendTransactionsForBalancePeriod($balance, $this->user);
@@ -117,7 +117,7 @@ it('dispatches export job for unaccounted period', function () {
         $mock->shouldReceive('getTransactions')->once()->andReturn(collect());
     });
     $account = Account::factory()->for($this->user)->createQuietly();
-    $balance = Balance::factory()->for($account)->periodicalRecord()->createQuietly();
+    $balance = Balance::factory()->for($account)->createQuietly();
 
     $service = app(AccountTransactionService::class);
     $service->sendProvisionalTransactions($account, $this->user);

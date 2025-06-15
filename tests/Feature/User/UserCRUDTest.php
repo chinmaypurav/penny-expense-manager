@@ -2,6 +2,8 @@
 
 use App\Enums\PanelId;
 use App\Filament\Resources\UserResource;
+use App\Filament\Resources\UserResource\Pages\CreateUser;
+use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,7 +28,7 @@ it('can render users list page', function () {
 it('can create user', function () {
     $newData = User::factory()->make();
 
-    livewire(UserResource\Pages\CreateUser::class)
+    livewire(CreateUser::class)
         ->fillForm([
             'name' => $newData->name,
             'email' => $newData->email,
@@ -49,7 +51,7 @@ it('can render user edit page', function () {
 it('can retrieve user data', function () {
     $user = User::factory()->create();
 
-    livewire(UserResource\Pages\EditUser::class, [
+    livewire(EditUser::class, [
         'record' => $user->getRouteKey(),
     ])
         ->assertFormSet([
@@ -62,7 +64,7 @@ it('can update user', function () {
     $user = User::factory()->create();
     $newData = User::factory()->make();
 
-    livewire(UserResource\Pages\EditUser::class, [
+    livewire(EditUser::class, [
         'record' => $user->getRouteKey(),
     ])
         ->fillForm([
@@ -82,7 +84,7 @@ it('can update user', function () {
 it('can soft delete user', function () {
     $user = User::factory()->create();
 
-    livewire(UserResource\Pages\EditUser::class, [
+    livewire(EditUser::class, [
         'record' => $user->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);

@@ -5,19 +5,21 @@ namespace App\Filament\Resources;
 use App\Enums\AccountType;
 use App\Filament\Concerns\BulkDeleter;
 use App\Filament\Concerns\UserFilterable;
-use App\Filament\Resources\AccountResource\Pages;
+use App\Filament\Resources\AccountResource\Pages\CreateAccount;
+use App\Filament\Resources\AccountResource\Pages\EditAccount;
+use App\Filament\Resources\AccountResource\Pages\ListAccounts;
 use App\Models\Account;
 use App\Services\AccountTransactionService;
+use Filament\Actions\Action;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -31,22 +33,22 @@ class AccountResource extends Resource
 
     protected static ?string $slug = 'accounts';
 
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-banknotes';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Placeholder::make('created_at')
+        return $schema
+            ->components([
+                TextEntry::make('created_at')
                     ->label('Created Date')
-                    ->content(fn (?Account $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                    ->state(fn (?Account $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
-                Placeholder::make('updated_at')
+                TextEntry::make('updated_at')
                     ->label('Last Modified Date')
-                    ->content(fn (?Account $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                    ->state(fn (?Account $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
                 TextInput::make('name')
-                    ->unique(ignorable: $form->getRecord())
+                    ->unique(ignorable: $schema->getRecord())
                     ->required()
                     ->columnSpan(fn (string $operation): int => $operation === 'create' ? 1 : 2),
 
@@ -56,12 +58,9 @@ class AccountResource extends Resource
                     ->options(AccountType::class),
 
                 TextInput::make('current_balance')
-                    ->label(fn (string $operation): string => $operation === 'create'
-                        ? 'Initial Balance'
-                        : 'Current Balance'
-                    )
-                    ->required()
-                    ->numeric(),
+                    ->label('Current Balance')
+                    ->hiddenOn(['create'])
+                    ->readOnly(),
 
                 DatePicker::make('initial_date')
                     ->label('Initial Balance Date')
@@ -69,11 +68,10 @@ class AccountResource extends Resource
                     ->beforeOrEqual(today())
                     ->required(),
 
-                TextInput::make('initialBalance.balance')
+                TextInput::make('initial_balance')
                     ->label('Initial Balance')
-                    ->hiddenOn(['create'])
-                    ->formatStateUsing(fn (?Account $record) => $record?->initialBalance?->balance)
-                    ->readOnly(),
+                    ->required()
+                    ->numeric(),
             ]);
     }
 
@@ -97,10 +95,10 @@ class AccountResource extends Resource
                             ->money(config('coinager.currency'))
                     ),
 
-                TextColumn::make('initialBalance.balance')
+                TextColumn::make('initial_balance')
                     ->label('Initial Balance - Date')
                     ->money(config('coinager.currency'))
-                    ->description(fn (Account $record) => $record->initialBalance?->recorded_until?->toDateString()),
+                    ->description(fn (Account $record) => $record->initial_date->toDateString()),
             ])
             ->filters([
                 self::getUserFilter(),
@@ -114,7 +112,7 @@ class AccountResource extends Resource
                     ),
             ])
             ->paginated(false)
-            ->actions([
+            ->recordActions([
                 Action::make('transactions')
                     ->label('Transactions')
                     ->requiresConfirmation()
@@ -123,7 +121,7 @@ class AccountResource extends Resource
                 EditAction::make(),
                 DeleteAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     self::deleteBulkAction(),
                 ]),
@@ -133,9 +131,9 @@ class AccountResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAccounts::route('/'),
-            'create' => Pages\CreateAccount::route('/create'),
-            'edit' => Pages\EditAccount::route('/{record}/edit'),
+            'index' => ListAccounts::route('/'),
+            'create' => CreateAccount::route('/create'),
+            'edit' => EditAccount::route('/{record}/edit'),
         ];
     }
 }

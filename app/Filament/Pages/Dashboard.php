@@ -4,21 +4,22 @@ namespace App\Filament\Pages;
 
 use App\Enums\PanelId;
 use App\Filament\Concerns\UserFilterable;
-use App\Filament\Widgets;
+use App\Filament\Widgets\ExpenseChart;
+use App\Filament\Widgets\IncomeChart;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Form;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 
 class Dashboard extends BaseDashboard
 {
     use HasFiltersForm, UserFilterable;
 
-    public function filtersForm(Form $form): Form
+    public function filtersForm(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Section::make()
                     ->schema([
                         self::getUserFilterForm(),
@@ -32,8 +33,8 @@ class Dashboard extends BaseDashboard
     public function getWidgets(): array
     {
         return [
-            Widgets\IncomeChart::class,
-            Widgets\ExpenseChart::class,
+            IncomeChart::class,
+            ExpenseChart::class,
         ];
     }
 }

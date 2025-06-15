@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\RecurringTransferResource;
+use App\Filament\Resources\RecurringTransferResource\Pages\EditRecurringTransfer;
 use App\Models\RecurringTransfer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -39,7 +40,7 @@ it('cannot render recurring transfer edit page for another user', function () {
 it('cannot retrieve recurring transfer data for another user', function () {
     $recurringTransfer = RecurringTransfer::factory()->create();
 
-    livewire(RecurringTransferResource\Pages\EditRecurringTransfer::class, [
+    livewire(EditRecurringTransfer::class, [
         'record' => $recurringTransfer->getRouteKey(),
     ])
         ->assertForbidden();

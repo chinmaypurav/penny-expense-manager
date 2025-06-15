@@ -1,7 +1,8 @@
 <?php
 
 use App\Enums\PanelId;
-use App\Filament\Resources\UserResource;
+use App\Filament\Resources\UserResource\Pages\CreateUser;
+use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -16,7 +17,7 @@ beforeEach(function () {
 });
 
 it('cannot add duplicate email', function () {
-    livewire(UserResource\Pages\CreateUser::class)
+    livewire(CreateUser::class)
         ->fillForm([
             'email' => $this->user->email,
         ])
@@ -27,7 +28,7 @@ it('cannot add duplicate email', function () {
 it('cannot update duplicate email', function () {
     $user = User::factory()->create();
 
-    livewire(UserResource\Pages\EditUser::class, [
+    livewire(EditUser::class, [
         'record' => $user->getRouteKey(),
     ])
         ->fillForm([
@@ -40,7 +41,7 @@ it('cannot update duplicate email', function () {
 it('can update form with same current email', function () {
     $user = User::factory()->create();
 
-    livewire(UserResource\Pages\EditUser::class, [
+    livewire(EditUser::class, [
         'record' => $user->getRouteKey(),
     ])
         ->fillForm([

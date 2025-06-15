@@ -1,6 +1,8 @@
 <?php
 
 use App\Filament\Resources\PersonResource;
+use App\Filament\Resources\PersonResource\Pages\CreatePerson;
+use App\Filament\Resources\PersonResource\Pages\EditPerson;
 use App\Models\Person;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
@@ -22,7 +24,7 @@ it('can render person list page', function () {
 it('can create person', function () {
     $newData = Person::factory()->make();
 
-    livewire(PersonResource\Pages\CreatePerson::class)
+    livewire(CreatePerson::class)
         ->fillForm([
             'name' => $newData->name,
         ])
@@ -43,7 +45,7 @@ it('can render person edit page', function () {
 it('can retrieve person data', function () {
     $person = Person::factory()->create();
 
-    livewire(PersonResource\Pages\EditPerson::class, [
+    livewire(EditPerson::class, [
         'record' => $person->getRouteKey(),
     ])
         ->assertFormSet([
@@ -55,7 +57,7 @@ it('can update person', function () {
     $person = Person::factory()->create();
     $newData = Person::factory()->make();
 
-    livewire(PersonResource\Pages\EditPerson::class, [
+    livewire(EditPerson::class, [
         'record' => $person->getRouteKey(),
     ])
         ->fillForm([
@@ -73,7 +75,7 @@ it('can delete person', function () {
 
     $person = Person::factory()->create();
 
-    livewire(PersonResource\Pages\EditPerson::class, [
+    livewire(EditPerson::class, [
         'record' => $person->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);

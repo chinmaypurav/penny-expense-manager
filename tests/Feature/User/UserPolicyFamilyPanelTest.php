@@ -2,6 +2,8 @@
 
 use App\Enums\PanelId;
 use App\Filament\Resources\UserResource;
+use App\Filament\Resources\UserResource\Pages\EditUser;
+use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -60,7 +62,7 @@ it('cannot render user edit page when user id not 1', function () {
 it('can soft delete another user when user id 1', function () {
     $this->actingAs($this->user1);
 
-    livewire(UserResource\Pages\EditUser::class, [
+    livewire(EditUser::class, [
         'record' => $this->user2->id,
     ])->callAction('delete')
         ->assertSuccessful();
@@ -69,14 +71,14 @@ it('can soft delete another user when user id 1', function () {
 it('cannot see table delete action on self user', function () {
     $this->actingAs($this->user1);
 
-    livewire(UserResource\Pages\ListUsers::class)
+    livewire(ListUsers::class)
         ->assertTableActionHidden('delete', $this->user1->id);
 });
 
 it('cannot see delete action on self user', function () {
     $this->actingAs($this->user1);
 
-    livewire(UserResource\Pages\EditUser::class, [
+    livewire(EditUser::class, [
         'record' => $this->user1->id,
     ])
         ->assertActionHidden('delete');

@@ -6,6 +6,7 @@ use App\Models\Transfer;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
+use Illuminate\Support\Carbon;
 
 class TransferImporter extends Importer
 {
@@ -26,8 +27,11 @@ class TransferImporter extends Importer
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('transacted_at')
+                ->castStateUsing(function (string $state): ?Carbon {
+                    return Carbon::parse($state);
+                })
                 ->requiredMapping()
-                ->rules(['required', 'datetime']),
+                ->rules(['required', 'date']),
             ImportColumn::make('amount')
                 ->requiredMapping()
                 ->numeric()

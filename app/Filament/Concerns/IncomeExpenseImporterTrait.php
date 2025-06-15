@@ -3,6 +3,7 @@
 namespace App\Filament\Concerns;
 
 use Filament\Actions\Imports\ImportColumn;
+use Illuminate\Support\Carbon;
 
 trait IncomeExpenseImporterTrait
 {
@@ -23,8 +24,11 @@ trait IncomeExpenseImporterTrait
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('transacted_at')
+                ->castStateUsing(function (string $state): ?Carbon {
+                    return Carbon::parse($state);
+                })
                 ->requiredMapping()
-                ->rules(['required', 'datetime']),
+                ->rules(['required', 'date']),
             ImportColumn::make('amount')
                 ->requiredMapping()
                 ->numeric()

@@ -1,6 +1,8 @@
 <?php
 
 use App\Filament\Resources\IncomeResource;
+use App\Filament\Resources\IncomeResource\Pages\CreateIncome;
+use App\Filament\Resources\IncomeResource\Pages\EditIncome;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Income;
@@ -27,11 +29,11 @@ it('can render incomes list page', function () {
 it('can create income', function () {
 
     $newData = Income::factory()->make();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
-    livewire(IncomeResource\Pages\CreateIncome::class)
+    livewire(CreateIncome::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
@@ -62,7 +64,7 @@ it('can render income edit page', function () {
 it('can retrieve income data', function () {
     $income = Income::factory()->for($this->user)->create();
 
-    livewire(IncomeResource\Pages\EditIncome::class, [
+    livewire(EditIncome::class, [
         'record' => $income->getRouteKey(),
     ])
         ->assertFormSet([
@@ -80,11 +82,11 @@ it('can update income', function () {
     $income = Income::factory()->for($this->user)->create();
 
     $person = Person::factory()->create();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $newData = Income::factory()->make();
     $category = Category::factory()->create();
 
-    livewire(IncomeResource\Pages\EditIncome::class, [
+    livewire(EditIncome::class, [
         'record' => $income->getRouteKey(),
     ])
         ->fillForm([
@@ -112,7 +114,7 @@ it('can delete income', function () {
 
     $income = Income::factory()->for($this->user)->create();
 
-    livewire(IncomeResource\Pages\EditIncome::class, [
+    livewire(EditIncome::class, [
         'record' => $income->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);

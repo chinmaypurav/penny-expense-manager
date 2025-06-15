@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\ExpenseResource;
+use App\Filament\Resources\ExpenseResource\Pages\EditExpense;
 use App\Models\Expense;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -39,7 +40,7 @@ it('cannot render expense edit page for another user', function () {
 it('cannot retrieve expense data for another user', function () {
     $expense = Expense::factory()->create();
 
-    livewire(ExpenseResource\Pages\EditExpense::class, [
+    livewire(EditExpense::class, [
         'record' => $expense->getRouteKey(),
     ])
         ->assertForbidden();

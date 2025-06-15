@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.4",
         "ext-zip": "*",
-        "filament/filament": "^3.2",
+        "filament/filament": "^4.0",
         "laravel/framework": "^v12.0.1",
         "laravel/horizon": "^5.31",
         "laravel/tinker": "^2.9",
@@ -70,6 +70,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "prefer-stable": true
 }

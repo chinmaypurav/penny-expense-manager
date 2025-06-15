@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\IncomeResource;
+use App\Filament\Resources\IncomeResource\Pages\EditIncome;
 use App\Models\Income;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -39,7 +40,7 @@ it('cannot render income edit page for another user', function () {
 it('cannot retrieve income data for another user', function () {
     $income = Income::factory()->create();
 
-    livewire(IncomeResource\Pages\EditIncome::class, [
+    livewire(EditIncome::class, [
         'record' => $income->getRouteKey(),
     ])
         ->assertForbidden();

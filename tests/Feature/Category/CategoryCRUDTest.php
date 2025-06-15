@@ -1,6 +1,8 @@
 <?php
 
 use App\Filament\Resources\CategoryResource;
+use App\Filament\Resources\CategoryResource\Pages\CreateCategory;
+use App\Filament\Resources\CategoryResource\Pages\EditCategory;
 use App\Models\Category;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
@@ -25,7 +27,7 @@ it('can create category', function () {
 
     $newData = Category::factory()->make();
 
-    livewire(CategoryResource\Pages\CreateCategory::class)
+    livewire(CreateCategory::class)
         ->fillForm([
             'name' => $newData->name,
         ])
@@ -46,7 +48,7 @@ it('can render category edit page', function () {
 it('can retrieve category data', function () {
     $category = Category::factory()->create();
 
-    livewire(CategoryResource\Pages\EditCategory::class, [
+    livewire(EditCategory::class, [
         'record' => $category->getRouteKey(),
     ])
         ->assertFormSet([
@@ -60,7 +62,7 @@ it('can update category', function () {
 
     $newData = Category::factory()->make();
 
-    livewire(CategoryResource\Pages\EditCategory::class, [
+    livewire(EditCategory::class, [
         'record' => $category->getRouteKey(),
     ])
         ->fillForm([
@@ -78,7 +80,7 @@ it('can delete category', function () {
 
     $category = Category::factory()->create();
 
-    livewire(CategoryResource\Pages\EditCategory::class, [
+    livewire(EditCategory::class, [
         'record' => $category->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);

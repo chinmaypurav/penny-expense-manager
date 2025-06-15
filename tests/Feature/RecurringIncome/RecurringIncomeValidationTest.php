@@ -1,6 +1,7 @@
 <?php
 
-use App\Filament\Resources\RecurringIncomeResource;
+use App\Filament\Resources\RecurringIncomeResource\Pages\CreateRecurringIncome;
+use App\Filament\Resources\RecurringIncomeResource\Pages\EditRecurringIncome;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Person;
@@ -18,7 +19,7 @@ beforeEach(function () {
 });
 
 it('can have some null and some required fields', function () {
-    livewire(RecurringIncomeResource\Pages\CreateRecurringIncome::class)
+    livewire(CreateRecurringIncome::class)
         ->call('create')
         ->assertHasNoFormErrors([
             'account_id',
@@ -43,7 +44,7 @@ it('cannot add past past date as next transaction date', function () {
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
-    livewire(RecurringIncomeResource\Pages\CreateRecurringIncome::class)
+    livewire(CreateRecurringIncome::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
@@ -64,7 +65,7 @@ it('can update past date as next transaction date', function () {
 
     $recurringIncome = RecurringIncome::factory()->for($this->user)->create();
 
-    livewire(RecurringIncomeResource\Pages\EditRecurringIncome::class, [
+    livewire(EditRecurringIncome::class, [
         'record' => $recurringIncome->getRouteKey(),
     ])
         ->fillForm([

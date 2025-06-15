@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\RecurringIncomeResource;
+use App\Filament\Resources\RecurringIncomeResource\Pages\EditRecurringIncome;
 use App\Models\RecurringIncome;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -39,7 +40,7 @@ it('cannot render recurring income edit page for another user', function () {
 it('cannot retrieve recurring income data for another user', function () {
     $recurringIncome = RecurringIncome::factory()->create();
 
-    livewire(RecurringIncomeResource\Pages\EditRecurringIncome::class, [
+    livewire(EditRecurringIncome::class, [
         'record' => $recurringIncome->getRouteKey(),
     ])
         ->assertForbidden();

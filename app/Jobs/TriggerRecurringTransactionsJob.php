@@ -5,7 +5,7 @@ namespace App\Jobs;
 use App\Models\RecurringExpense;
 use App\Models\RecurringIncome;
 use App\Models\RecurringTransfer;
-use Carbon\Carbon;
+use Carbon\CarbonInterface as Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 

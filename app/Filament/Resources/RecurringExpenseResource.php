@@ -3,7 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Concerns\RecurringIncomeRecurringExpenseTrait;
-use App\Filament\Resources\RecurringExpenseResource\Pages;
+use App\Filament\Resources\RecurringExpenseResource\Pages\CreateRecurringExpense;
+use App\Filament\Resources\RecurringExpenseResource\Pages\EditRecurringExpense;
+use App\Filament\Resources\RecurringExpenseResource\Pages\ListRecurringExpenses;
 use App\Models\RecurringExpense;
 use Filament\Resources\Resource;
 
@@ -15,14 +17,14 @@ class RecurringExpenseResource extends Resource
 
     protected static ?string $slug = 'recurring-expenses';
 
-    protected static ?string $navigationGroup = 'Recurring Transactions';
+    protected static string|\UnitEnum|null $navigationGroup = 'Recurring Transactions';
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRecurringExpenses::route('/'),
-            'create' => Pages\CreateRecurringExpense::route('/create'),
-            'edit' => Pages\EditRecurringExpense::route('/{record}/edit'),
+            'index' => ListRecurringExpenses::route('/'),
+            'create' => CreateRecurringExpense::route('/create'),
+            'edit' => EditRecurringExpense::route('/{record}/edit'),
         ];
     }
 }

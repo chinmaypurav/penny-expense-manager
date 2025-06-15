@@ -2,6 +2,7 @@
 
 use App\Enums\PanelId;
 use App\Filament\Resources\IncomeResource;
+use App\Filament\Resources\IncomeResource\Pages\EditIncome;
 use App\Filament\Resources\IncomeResource\Pages\ListIncomes;
 use App\Models\Account;
 use App\Models\Income;
@@ -66,14 +67,14 @@ it('cannot render create income page', function () {
 });
 
 it('cannot perform income update action', function () {
-    livewire(IncomeResource\Pages\EditIncome::class, [
+    livewire(EditIncome::class, [
         'record' => $this->income->getRouteKey(),
     ])
         ->assertForbidden();
 });
 
 it('cannot perform delete income action', function () {
-    livewire(IncomeResource\Pages\EditIncome::class, [
+    livewire(EditIncome::class, [
         'record' => $this->income->getRouteKey(),
     ])
         ->assertForbidden();

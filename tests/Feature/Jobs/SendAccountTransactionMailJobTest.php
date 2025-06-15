@@ -14,7 +14,7 @@ test('it dispatches mail', function () {
 
     $user = User::factory()->createQuietly();
     $account = Account::factory()->for($user)->createQuietly();
-    $balance = Balance::factory()->for($account)->periodicalRecord()->createQuietly();
+    $balance = Balance::factory()->for($account)->createQuietly();
 
     SendAccountTransactionMailJob::dispatch(
         $user,

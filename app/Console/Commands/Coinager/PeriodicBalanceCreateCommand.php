@@ -40,7 +40,7 @@ class PeriodicBalanceCreateCommand extends Command
 
         $today = today();
         $months = [];
-        for ($d = $oldestDate; $d->lte($today); $d->addMonth()) {
+        for ($d = $oldestDate->toMutable(); $d->lte($today); $d->addMonth()) {
             $end = $recordType->getEndDate($d);
 
             if ($end->gte($today)) {

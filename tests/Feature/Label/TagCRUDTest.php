@@ -1,6 +1,8 @@
 <?php
 
 use App\Filament\Resources\TagResource;
+use App\Filament\Resources\TagResource\Pages\CreateTag;
+use App\Filament\Resources\TagResource\Pages\EditTag;
 use App\Models\Tag;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
@@ -23,7 +25,7 @@ it('can render tag list page', function () {
 it('can create tag', function () {
     $newData = Tag::factory()->make();
 
-    livewire(TagResource\Pages\CreateTag::class)
+    livewire(CreateTag::class)
         ->fillForm([
             'name' => $newData->name,
             'color' => $newData->color,
@@ -46,7 +48,7 @@ it('can render tag edit page', function () {
 it('can retrieve tag data', function () {
     $tag = Tag::factory()->create();
 
-    livewire(TagResource\Pages\EditTag::class, [
+    livewire(EditTag::class, [
         'record' => $tag->getRouteKey(),
     ])
         ->assertFormSet([
@@ -59,7 +61,7 @@ it('can update tag', function () {
     $tag = Tag::factory()->create();
     $newData = Tag::factory()->make();
 
-    livewire(TagResource\Pages\EditTag::class, [
+    livewire(EditTag::class, [
         'record' => $tag->getRouteKey(),
     ])
         ->fillForm([
@@ -79,7 +81,7 @@ it('can soft delete tag', function () {
 
     $tag = Tag::factory()->create();
 
-    livewire(TagResource\Pages\EditTag::class, [
+    livewire(EditTag::class, [
         'record' => $tag->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);
@@ -91,7 +93,7 @@ it('can restore deleted label from edit page', function () {
 
     $tag = Tag::factory()->deleted()->create();
 
-    livewire(TagResource\Pages\EditTag::class, [
+    livewire(EditTag::class, [
         'record' => $tag->getRouteKey(),
     ])
         ->callAction(RestoreAction::class);

@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\PanelId;
-use App\Filament\Resources\UserResource;
+use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Mail\SendUserCreatedMail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -20,7 +20,7 @@ it('sends email to user when created', function () {
     $newData = User::factory()->make();
     Mail::fake();
 
-    livewire(UserResource\Pages\CreateUser::class)
+    livewire(CreateUser::class)
         ->fillForm([
             'name' => $newData->name,
             'email' => $newData->email,

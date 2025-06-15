@@ -1,6 +1,7 @@
 <?php
 
-use App\Filament\Resources\ExpenseResource;
+use App\Filament\Resources\ExpenseResource\Pages\CreateExpense;
+use App\Filament\Resources\ExpenseResource\Pages\EditExpense;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Expense;
@@ -23,7 +24,7 @@ it('cannot add future date as transacted_at', function () {
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
-    livewire(ExpenseResource\Pages\CreateExpense::class)
+    livewire(CreateExpense::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
@@ -41,7 +42,7 @@ it('cannot add future date as transacted_at', function () {
 it('cannot update future date as transacted_at', function () {
     $expense = Expense::factory()->for($this->user)->create();
 
-    livewire(ExpenseResource\Pages\EditExpense::class, [
+    livewire(EditExpense::class, [
         'record' => $expense->getRouteKey(),
     ])
         ->fillForm([

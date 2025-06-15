@@ -1,6 +1,7 @@
 <?php
 
-use App\Filament\Resources\RecurringTransferResource;
+use App\Filament\Resources\RecurringTransferResource\Pages\CreateRecurringTransfer;
+use App\Filament\Resources\RecurringTransferResource\Pages\EditRecurringTransfer;
 use App\Models\Account;
 use App\Models\RecurringTransfer;
 use App\Models\User;
@@ -22,7 +23,7 @@ it('cannot add past date as next transaction date', function () {
     $creditor = Account::factory()->create();
     $debtor = Account::factory()->create();
 
-    livewire(RecurringTransferResource\Pages\CreateRecurringTransfer::class)
+    livewire(CreateRecurringTransfer::class)
         ->fillForm([
             'description' => $newData->description,
             'creditor_id' => $creditor->id,
@@ -42,7 +43,7 @@ it('cannot update past date as next transaction date', function () {
 
     $recurringTransfer = RecurringTransfer::factory()->for($this->user)->create();
 
-    livewire(RecurringTransferResource\Pages\EditRecurringTransfer::class, [
+    livewire(EditRecurringTransfer::class, [
         'record' => $recurringTransfer->getRouteKey(),
     ])
         ->fillForm([
@@ -60,7 +61,7 @@ it('cannot have same account as debtor and creditor on save', function () {
     ]);
     $account = Account::factory()->create();
 
-    livewire(RecurringTransferResource\Pages\CreateRecurringTransfer::class)
+    livewire(CreateRecurringTransfer::class)
         ->fillForm([
             'description' => $newData->description,
             'creditor_id' => $account->id,
@@ -82,7 +83,7 @@ it('cannot have same account as debtor and creditor on update', function () {
 
     $recurringTransfer = RecurringTransfer::factory()->for($this->user)->create();
 
-    livewire(RecurringTransferResource\Pages\EditRecurringTransfer::class, [
+    livewire(EditRecurringTransfer::class, [
         'record' => $recurringTransfer->getRouteKey(),
     ])
         ->fillForm([

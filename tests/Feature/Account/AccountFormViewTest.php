@@ -31,12 +31,12 @@ it('loads Current Balance when editing account', function () {
         ->assertSeeHtml('Current Balance');
 });
 
-it('cannot display initial balance form field on create', function () {
+it('cannot display current balance form field on create', function () {
     livewire(CreateAccount::class)
-        ->assertFormFieldIsHidden('initialBalance.balance');
+        ->assertFormFieldIsHidden('current_balance');
 });
 
-it('can display initial balance form field', function () {
+it('can display current balance form field', function () {
     livewire(EditAccount::class, ['record' => $this->account->getRouteKey()])
-        ->assertFormFieldIsVisible('initialBalance.balance');
+        ->assertFormFieldIsVisible('current_balance');
 });

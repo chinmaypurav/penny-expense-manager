@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\AccountResource;
+use App\Filament\Resources\AccountResource\Pages\EditAccount;
 use App\Models\Account;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -39,7 +40,7 @@ it('cannot render account edit page for another user', function () {
 it('cannot retrieve account data for another user', function () {
     $account = Account::factory()->create();
 
-    livewire(AccountResource\Pages\EditAccount::class, [
+    livewire(EditAccount::class, [
         'record' => $account->getRouteKey(),
     ])
         ->assertForbidden();
