@@ -16,9 +16,9 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ReplicateAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
@@ -48,13 +48,13 @@ class TransferResource extends Resource
 
         return $schema
             ->components([
-                Placeholder::make('created_at')
+                TextEntry::make('created_at')
                     ->label('Created Date')
-                    ->content(fn (?Transfer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                    ->state(fn (?Transfer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
-                Placeholder::make('updated_at')
+                TextEntry::make('updated_at')
                     ->label('Last Modified Date')
-                    ->content(fn (?Transfer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                    ->state(fn (?Transfer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
                 Select::make('creditor_id')
                     ->label('Creditor account')
