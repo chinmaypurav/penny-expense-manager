@@ -29,7 +29,7 @@ it('can render expenses list page', function () {
 it('can create expense', function () {
 
     $newData = Expense::factory()->make();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
@@ -82,7 +82,7 @@ it('can update expense', function () {
     $expense = Expense::factory()->for($this->user)->create();
 
     $person = Person::factory()->create();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $newData = Expense::factory()->make();
     $category = Category::factory()->create();
 

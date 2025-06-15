@@ -29,7 +29,7 @@ it('can render incomes list page', function () {
 it('can create income', function () {
 
     $newData = Income::factory()->make();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
@@ -82,7 +82,7 @@ it('can update income', function () {
     $income = Income::factory()->for($this->user)->create();
 
     $person = Person::factory()->create();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $newData = Income::factory()->make();
     $category = Category::factory()->create();
 
