@@ -25,6 +25,7 @@ class Account extends Model
         'account_type',
         'current_balance',
         'initial_date',
+        'initial_balance',
         'data',
     ];
 
@@ -70,12 +71,6 @@ class Account extends Model
     public function balances(): HasMany
     {
         return $this->hasMany(Balance::class, 'account_id');
-    }
-
-    public function initialBalance(): HasOne
-    {
-        return $this->hasOne(Balance::class, 'account_id')
-            ->where('is_initial_record', true);
     }
 
     public function previousBalance(): HasOne

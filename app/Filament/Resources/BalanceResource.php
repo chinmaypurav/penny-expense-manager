@@ -46,7 +46,6 @@ class BalanceResource extends Resource
             ->recordActions([
                 Action::make('transactions')
                     ->label('Transactions')
-                    ->hidden(fn (Balance $record) => $record->record_type === RecordType::INITIAL)
                     ->requiresConfirmation()
                     ->action(fn (AccountTransactionService $service, Balance $record) => $service->sendTransactionsForBalancePeriod($record, auth()->user())
                     ),

@@ -24,7 +24,7 @@ it('adds account current_balance when created', function () {
         'amount' => 3000,
     ]);
 
-    $account = Account::factory()->for($this->user)->create([
+    $account = Account::factory()->for($this->user)->createQuietly([
         'current_balance' => 1000,
     ]);
     $person = Person::factory()->create();
@@ -49,7 +49,7 @@ it('adds account current_balance when created', function () {
 
 it('adjusts account current_balance when updated', function (int $incomeAmount, int $accountBalance) {
 
-    $account = Account::factory()->for($this->user)->create([
+    $account = Account::factory()->for($this->user)->createQuietly([
         'current_balance' => 10_000,
     ]);
 
@@ -85,7 +85,7 @@ it('adjusts account current_balance when updated', function (int $incomeAmount, 
 ]);
 
 it('subtracts account current_balance when removed', function () {
-    $account = Account::factory()->for($this->user)->create([
+    $account = Account::factory()->for($this->user)->createQuietly([
         'current_balance' => 1000,
     ]);
     $income = Income::factory()
