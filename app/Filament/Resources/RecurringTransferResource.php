@@ -14,9 +14,9 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
@@ -81,13 +81,13 @@ class RecurringTransferResource extends Resource
                     ->multiple()
                     ->preload(),
 
-                Placeholder::make('created_at')
+                TextEntry::make('created_at')
                     ->label('Created Date')
-                    ->content(fn (?RecurringTransfer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                    ->state(fn (?RecurringTransfer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
-                Placeholder::make('updated_at')
+                TextEntry::make('updated_at')
                     ->label('Last Modified Date')
-                    ->content(fn (?RecurringTransfer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                    ->state(fn (?RecurringTransfer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
             ]);
     }
 
