@@ -26,7 +26,7 @@ class DayWiseIncomes extends BaseWidget
                         fn (Builder $q) => $q->where('user_id', auth()->id())
                     )
                     ->when(
-                        Arr::get($this->filters, 'transacted_at'),
+                        Arr::get($this->pageFilters, 'transacted_at'),
                         fn (Builder $q, string $transactedAt) => $q->whereDate('transacted_at', $transactedAt),
                         fn (Builder $q) => $q->whereDate('transacted_at', today())
                     )

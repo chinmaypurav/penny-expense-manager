@@ -1,6 +1,8 @@
 <?php
 
 use App\Filament\Resources\TransferResource;
+use App\Filament\Resources\TransferResource\Pages\CreateTransfer;
+use App\Filament\Resources\TransferResource\Pages\EditTransfer;
 use App\Models\Transfer;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
@@ -25,7 +27,7 @@ it('can create transfer', function () {
 
     $newData = Transfer::factory()->for($this->user)->make();
 
-    livewire(TransferResource\Pages\CreateTransfer::class)
+    livewire(CreateTransfer::class)
         ->fillForm([
             'debtor_id' => $newData->debtor->id,
             'creditor_id' => $newData->creditor_id,
@@ -54,7 +56,7 @@ it('can render transfer edit page', function () {
 it('can retrieve transfer data', function () {
     $transfer = Transfer::factory()->for($this->user)->create();
 
-    livewire(TransferResource\Pages\EditTransfer::class, [
+    livewire(EditTransfer::class, [
         'record' => $transfer->getRouteKey(),
     ])
         ->assertFormSet([
@@ -73,7 +75,7 @@ it('can update transfer', function () {
         'creditor_id' => $transfer->creditor_id,
     ]);
 
-    livewire(TransferResource\Pages\EditTransfer::class, [
+    livewire(EditTransfer::class, [
         'record' => $transfer->getRouteKey(),
     ])
         ->fillForm([
@@ -95,7 +97,7 @@ it('can delete transfer', function () {
 
     $transfer = Transfer::factory()->for($this->user)->create();
 
-    livewire(TransferResource\Pages\EditTransfer::class, [
+    livewire(EditTransfer::class, [
         'record' => $transfer->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);

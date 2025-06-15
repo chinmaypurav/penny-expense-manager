@@ -1,6 +1,8 @@
 <?php
 
 use App\Filament\Resources\RecurringExpenseResource;
+use App\Filament\Resources\RecurringExpenseResource\Pages\CreateRecurringExpense;
+use App\Filament\Resources\RecurringExpenseResource\Pages\EditRecurringExpense;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Person;
@@ -31,7 +33,7 @@ it('can create recurring expense', function () {
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
-    livewire(RecurringExpenseResource\Pages\CreateRecurringExpense::class)
+    livewire(CreateRecurringExpense::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
@@ -66,7 +68,7 @@ it('can render recurring expense edit page', function () {
 it('can retrieve recurring expense data', function () {
     $recurringExpense = RecurringExpense::factory()->for($this->user)->create();
 
-    livewire(RecurringExpenseResource\Pages\EditRecurringExpense::class, [
+    livewire(EditRecurringExpense::class, [
         'record' => $recurringExpense->getRouteKey(),
     ])
         ->assertFormSet([
@@ -89,7 +91,7 @@ it('can update recurring expense', function () {
     $category = Category::factory()->create();
     $newData = RecurringExpense::factory()->make();
 
-    livewire(RecurringExpenseResource\Pages\EditRecurringExpense::class, [
+    livewire(EditRecurringExpense::class, [
         'record' => $recurringExpense->getRouteKey(),
     ])
         ->fillForm([
@@ -121,7 +123,7 @@ it('can delete recurring expense', function () {
 
     $recurringExpense = RecurringExpense::factory()->for($this->user)->create();
 
-    livewire(RecurringExpenseResource\Pages\EditRecurringExpense::class, [
+    livewire(EditRecurringExpense::class, [
         'record' => $recurringExpense->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);

@@ -1,6 +1,7 @@
 <?php
 
-use App\Filament\Resources\AccountResource;
+use App\Filament\Resources\AccountResource\Pages\CreateAccount;
+use App\Filament\Resources\AccountResource\Pages\EditAccount;
 use App\Models\Account;
 use App\Models\Balance;
 use App\Models\User;
@@ -19,7 +20,7 @@ beforeEach(function () {
 it('creates balance initial entry when created', function () {
     $newData = Account::factory()->make();
 
-    livewire(AccountResource\Pages\CreateAccount::class)
+    livewire(CreateAccount::class)
         ->fillForm([
             'name' => $newData->name,
             'account_type' => $newData->account_type,
@@ -49,7 +50,7 @@ it('updates initial balance date when initial date updated', function () {
         'recorded_until' => Carbon::today(),
     ]);
 
-    livewire(AccountResource\Pages\EditAccount::class, [
+    livewire(EditAccount::class, [
         'record' => $account->getRouteKey(),
     ])
         ->fillForm([

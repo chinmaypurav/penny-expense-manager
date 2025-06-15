@@ -1,6 +1,7 @@
 <?php
 
-use App\Filament\Resources\ExpenseResource;
+use App\Filament\Resources\ExpenseResource\Pages\CreateExpense;
+use App\Filament\Resources\ExpenseResource\Pages\EditExpense;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Expense;
@@ -30,7 +31,7 @@ it('subtracts account current_balance when created', function () {
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
-    livewire(ExpenseResource\Pages\CreateExpense::class)
+    livewire(CreateExpense::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
@@ -61,7 +62,7 @@ it('adjusts account current_balance when updated', function (int $expenseAmount,
             'amount' => 4000,
         ]);
 
-    livewire(ExpenseResource\Pages\EditExpense::class, [
+    livewire(EditExpense::class, [
         'record' => $expense->getKey(),
     ])
         ->fillForm([
@@ -96,7 +97,7 @@ it('adds account current_balance when removed', function () {
             'amount' => 3000,
         ]);
 
-    livewire(ExpenseResource\Pages\EditExpense::class, [
+    livewire(EditExpense::class, [
         'record' => $expense->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);
@@ -123,7 +124,7 @@ it('doesnt affect account balances when amount and transacted at clean on expens
         'amount' => 3000,
     ]);
 
-    livewire(ExpenseResource\Pages\EditExpense::class, [
+    livewire(EditExpense::class, [
         'record' => $expense->getRouteKey(),
     ])
         ->fillForm([

@@ -1,6 +1,7 @@
 <?php
 
-use App\Filament\Resources\RecurringExpenseResource;
+use App\Filament\Resources\RecurringExpenseResource\Pages\CreateRecurringExpense;
+use App\Filament\Resources\RecurringExpenseResource\Pages\EditRecurringExpense;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Person;
@@ -18,7 +19,7 @@ beforeEach(function () {
 });
 
 it('can have some null and some required fields', function () {
-    livewire(RecurringExpenseResource\Pages\CreateRecurringExpense::class)
+    livewire(CreateRecurringExpense::class)
         ->call('create')
         ->assertHasNoFormErrors([
             'account_id',
@@ -43,7 +44,7 @@ it('cannot add past date as next transaction date', function () {
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
-    livewire(RecurringExpenseResource\Pages\CreateRecurringExpense::class)
+    livewire(CreateRecurringExpense::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
@@ -64,7 +65,7 @@ it('cannot update past date as next transaction date', function () {
 
     $recurringExpense = RecurringExpense::factory()->for($this->user)->create();
 
-    livewire(RecurringExpenseResource\Pages\EditRecurringExpense::class, [
+    livewire(EditRecurringExpense::class, [
         'record' => $recurringExpense->getRouteKey(),
     ])
         ->fillForm([

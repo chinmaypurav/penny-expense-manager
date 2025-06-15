@@ -1,6 +1,8 @@
 <?php
 
 use App\Filament\Resources\RecurringTransferResource;
+use App\Filament\Resources\RecurringTransferResource\Pages\CreateRecurringTransfer;
+use App\Filament\Resources\RecurringTransferResource\Pages\EditRecurringTransfer;
 use App\Models\Account;
 use App\Models\RecurringTransfer;
 use App\Models\User;
@@ -28,7 +30,7 @@ it('can create recurring transfer', function () {
     $creditor = Account::factory()->create();
     $debtor = Account::factory()->create();
 
-    livewire(RecurringTransferResource\Pages\CreateRecurringTransfer::class)
+    livewire(CreateRecurringTransfer::class)
         ->fillForm([
             'description' => $newData->description,
             'creditor_id' => $creditor->id,
@@ -61,7 +63,7 @@ it('can render recurring transfer edit page', function () {
 it('can retrieve recurring transfer data', function () {
     $recurringTransfer = RecurringTransfer::factory()->for($this->user)->create();
 
-    livewire(RecurringTransferResource\Pages\EditRecurringTransfer::class, [
+    livewire(EditRecurringTransfer::class, [
         'record' => $recurringTransfer->getRouteKey(),
     ])
         ->assertFormSet([
@@ -83,7 +85,7 @@ it('can update recurring transfer', function () {
     $debtor = Account::factory()->create();
     $newData = RecurringTransfer::factory()->make();
 
-    livewire(RecurringTransferResource\Pages\EditRecurringTransfer::class, [
+    livewire(EditRecurringTransfer::class, [
         'record' => $recurringTransfer->getRouteKey(),
     ])
         ->fillForm([
@@ -113,7 +115,7 @@ it('can delete recurring transfer', function () {
 
     $recurringTransfer = RecurringTransfer::factory()->for($this->user)->create();
 
-    livewire(RecurringTransferResource\Pages\EditRecurringTransfer::class, [
+    livewire(EditRecurringTransfer::class, [
         'record' => $recurringTransfer->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);

@@ -1,6 +1,7 @@
 <?php
 
-use App\Filament\Resources\TransferResource;
+use App\Filament\Resources\TransferResource\Pages\CreateTransfer;
+use App\Filament\Resources\TransferResource\Pages\EditTransfer;
 use App\Models\Account;
 use App\Models\Transfer;
 use App\Models\User;
@@ -19,7 +20,7 @@ it('cannot have same account as debtor and creditor on save', function () {
     $newData = Transfer::factory()->for($this->user)->make();
     $account = Account::factory()->create();
 
-    livewire(TransferResource\Pages\CreateTransfer::class)
+    livewire(CreateTransfer::class)
         ->fillForm([
             'debtor_id' => $account->id,
             'creditor_id' => $account->id,
@@ -37,7 +38,7 @@ it('cannot have same account as debtor and creditor on save', function () {
 it('cannot change accounts on update', function () {
     $transfer = Transfer::factory()->for($this->user)->create();
 
-    livewire(TransferResource\Pages\EditTransfer::class, [
+    livewire(EditTransfer::class, [
         'record' => $transfer->getRouteKey(),
     ])
         ->assertFormFieldIsDisabled('creditor_id')
@@ -47,7 +48,7 @@ it('cannot change accounts on update', function () {
 it('cannot add future date as transacted_at', function () {
     $newData = Transfer::factory()->for($this->user)->tomorrow()->make();
 
-    livewire(TransferResource\Pages\CreateTransfer::class)
+    livewire(CreateTransfer::class)
         ->fillForm([
             'debtor_id' => $newData->debtor->id,
             'creditor_id' => $newData->creditor_id,
@@ -64,7 +65,7 @@ it('cannot add future date as transacted_at', function () {
 it('cannot update future date as transacted_at', function () {
     $transfer = Transfer::factory()->for($this->user)->create();
 
-    livewire(TransferResource\Pages\EditTransfer::class, [
+    livewire(EditTransfer::class, [
         'record' => $transfer->getRouteKey(),
     ])
         ->fillForm([

@@ -7,16 +7,16 @@ use App\Models\Account;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Services\TableFilterService;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ReplicateAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ReplicateAction;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
@@ -33,10 +33,10 @@ trait IncomeExpenseResourceTrait
 {
     use BulkDeleter, UserFilterable;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Placeholder::make('created_at')
                     ->label('Created Date')
                     ->content(fn (Expense|Income|null $record): string => $record?->created_at?->diffForHumans() ?? '-'),
@@ -121,7 +121,7 @@ trait IncomeExpenseResourceTrait
                 self::getUserFilter(),
 
                 Filter::make('transacted_at')
-                    ->form([
+                    ->schema([
                         DatePicker::make('transacted_from')->default(now()->startOfMonth()),
                         DatePicker::make('transacted_until')->default(now()->endOfMonth()),
                     ])
@@ -156,7 +156,7 @@ trait IncomeExpenseResourceTrait
                     ->preload(),
             ], FiltersLayout::AboveContentCollapsible)
             ->defaultSort('transacted_at', 'desc')
-            ->actions([
+            ->recordActions([
                 ReplicateAction::make()
                     ->visible(PanelId::APP->isCurrentPanel())
                     ->formData([
@@ -165,7 +165,7 @@ trait IncomeExpenseResourceTrait
                 EditAction::make(),
                 DeleteAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     self::deleteBulkAction(),
                 ]),

@@ -1,6 +1,7 @@
 <?php
 
-use App\Filament\Resources\IncomeResource;
+use App\Filament\Resources\IncomeResource\Pages\CreateIncome;
+use App\Filament\Resources\IncomeResource\Pages\EditIncome;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Income;
@@ -23,7 +24,7 @@ it('cannot add future date as transacted_at', function () {
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
-    livewire(IncomeResource\Pages\CreateIncome::class)
+    livewire(CreateIncome::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
@@ -41,7 +42,7 @@ it('cannot add future date as transacted_at', function () {
 it('cannot update future date as transacted_at', function () {
     $income = Income::factory()->for($this->user)->create();
 
-    livewire(IncomeResource\Pages\EditIncome::class, [
+    livewire(EditIncome::class, [
         'record' => $income->getRouteKey(),
     ])
         ->fillForm([
