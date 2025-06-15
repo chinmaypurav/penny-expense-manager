@@ -4,7 +4,6 @@ namespace App\Providers\Filament;
 
 use App\Enums\PanelId;
 use Filament\Actions\Action;
-use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 
