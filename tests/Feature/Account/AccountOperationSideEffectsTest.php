@@ -2,7 +2,6 @@
 
 use App\Filament\Resources\AccountResource\Pages\CreateAccount;
 use App\Models\Account;
-use App\Models\Balance;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -15,14 +14,14 @@ beforeEach(function () {
     $this->actingAs($this->user);
 });
 
-it('creates balance initial entry when created', function () {
+it('sets current_balance value with initial balance', function () {
     $newData = Account::factory()->make();
 
     livewire(CreateAccount::class)
         ->fillForm([
             'name' => $newData->name,
             'account_type' => $newData->account_type,
-            'current_balance' => $newData->current_balance,
+            'initial_balance' => $newData->initial_balance,
             'initial_date' => $newData->initial_date,
         ])
         ->call('create')
@@ -30,10 +29,5 @@ it('creates balance initial entry when created', function () {
 
     $account = Account::latest()->first();
 
-    $this->assertDatabaseHas(Balance::class, [
-        'account_id' => $account->id,
-        'balance' => $newData->current_balance,
-        'is_initial_record' => true,
-        'recorded_until' => $account->initial_date,
-    ]);
+    expect($account->current_balance)->toEqual($newData->initial_balance);
 });

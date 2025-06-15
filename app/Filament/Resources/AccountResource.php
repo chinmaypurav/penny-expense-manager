@@ -57,11 +57,8 @@ class AccountResource extends Resource
                     ->required()
                     ->options(AccountType::class),
 
-                TextInput::make('current_balance')
-                    ->label(fn (string $operation): string => $operation === 'create'
-                        ? 'Initial Balance'
-                        : 'Current Balance'
-                    )
+                TextInput::make('initial_balance')
+                    ->label('Initial Balance')
                     ->required()
                     ->numeric(),
 
@@ -71,10 +68,9 @@ class AccountResource extends Resource
                     ->beforeOrEqual(today())
                     ->required(),
 
-                TextInput::make('initialBalance.balance')
-                    ->label('Initial Balance')
+                TextInput::make('current_balance')
+                    ->label('Current Balance')
                     ->hiddenOn(['create'])
-                    ->formatStateUsing(fn (?Account $record) => $record?->initialBalance?->balance)
                     ->readOnly(),
             ]);
     }
@@ -99,10 +95,10 @@ class AccountResource extends Resource
                             ->money(config('coinager.currency'))
                     ),
 
-                TextColumn::make('initialBalance.balance')
+                TextColumn::make('initial_balance')
                     ->label('Initial Balance - Date')
                     ->money(config('coinager.currency'))
-                    ->description(fn (Account $record) => $record->initialBalance?->recorded_until?->toDateString()),
+                    ->description(fn (Account $record) => $record->initial_date->toDateString()),
             ])
             ->filters([
                 self::getUserFilter(),
