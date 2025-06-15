@@ -6,7 +6,7 @@ use App\Enums\PanelId;
 use App\Models\RecurringExpense;
 use App\Models\RecurringIncome;
 use App\Models\User;
-use Carbon\Carbon;
+use Carbon\CarbonInterface as Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 class RecurringCashFlowService
