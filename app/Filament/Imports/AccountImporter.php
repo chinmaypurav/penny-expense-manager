@@ -20,7 +20,7 @@ class AccountImporter extends Importer
             ImportColumn::make('account_type')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
-            ImportColumn::make('current_balance')
+            ImportColumn::make('initial_balance')
                 ->label('Initial balance')
                 ->requiredMapping()
                 ->numeric()
