@@ -19,7 +19,7 @@ class AppPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Emerald,
             ])->userMenuItems([
-                Action::make()
+                Action::make(PanelId::FAMILY->getMenuItemActionName())
                     ->label(PanelId::FAMILY->getSwitchButtonLabel())
                     ->url(fn (): string => PanelId::FAMILY->getHomeUrl())
                     ->icon(PanelId::FAMILY->getSwitchButtonIcon()),
