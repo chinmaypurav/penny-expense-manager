@@ -11,10 +11,12 @@ use function Pest\Livewire\livewire;
 
 uses(RefreshDatabase::class);
 
-it('exports categories', function () {
-    $user = User::factory()->create();
-    $this->actingAs($user);
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    $this->actingAs($this->user);
+});
 
+it('exports categories', function () {
     Category::factory()->create();
 
     Storage::fake('local');
@@ -24,4 +26,16 @@ it('exports categories', function () {
 
     Storage::disk('local')
         ->assertCount('filament_exports/', 2, true);
+});
+
+it('records failed export of categories', function () {
+    Category::factory()->create();
+
+    Storage::fake('local', ['read-only' => true]); // to make us throw exceptions
+
+    livewire(ListCategories::class)
+        ->callAction(ExportAction::class);
+
+    Storage::disk('local')
+        ->assertCount('filament_exports/', 0, true);
 });
