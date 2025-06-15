@@ -11,7 +11,7 @@ use App\Filament\Resources\RecurringIncomeResource;
 use App\Filament\Resources\RecurringTransferResource;
 use App\Filament\Resources\TransferResource;
 use App\Filament\Resources\UserResource;
-use Filament\Navigation\MenuItem;
+use Filament\Actions\Action;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 
@@ -37,7 +37,7 @@ class FamilyPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Green,
             ])->userMenuItems([
-                MenuItem::make()
+                Action::make()
                     ->label(PanelId::APP->getSwitchButtonLabel())
                     ->url(fn (): string => PanelId::APP->getHomeUrl())
                     ->icon(PanelId::APP->getSwitchButtonIcon()),
