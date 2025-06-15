@@ -73,7 +73,7 @@ it('can retrieve recurring transfer data', function () {
             'amount' => $recurringTransfer->amount,
             'next_transaction_at' => $recurringTransfer->next_transaction_at->toDateString(),
             'remaining_recurrences' => $recurringTransfer->remaining_recurrences,
-            'frequency' => $recurringTransfer->frequency->value,
+            'frequency' => $recurringTransfer->frequency,
         ]);
 });
 
