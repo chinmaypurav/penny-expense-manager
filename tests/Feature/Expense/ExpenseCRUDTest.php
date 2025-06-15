@@ -1,6 +1,8 @@
 <?php
 
 use App\Filament\Resources\ExpenseResource;
+use App\Filament\Resources\ExpenseResource\Pages\CreateExpense;
+use App\Filament\Resources\ExpenseResource\Pages\EditExpense;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Expense;
@@ -27,11 +29,11 @@ it('can render expenses list page', function () {
 it('can create expense', function () {
 
     $newData = Expense::factory()->make();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
-    livewire(ExpenseResource\Pages\CreateExpense::class)
+    livewire(CreateExpense::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
@@ -62,7 +64,7 @@ it('can render expense edit page', function () {
 it('can retrieve expense data', function () {
     $expense = Expense::factory()->for($this->user)->create();
 
-    livewire(ExpenseResource\Pages\EditExpense::class, [
+    livewire(EditExpense::class, [
         'record' => $expense->getRouteKey(),
     ])
         ->assertFormSet([
@@ -80,11 +82,11 @@ it('can update expense', function () {
     $expense = Expense::factory()->for($this->user)->create();
 
     $person = Person::factory()->create();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $newData = Expense::factory()->make();
     $category = Category::factory()->create();
 
-    livewire(ExpenseResource\Pages\EditExpense::class, [
+    livewire(EditExpense::class, [
         'record' => $expense->getRouteKey(),
     ])
         ->fillForm([
@@ -112,7 +114,7 @@ it('can delete expense', function () {
 
     $expense = Expense::factory()->for($this->user)->create();
 
-    livewire(ExpenseResource\Pages\EditExpense::class, [
+    livewire(EditExpense::class, [
         'record' => $expense->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);

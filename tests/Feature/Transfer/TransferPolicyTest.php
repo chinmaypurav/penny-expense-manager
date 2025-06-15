@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\TransferResource;
+use App\Filament\Resources\TransferResource\Pages\EditTransfer;
 use App\Models\Transfer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -39,7 +40,7 @@ it('cannot render transfer edit page for another user', function () {
 it('cannot retrieve transfer data for another user', function () {
     $transfer = Transfer::factory()->create();
 
-    livewire(TransferResource\Pages\EditTransfer::class, [
+    livewire(EditTransfer::class, [
         'record' => $transfer->getRouteKey(),
     ])
         ->assertForbidden();

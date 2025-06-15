@@ -14,9 +14,9 @@ class ExpenseChart extends ChartWidget
 {
     use CashFlowChartTrait, InteractsWithPageFilters;
 
-    protected static ?string $heading = 'Expenses';
+    protected ?string $heading = 'Expenses';
 
-    protected static ?string $pollingInterval = null;
+    protected ?string $pollingInterval = null;
 
     protected function getData(): array
     {
@@ -39,9 +39,9 @@ class ExpenseChart extends ChartWidget
 
     private function getExpenseData(): array
     {
-        $startDate = Arr::get($this->filters, 'start_date');
-        $endDate = Arr::get($this->filters, 'end_date');
-        $userIds = Arr::get($this->filters, 'user_id', []);
+        $startDate = Arr::get($this->pageFilters, 'start_date');
+        $endDate = Arr::get($this->pageFilters, 'end_date');
+        $userIds = Arr::get($this->pageFilters, 'user_id', []);
 
         return Expense::query()
             ->selectRaw('DATE(transacted_at) as day, SUM(amount) as amount')

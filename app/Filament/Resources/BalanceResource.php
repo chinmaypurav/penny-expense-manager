@@ -3,11 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Enums\RecordType;
-use App\Filament\Resources\BalanceResource\Pages;
+use App\Filament\Resources\BalanceResource\Pages\ListBalances;
 use App\Models\Balance;
 use App\Services\AccountTransactionService;
+use Filament\Actions\Action;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -21,7 +21,7 @@ class BalanceResource extends Resource
 
     protected static ?string $slug = 'balances';
 
-    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-archive-box';
 
     public static function table(Table $table): Table
     {
@@ -43,7 +43,7 @@ class BalanceResource extends Resource
 
                 TextColumn::make('record_type'),
             ])
-            ->actions([
+            ->recordActions([
                 Action::make('transactions')
                     ->label('Transactions')
                     ->hidden(fn (Balance $record) => $record->record_type === RecordType::INITIAL)
@@ -69,7 +69,7 @@ class BalanceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBalances::route('/'),
+            'index' => ListBalances::route('/'),
         ];
     }
 }

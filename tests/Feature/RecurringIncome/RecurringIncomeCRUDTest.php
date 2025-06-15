@@ -1,6 +1,8 @@
 <?php
 
 use App\Filament\Resources\RecurringIncomeResource;
+use App\Filament\Resources\RecurringIncomeResource\Pages\CreateRecurringIncome;
+use App\Filament\Resources\RecurringIncomeResource\Pages\EditRecurringIncome;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Person;
@@ -27,11 +29,11 @@ it('can render recurring recurring incomes list page', function () {
 it('can create recurring income', function () {
 
     $newData = RecurringIncome::factory()->make();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $person = Person::factory()->create();
     $category = Category::factory()->create();
 
-    livewire(RecurringIncomeResource\Pages\CreateRecurringIncome::class)
+    livewire(CreateRecurringIncome::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
@@ -66,7 +68,7 @@ it('can render recurring income edit page', function () {
 it('can retrieve recurring income data', function () {
     $recurringIncome = RecurringIncome::factory()->for($this->user)->create();
 
-    livewire(RecurringIncomeResource\Pages\EditRecurringIncome::class, [
+    livewire(EditRecurringIncome::class, [
         'record' => $recurringIncome->getRouteKey(),
     ])
         ->assertFormSet([
@@ -76,7 +78,7 @@ it('can retrieve recurring income data', function () {
             'amount' => $recurringIncome->amount,
             'next_transaction_at' => $recurringIncome->next_transaction_at->toDateString(),
             'remaining_recurrences' => $recurringIncome->remaining_recurrences,
-            'frequency' => $recurringIncome->frequency->value,
+            'frequency' => $recurringIncome->frequency,
         ]);
 });
 
@@ -85,11 +87,11 @@ it('can update recurring income', function () {
     $recurringIncome = RecurringIncome::factory()->for($this->user)->create();
 
     $person = Person::factory()->create();
-    $account = Account::factory()->create();
+    $account = Account::factory()->for($this->user)->create();
     $category = Category::factory()->create();
     $newData = RecurringIncome::factory()->make();
 
-    livewire(RecurringIncomeResource\Pages\EditRecurringIncome::class, [
+    livewire(EditRecurringIncome::class, [
         'record' => $recurringIncome->getRouteKey(),
     ])
         ->fillForm([
@@ -121,7 +123,7 @@ it('can delete recurring income', function () {
 
     $recurringIncome = RecurringIncome::factory()->for($this->user)->create();
 
-    livewire(RecurringIncomeResource\Pages\EditRecurringIncome::class, [
+    livewire(EditRecurringIncome::class, [
         'record' => $recurringIncome->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);

@@ -5,20 +5,22 @@ namespace App\Filament\Resources;
 use App\Enums\PanelId;
 use App\Filament\Concerns\BulkDeleter;
 use App\Filament\Concerns\UserFilterable;
-use App\Filament\Resources\TransferResource\Pages;
+use App\Filament\Resources\TransferResource\Pages\CreateTransfer;
+use App\Filament\Resources\TransferResource\Pages\EditTransfer;
+use App\Filament\Resources\TransferResource\Pages\ListTransfers;
 use App\Models\Account;
 use App\Models\Transfer;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ReplicateAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ReplicateAction;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
@@ -35,17 +37,17 @@ class TransferResource extends Resource
 
     protected static ?string $slug = 'transfers';
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrows-right-left';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         $accounts = Account::query()
             ->get()
             ->keyBy('id')
             ->map(fn (Account $account) => $account->label);
 
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Placeholder::make('created_at')
                     ->label('Created Date')
                     ->content(fn (?Transfer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
@@ -120,7 +122,7 @@ class TransferResource extends Resource
                 self::getUserFilter(),
 
                 Filter::make('transacted_at')
-                    ->form([
+                    ->schema([
                         DatePicker::make('transacted_from')->default(now()->startOfMonth()),
                         DatePicker::make('transacted_until')->default(now()->endOfMonth()),
                     ])
@@ -143,16 +145,16 @@ class TransferResource extends Resource
                     ->preload(),
             ], FiltersLayout::AboveContentCollapsible)
             ->defaultSort('transacted_at', 'desc')
-            ->actions([
+            ->recordActions([
                 ReplicateAction::make()
                     ->visible(PanelId::APP->isCurrentPanel())
-                    ->formData([
-                        'transacted_at' => now(),
-                    ]),
+                    ->beforeReplicaSaved(function (Transfer $replica) {
+                        $replica->setAttribute('transacted_at', now());
+                    }),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     self::deleteBulkAction(),
                 ]),
@@ -162,9 +164,9 @@ class TransferResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTransfers::route('/'),
-            'create' => Pages\CreateTransfer::route('/create'),
-            'edit' => Pages\EditTransfer::route('/{record}/edit'),
+            'index' => ListTransfers::route('/'),
+            'create' => CreateTransfer::route('/create'),
+            'edit' => EditTransfer::route('/{record}/edit'),
         ];
     }
 
