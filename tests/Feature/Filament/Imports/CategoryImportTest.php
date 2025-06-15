@@ -12,7 +12,7 @@ use function Pest\Livewire\livewire;
 
 uses(RefreshDatabase::class);
 
-it('imports category', function () {
+it('imports categories', function () {
     $user = User::factory()->create();
     $this->actingAs($user);
 
