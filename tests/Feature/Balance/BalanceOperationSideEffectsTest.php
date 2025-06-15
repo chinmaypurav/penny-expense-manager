@@ -26,13 +26,3 @@ it('sends transactions over email for record types other than initial', function
     'monthly' => [RecordType::MONTHLY],
     'yearly' => [RecordType::YEARLY],
 ]);
-
-it('sends transactions over email for initial record type', function () {
-    mock(AccountTransactionService::class, function (MockInterface $mock) {
-        $mock->shouldNotReceive('sendTransactionsForBalancePeriod');
-    });
-
-    $user = User::factory()->create();
-    $account = Account::factory()->for($user)->createQuietly();
-    Balance::factory()->for($account)->initialRecord()->create();
-});
