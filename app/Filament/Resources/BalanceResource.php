@@ -8,7 +8,6 @@ use App\Models\Balance;
 use App\Services\AccountTransactionService;
 use Filament\Actions\Action;
 use Filament\Resources\Resource;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
@@ -36,10 +35,6 @@ class BalanceResource extends Resource
 
                 TextColumn::make('recorded_until')
                     ->date(),
-
-                IconColumn::make('is_initial_record')
-                    ->label('Initial Record')
-                    ->boolean(),
 
                 TextColumn::make('record_type'),
             ])

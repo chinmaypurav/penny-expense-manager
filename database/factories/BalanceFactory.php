@@ -17,7 +17,6 @@ class BalanceFactory extends Factory
         return [
             'balance' => fake()->randomFloat(2),
             'recorded_until' => fake()->date(),
-            'is_initial_record' => false,
             'record_type' => fake()->randomElement(RecordType::cases()),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
