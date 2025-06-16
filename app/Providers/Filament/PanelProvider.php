@@ -9,6 +9,8 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\PanelProvider as BasePanelProvider;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Table;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -19,6 +21,15 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 abstract class PanelProvider extends BasePanelProvider
 {
+    public function boot(): void
+    {
+        Table::configureUsing(function (Table $table): void {
+            $table
+                ->filtersLayout(FiltersLayout::AboveContentCollapsible)
+                ->paginationPageOptions([20, 50, 100]);
+        });
+    }
+
     public function panel(Panel $panel): Panel
     {
         return $panel
