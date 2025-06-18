@@ -6,4 +6,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'app/login');
 
-Route::get('/app/accounts/{account}/transactions', TransactionController::class)->middleware(Authenticate::class);
+Route::get('/app/accounts/{account}/transactions', TransactionController::class)
+    ->name('accounts.transactions')
+    ->middleware(Authenticate::class);
