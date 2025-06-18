@@ -1,4 +1,15 @@
 ############################################
+# Node Image
+############################################
+FROM node:alpine AS node
+
+WORKDIR app
+
+COPY . /app
+
+RUN npm install && npm run build
+
+############################################
 # Base Image
 ############################################
 
@@ -67,6 +78,7 @@ ENV PHP_OPCACHE_ENABLE=1
 ENV SHOW_WELCOME_MESSAGE=false
 
 COPY --chown=www-data:www-data . /var/www/html
+COPY --from=node --chown=www-data:www-data /app/public /var/www/html/public
 COPY --chown=www-data:www-data --chmod=755 .docker/etc/entrypoint.d /etc/entrypoint.d
 
 WORKDIR /var/www/html
