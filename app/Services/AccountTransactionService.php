@@ -40,8 +40,7 @@ class AccountTransactionService
     public function sendTransactionsForBalancePeriod(Balance $balance, User $user): void
     {
         $recordType = $balance->record_type;
-        $startDate = $recordType->getStartDate($balance->recorded_until->copy());
-        $endDate = $balance->recorded_until;
+        $startDate = $recordType->getStartDate($endDate = $balance->recorded_until->subDay());
 
         $data = $this->getTransactions($balance->account, $startDate, $endDate);
 
