@@ -13,8 +13,8 @@
             <h1 class="text-2xl font-semibold text-gray-900">Transactions</h1>
             <p class="mt-2 text-lg text-emerald-600 font-semibold">
                 Account Name: {{ $account->label }} <br>
+                Current Balance: {{ number_format($account->current_balance, 2) }} <br>
                 Initial Balance: {{ number_format($currentBalance = $account->initial_balance, 2) }} <br>
-                Current Balance: {{ number_format($account->current_balance, 2) }}
             </p>
         </div>
     </div>

@@ -9,7 +9,7 @@ class TransactionController extends Controller
 {
     public function __invoke(Account $account, AccountTransactionService $service)
     {
-        $transactions = $service->getTransactions($account, $account->initial_date, now())->reverse();
+        $transactions = $service->getTransactions($account, $account->initial_date, now());
 
         return view('transactions.index', [
             'account' => $account,
