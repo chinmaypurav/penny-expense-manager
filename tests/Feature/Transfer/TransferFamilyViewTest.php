@@ -2,6 +2,7 @@
 
 use App\Enums\PanelId;
 use App\Filament\Resources\TransferResource;
+use App\Filament\Resources\TransferResource\Pages\EditTransfer;
 use App\Filament\Resources\TransferResource\Pages\ListTransfers;
 use App\Models\Transfer;
 use App\Models\User;
@@ -59,14 +60,14 @@ it('cannot render create transfer page', function () {
 });
 
 it('cannot perform transfer update action', function () {
-    livewire(TransferResource\Pages\EditTransfer::class, [
+    livewire(EditTransfer::class, [
         'record' => $this->transfer->getRouteKey(),
     ])
         ->assertForbidden();
 });
 
 it('cannot perform delete transfer action', function () {
-    livewire(TransferResource\Pages\EditTransfer::class, [
+    livewire(EditTransfer::class, [
         'record' => $this->transfer->getRouteKey(),
     ])
         ->assertForbidden();

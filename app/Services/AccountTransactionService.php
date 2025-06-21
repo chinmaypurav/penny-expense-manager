@@ -13,8 +13,8 @@ use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Transfer;
 use App\Models\User;
+use Carbon\CarbonInterface as Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
@@ -40,8 +40,7 @@ class AccountTransactionService
     public function sendTransactionsForBalancePeriod(Balance $balance, User $user): void
     {
         $recordType = $balance->record_type;
-        $startDate = $recordType->getStartDate($balance->recorded_until->copy());
-        $endDate = $balance->recorded_until;
+        $startDate = $recordType->getStartDate($endDate = $balance->recorded_until->subDay());
 
         $data = $this->getTransactions($balance->account, $startDate, $endDate);
 

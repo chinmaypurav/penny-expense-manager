@@ -3,7 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Enums\PanelId;
-use Filament\Navigation\MenuItem;
+use Filament\Actions\Action;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 
@@ -19,7 +19,7 @@ class AppPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Emerald,
             ])->userMenuItems([
-                MenuItem::make()
+                Action::make(PanelId::FAMILY->getMenuItemActionName())
                     ->label(PanelId::FAMILY->getSwitchButtonLabel())
                     ->url(fn (): string => PanelId::FAMILY->getHomeUrl())
                     ->icon(PanelId::FAMILY->getSwitchButtonIcon()),

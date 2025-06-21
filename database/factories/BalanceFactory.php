@@ -17,28 +17,12 @@ class BalanceFactory extends Factory
         return [
             'balance' => fake()->randomFloat(2),
             'recorded_until' => fake()->date(),
-            'is_initial_record' => false,
             'record_type' => fake()->randomElement(RecordType::cases()),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 
             'account_id' => Account::factory(),
         ];
-    }
-
-    public function initialRecord(): static
-    {
-        return $this->state(fn () => [
-            'record_type' => RecordType::INITIAL,
-            'is_initial_record' => true,
-        ]);
-    }
-
-    public function periodicalRecord(): static
-    {
-        return $this->state(fn () => [
-            'record_type' => fake()->randomElement(RecordType::getPeriodicalTypes()),
-        ]);
     }
 
     public function monthly(): static

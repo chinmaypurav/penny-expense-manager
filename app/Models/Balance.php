@@ -18,7 +18,6 @@ class Balance extends Model
         'account_id',
         'balance',
         'recorded_until',
-        'is_initial_record',
         'record_type',
     ];
 
@@ -26,7 +25,6 @@ class Balance extends Model
     {
         return [
             'recorded_until' => 'date:Y-m-d',
-            'is_initial_record' => 'boolean',
             'record_type' => RecordType::class,
         ];
     }

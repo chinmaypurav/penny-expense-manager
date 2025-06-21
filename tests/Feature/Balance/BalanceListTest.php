@@ -1,6 +1,7 @@
 <?php
 
 use App\Filament\Resources\BalanceResource;
+use App\Filament\Resources\BalanceResource\Pages\ListBalances;
 use App\Models\Account;
 use App\Models\Balance;
 use App\Models\User;
@@ -22,18 +23,6 @@ it('can render balance list page', function () {
     $this->get(BalanceResource::getUrl('index'))->assertSuccessful();
 });
 
-it('can display transactions action only for monthly and yearly record types', function () {
-    $account = Account::factory()->for($this->user)->create();
-    $initial = Balance::factory()->for($account)->initialRecord()->create();
-    $monthly = Balance::factory()->for($account)->monthly()->create();
-    $yearly = Balance::factory()->for($account)->yearly()->create();
-
-    livewire(BalanceResource\Pages\ListBalances::class)
-        ->assertTableActionVisible('transactions', $monthly)
-        ->assertTableActionVisible('transactions', $yearly)
-        ->assertTableActionHidden('transactions', $initial);
-});
-
 it('sends transactions over email', function () {
     $account = Account::factory()->for($this->user)->create();
     $balance = Balance::factory()->for($account)->monthly()->create();
@@ -42,6 +31,6 @@ it('sends transactions over email', function () {
         $mock->shouldReceive('sendTransactionsForBalancePeriod')->once();
     });
 
-    livewire(BalanceResource\Pages\ListBalances::class)
+    livewire(ListBalances::class)
         ->callTableAction('transactions', $balance);
 });

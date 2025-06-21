@@ -1,6 +1,8 @@
 <?php
 
 use App\Filament\Resources\AccountResource;
+use App\Filament\Resources\AccountResource\Pages\CreateAccount;
+use App\Filament\Resources\AccountResource\Pages\EditAccount;
 use App\Models\Account;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
@@ -22,11 +24,11 @@ it('can render accounts list page', function () {
 it('can create account', function () {
     $newData = Account::factory()->make();
 
-    livewire(AccountResource\Pages\CreateAccount::class)
+    livewire(CreateAccount::class)
         ->fillForm([
             'name' => $newData->name,
             'account_type' => $newData->account_type,
-            'current_balance' => $newData->current_balance,
+            'initial_balance' => $newData->initial_balance,
             'initial_date' => $newData->initial_date,
         ])
         ->call('create')
@@ -47,11 +49,12 @@ it('can render account edit page', function () {
 it('can retrieve account data', function () {
     $account = Account::factory()->for($this->user)->create();
 
-    livewire(AccountResource\Pages\EditAccount::class, [
+    livewire(EditAccount::class, [
         'record' => $account->getRouteKey(),
     ])
         ->assertFormSet([
             'name' => $account->name,
+            'initial_balance' => $account->initial_balance,
             'current_balance' => $account->current_balance,
             'initial_date' => $account->initial_date->toDateString(),
         ]);
@@ -61,12 +64,13 @@ it('can update account', function () {
     $account = Account::factory()->for($this->user)->create();
     $newData = Account::factory()->make();
 
-    livewire(AccountResource\Pages\EditAccount::class, [
+    livewire(EditAccount::class, [
         'record' => $account->getRouteKey(),
     ])
         ->fillForm([
             'name' => $newData->name,
             'current_balance' => $newData->current_balance,
+            'initial_balance' => $newData->initial_balance,
             'initial_date' => $newData->initial_date,
         ])
         ->call('save')
@@ -81,7 +85,7 @@ it('can update account', function () {
 it('can soft delete account', function () {
     $account = Account::factory()->for($this->user)->create();
 
-    livewire(AccountResource\Pages\EditAccount::class, [
+    livewire(EditAccount::class, [
         'record' => $account->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);

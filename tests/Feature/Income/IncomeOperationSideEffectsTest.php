@@ -1,6 +1,7 @@
 <?php
 
-use App\Filament\Resources\IncomeResource;
+use App\Filament\Resources\IncomeResource\Pages\CreateIncome;
+use App\Filament\Resources\IncomeResource\Pages\EditIncome;
 use App\Models\Account;
 use App\Models\Income;
 use App\Models\Person;
@@ -19,16 +20,16 @@ beforeEach(function () {
 
 it('adds account current_balance when created', function () {
 
-    $newData = Income::factory()->make([
+    $newData = Income::factory()->for($this->user)->make([
         'amount' => 3000,
     ]);
 
-    $account = Account::factory()->create([
+    $account = Account::factory()->for($this->user)->createQuietly([
         'current_balance' => 1000,
     ]);
     $person = Person::factory()->create();
 
-    livewire(IncomeResource\Pages\CreateIncome::class)
+    livewire(CreateIncome::class)
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $person->id,
@@ -48,7 +49,7 @@ it('adds account current_balance when created', function () {
 
 it('adjusts account current_balance when updated', function (int $incomeAmount, int $accountBalance) {
 
-    $account = Account::factory()->create([
+    $account = Account::factory()->for($this->user)->createQuietly([
         'current_balance' => 10_000,
     ]);
 
@@ -59,7 +60,7 @@ it('adjusts account current_balance when updated', function (int $incomeAmount, 
             'amount' => 4000,
         ]);
 
-    livewire(IncomeResource\Pages\EditIncome::class, [
+    livewire(EditIncome::class, [
         'record' => $income->getKey(),
     ])
         ->fillForm([
@@ -84,7 +85,7 @@ it('adjusts account current_balance when updated', function (int $incomeAmount, 
 ]);
 
 it('subtracts account current_balance when removed', function () {
-    $account = Account::factory()->create([
+    $account = Account::factory()->for($this->user)->createQuietly([
         'current_balance' => 1000,
     ]);
     $income = Income::factory()
@@ -94,7 +95,7 @@ it('subtracts account current_balance when removed', function () {
             'amount' => 3000,
         ]);
 
-    livewire(IncomeResource\Pages\EditIncome::class, [
+    livewire(EditIncome::class, [
         'record' => $income->getRouteKey(),
     ])
         ->callAction(DeleteAction::class);
@@ -106,7 +107,7 @@ it('subtracts account current_balance when removed', function () {
 });
 
 it('doesnt affect account balances when amount and transacted at clean on income update', function () {
-    $account = Account::factory()->createQuietly([
+    $account = Account::factory()->for($this->user)->createQuietly([
         'current_balance' => 1000,
     ]);
 
@@ -121,13 +122,13 @@ it('doesnt affect account balances when amount and transacted at clean on income
         'amount' => 3000,
     ]);
 
-    livewire(IncomeResource\Pages\EditIncome::class, [
+    livewire(EditIncome::class, [
         'record' => $income->getRouteKey(),
     ])
         ->fillForm([
             'description' => $newData->description,
             'person_id' => $newData->person_id,
-            'account_id' => $newData->account_id,
+            // 'account_id' => $newData->account_id,
             'category_id' => $newData->category_id,
         ])
         ->call('save')

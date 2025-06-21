@@ -1,6 +1,6 @@
 <?php
 
-use App\Filament\Resources\AccountResource;
+use App\Filament\Resources\AccountResource\Pages\CreateAccount;
 use App\Models\Account;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,7 +17,7 @@ beforeEach(function () {
 it('cannot add future date as initial date', function () {
     $newData = Account::factory()->tomorrow()->make();
 
-    livewire(AccountResource\Pages\CreateAccount::class)
+    livewire(CreateAccount::class)
         ->fillForm([
             'name' => $newData->name,
             'account_type' => $newData->account_type,
