@@ -8,11 +8,10 @@ use App\Filament\Resources\IncomeResource\Pages\CreateIncome;
 use App\Filament\Resources\IncomeResource\Pages\EditIncome;
 use App\Filament\Resources\IncomeResource\Pages\ListIncomes;
 use App\Models\Income;
-use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 
-class IncomeResource extends Resource
+class IncomeResource extends TransactionResource
 {
     protected static ?string $model = Income::class;
 

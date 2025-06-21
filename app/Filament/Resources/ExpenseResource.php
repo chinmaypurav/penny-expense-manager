@@ -8,11 +8,10 @@ use App\Filament\Resources\ExpenseResource\Pages\CreateExpense;
 use App\Filament\Resources\ExpenseResource\Pages\EditExpense;
 use App\Filament\Resources\ExpenseResource\Pages\ListExpenses;
 use App\Models\Expense;
-use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 
-class ExpenseResource extends Resource
+class ExpenseResource extends TransactionResource
 {
     protected static ?string $model = Expense::class;
 
