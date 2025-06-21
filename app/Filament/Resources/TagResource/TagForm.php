@@ -7,6 +7,7 @@ use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class TagForm
 {
@@ -26,6 +27,12 @@ class TagForm
                     ->required(),
 
                 ColorPicker::make('color')
+                    ->default(
+                        fn () => Str::of('#')
+                            ->append(bin2hex(random_bytes(3)))
+                            ->upper()
+                            ->value()
+                    )
                     ->required(),
             ]);
     }
