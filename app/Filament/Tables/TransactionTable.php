@@ -21,7 +21,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
-class TransactionTable
+abstract class TransactionTable
 {
     use BulkDeleter, UserFilterable;
 

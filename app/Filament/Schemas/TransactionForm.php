@@ -12,7 +12,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 
-class TransactionForm
+abstract class TransactionForm
 {
     public static function configure(Schema $schema): Schema
     {
