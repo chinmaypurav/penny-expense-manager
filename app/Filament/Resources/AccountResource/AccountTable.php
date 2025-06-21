@@ -5,12 +5,11 @@ namespace App\Filament\Resources\AccountResource;
 use App\Enums\AccountType;
 use App\Filament\Concerns\BulkDeleter;
 use App\Filament\Concerns\UserFilterable;
+use App\Filament\Resources\ExpenseResource;
+use App\Filament\Resources\IncomeResource;
 use App\Models\Account;
-use App\Services\AccountTransactionService;
 use Filament\Actions\Action;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
+use Filament\Schemas\Components\Icon;
 use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
@@ -59,25 +58,35 @@ class AccountTable
             ])
             ->paginated(false)
             ->recordActions([
-                Action::make('transactions')
-                    ->label('Transactions')
-                    ->requiresConfirmation()
-                    ->action(fn (AccountTransactionService $service, Account $record) => $service->sendProvisionalTransactions($record, auth()->user())
+                Action::make('create-incomes')
+                    ->label('Income')
+                    ->url(fn (Account $record) => IncomeResource::getUrl('create', [
+                        'account_id' => $record->id,
+                    ]))
+                    ->button()
+                    ->tooltip('Create Income')
+                    ->icon(
+                        fn () => Icon::make('create-income-icon')->icon('heroicon-o-arrow-trending-up')->color(Color::Green)
+                    ),
+                Action::make('create-expense')
+                    ->label(fn (Account $record) => 'Expense')
+                    ->color(Color::Red)
+                    ->url(fn (Account $record) => ExpenseResource::getUrl('create', [
+                        'account_id' => $record->id,
+                    ]))
+                    ->tooltip('Create Expense')
+                    ->button()
+                    ->icon(
+                        fn () => Icon::make('create-expense-icon')->icon('heroicon-o-arrow-trending-down')->color(Color::Red)
                     ),
                 Action::make('transactions-view')
-                    ->label('Transactions View')
+                    ->label('Transactions')
+                    ->button()
                     ->color(Color::Fuchsia)
                     ->url(fn (Account $record) => route('accounts.transactions', [
                         'account' => $record->id,
                     ])
                     ),
-                EditAction::make(),
-                DeleteAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    self::deleteBulkAction(),
-                ]),
             ]);
     }
 }
