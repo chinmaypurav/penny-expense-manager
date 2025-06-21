@@ -11,6 +11,7 @@ use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -62,6 +63,13 @@ class AccountTable
                     ->label('Transactions')
                     ->requiresConfirmation()
                     ->action(fn (AccountTransactionService $service, Account $record) => $service->sendProvisionalTransactions($record, auth()->user())
+                    ),
+                Action::make('transactions-view')
+                    ->label('Transactions View')
+                    ->color(Color::Fuchsia)
+                    ->url(fn (Account $record) => route('accounts.transactions', [
+                        'account' => $record->id,
+                    ])
                     ),
                 EditAction::make(),
                 DeleteAction::make(),
