@@ -1,31 +1,20 @@
 <?php
 
-namespace App\Filament\Concerns;
+namespace App\Filament\Schemas;
 
 use App\Enums\Frequency;
 use App\Models\RecurringExpense;
 use App\Models\RecurringIncome;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * @mixin RecurringIncome|RecurringExpense
- */
-trait RecurringIncomeRecurringExpenseTrait
+abstract class RecurringTransactionForm
 {
-    use BulkDeleter, UserFilterable;
-
-    public static function form(Schema $schema): Schema
+    public static function configure(Schema $schema): Schema
     {
         return $schema
             ->columns(3)
@@ -82,52 +71,6 @@ trait RecurringIncomeRecurringExpenseTrait
                 TextEntry::make('updated_at')
                     ->label('Last Modified Date')
                     ->state(fn (RecurringIncome|RecurringExpense|null $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
-            ]);
-    }
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                self::getUserColumn(),
-
-                TextColumn::make('person.name')
-                    ->searchable()
-                    ->sortable(),
-
-                TextColumn::make('account.name')
-                    ->searchable()
-                    ->sortable(),
-
-                TextColumn::make('category.name')
-                    ->searchable()
-                    ->sortable(),
-
-                TextColumn::make('description'),
-
-                TextColumn::make('next_transaction_at')
-                    ->label('Next Transaction Date')
-                    ->date(),
-
-                TextColumn::make('frequency'),
-
-                TextColumn::make('remaining_recurrences'),
-            ])
-            ->filters([
-                self::getUserFilter(),
-
-                SelectFilter::make('frequency')
-                    ->options(Frequency::class),
-            ])
-            ->defaultSort('next_transaction_at')
-            ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    self::deleteBulkAction(),
-                ]),
             ]);
     }
 }
