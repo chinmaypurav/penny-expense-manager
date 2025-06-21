@@ -8,23 +8,11 @@ use App\Filament\Concerns\UserFilterable;
 use App\Filament\Resources\TransferResource\Pages\CreateTransfer;
 use App\Filament\Resources\TransferResource\Pages\EditTransfer;
 use App\Filament\Resources\TransferResource\Pages\ListTransfers;
-use App\Models\Account;
+use App\Filament\Resources\TransferResource\TransferForm;
+use App\Filament\Resources\TransferResource\TransferTable;
 use App\Models\Transfer;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ReplicateAction;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -41,124 +29,12 @@ class TransferResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        $accounts = Account::query()
-            ->get()
-            ->keyBy('id')
-            ->map(fn (Account $account) => $account->label);
-
-        return $schema
-            ->components([
-                TextEntry::make('created_at')
-                    ->label('Created Date')
-                    ->state(fn (?Transfer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
-
-                TextEntry::make('updated_at')
-                    ->label('Last Modified Date')
-                    ->state(fn (?Transfer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
-
-                Select::make('creditor_id')
-                    ->label('Creditor account')
-                    ->helperText('The account where money is going to')
-                    ->options($accounts)
-                    ->searchable()
-                    ->different('debtor_id')
-                    ->disabledOn('edit')
-                    ->required(),
-
-                Select::make('debtor_id')
-                    ->label('Debtor account')
-                    ->helperText('The account where money is coming from')
-                    ->options($accounts)
-                    ->searchable()
-                    ->different('creditor_id')
-                    ->disabledOn('edit')
-                    ->required(),
-
-                TextInput::make('description')
-                    ->required(),
-
-                DateTimePicker::make('transacted_at')
-                    ->label('Transacted Date')
-                    ->default(now())
-                    ->maxDate(now())
-                    ->required(),
-
-                TextInput::make('amount')
-                    ->required()
-                    ->numeric(),
-
-                Select::make('tags')
-                    ->relationship('tags', 'name')
-                    ->multiple()
-                    ->preload(),
-            ]);
+        return TransferForm::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                self::getUserColumn(),
-
-                TextColumn::make('creditor.name'),
-
-                TextColumn::make('debtor.name'),
-
-                TextColumn::make('description')
-                    ->limit(30)
-                    ->searchable(),
-
-                TextColumn::make('transacted_at')
-                    ->label('Transacted Date')
-                    ->date()
-                    ->dateTooltip('D')
-                    ->sortable(),
-
-                TextColumn::make('amount')
-                    ->money(config('coinager.currency'))
-                    ->sortable(),
-            ])
-            ->filters([
-                self::getUserFilter(),
-
-                Filter::make('transacted_at')
-                    ->schema([
-                        DatePicker::make('transacted_from')->default(now()->startOfMonth()),
-                        DatePicker::make('transacted_until')->default(now()->endOfMonth()),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['transacted_from'],
-                                fn (Builder $query, $date): Builder => $query
-                                    ->whereDate('transacted_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['transacted_until'],
-                                fn (Builder $query, $date): Builder => $query
-                                    ->whereDate('transacted_at', '<=', $date),
-                            );
-                    }),
-                SelectFilter::make('tags')
-                    ->relationship('tags', 'name')
-                    ->multiple()
-                    ->preload(),
-            ], FiltersLayout::AboveContentCollapsible)
-            ->defaultSort('transacted_at', 'desc')
-            ->recordActions([
-                ReplicateAction::make()
-                    ->visible(PanelId::APP->isCurrentPanel())
-                    ->beforeReplicaSaved(function (Transfer $replica) {
-                        $replica->setAttribute('transacted_at', now());
-                    }),
-                EditAction::make(),
-                DeleteAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    self::deleteBulkAction(),
-                ]),
-            ]);
+        return TransferTable::configure($table);
     }
 
     public static function getPages(): array
